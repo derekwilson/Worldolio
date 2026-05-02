@@ -1,0 +1,107 @@
+-2147483584,(UTC+04:00) Baku,-240,Azerbaijan Standard Time,0,Azerbaijan Summer Time,-60,,,,,,,,,,
+-2147483583,(UTC+02:00) Beirut,-120,Middle East Standard Time,0,Middle East Summer Time,-60,10,6,5,23,59,3,6,5,23,59
+-2147483582,(UTC+03:00) Amman,-180,Jordan Standard Time,0,Jordan Summer Time,-60,,,,,,,,,,
+-2147483581,(UTC-06:00) Guadalajara; Mexico City; Monterrey,360,Central Standard Time (Mexico),0,Central Summer Time (Mexico),-60,,,,,,,,,,
+-2147483580,(UTC-07:00) La Paz; Mazatlan,420,Mountain Standard Time (Mexico),0,Mountain Summer Time (Mexico),-60,,,,,,,,,,
+-2147483579,(UTC-08:00) Baja California,480,Pacific Standard Time (Mexico),0,Pacific Summer Time (Mexico),-60,11,0,1,2,0,3,0,2,2,0
+-2147483578,(UTC+02:00) Windhoek,-120,Namibia Standard Time,0,Namibia Summer Time,-60,,,,,,,,,,
+-2147483577,(UTC+04:00) Tbilisi,-240,Georgian Standard Time,0,Georgian Summer Time,-60,,,,,,,,,,
+-2147483576,(UTC-04:00) Cuiaba,240,Central Brazilian Standard Time,0,Central Brazilian Summer Time,-60,,,,,,,,,,
+-2147483575,(UTC-03:00) Montevideo,180,Montevideo Standard Time,0,Montevideo Summer Time,-60,,,,,,,,,,
+-2147483573,(UTC-04:00) Caracas,240,Venezuela Standard Time,0,Venezuela Summer Time,-60,,,,,,,,,,
+-2147483572,(UTC-03:00) City of Buenos Aires,180,Argentina Standard Time,0,Argentina Summer Time,-60,,,,,,,,,,
+-2147483571,(UTC+01:00) Casablanca,0,Morocco Standard Time,0,Morocco Summer Time,-60,3,0,3,3,0,4,0,4,2,0
+-2147483570,(UTC+05:00) Islamabad; Karachi,-300,Pakistan Standard Time,0,Pakistan Summer Time,-60,,,,,,,,,,
+-2147483569,(UTC+04:00) Port Louis,-240,Mauritius Standard Time,0,Mauritius Summer Time,-60,,,,,,,,,,
+-2147483568,(UTC) Co-ordinated Universal Time,0,Co-ordinated Universal Time,0,Co-ordinated Universal Time,0,,,,,,,,,,
+-2147483567,(UTC-04:00) Asuncion,240,Paraguay Standard Time,0,Paraguay Summer Time,-60,3,0,4,0,0,10,0,1,0,0
+-2147483566,(UTC+12:00) Petropavlovsk-Kamchatsky - Old,-720,Kamchatka Standard Time,0,Kamchatka Summer Time,-60,10,0,5,3,0,3,0,5,2,0
+-2147483563,(UTC+08:00) Ulaanbaatar,-480,Ulaanbaatar Standard Time,0,Ulaanbaatar Summer Time,-60,,,,,,,,,,
+0,(UTC-12:00) International Date Line West,720,Dateline Standard Time,0,Dateline Summer Time,-60,,,,,,,,,,
+1,(UTC+13:00) Samoa,-780,Samoa Standard Time,0,Samoa Summer Time,-60,4,0,1,4,0,9,0,5,3,0
+2,(UTC-10:00) Hawaii,600,Hawaiian Standard Time,0,Hawaiian Summer Time,-60,,,,,,,,,,
+3,(UTC-09:00) Alaska,540,Alaskan Standard Time,0,Alaskan Summer Time,-60,11,0,1,2,0,3,0,2,2,0
+4,(UTC-08:00) Pacific Time (US & Canada),480,Pacific Standard Time,0,Pacific Summer Time,-60,11,0,1,2,0,3,0,2,2,0
+10,(UTC-07:00) Mountain Time (US & Canada),420,Mountain Standard Time,0,Mountain Summer Time,-60,11,0,1,2,0,3,0,2,2,0
+15,(UTC-07:00) Arizona,420,US Mountain Standard Time,0,US Mountain Summer Time,-60,,,,,,,,,,
+20,(UTC-06:00) Central Time (US & Canada),360,Central Standard Time,0,Central Summer Time,-60,11,0,1,2,0,3,0,2,2,0
+25,(UTC-06:00) Saskatchewan,360,Canada Central Standard Time,0,Canada Central Summer Time,-60,,,,,,,,,,
+33,(UTC-06:00) Central America,360,Central America Standard Time,0,Central America Summer Time,-60,,,,,,,,,,
+35,(UTC-05:00) Eastern Time (US & Canada),300,Eastern Standard Time,0,Eastern Summer Time,-60,11,0,1,2,0,3,0,2,2,0
+40,(UTC-05:00) Indiana (East),300,US Eastern Standard Time,0,US Eastern Summer Time,-60,11,0,1,2,0,3,0,2,2,0
+45,(UTC-05:00) Bogota; Lima; Quito; Rio Branco,300,SA Pacific Standard Time,0,SA Pacific Summer Time,-60,,,,,,,,,,
+50,(UTC-04:00) Atlantic Time (Canada),240,Atlantic Standard Time,0,Atlantic Summer Time,-60,11,0,1,2,0,3,0,2,2,0
+55,(UTC-04:00) Georgetown; La Paz; Manaus; San Juan,240,SA Western Standard Time,0,SA Western Summer Time,-60,,,,,,,,,,
+56,(UTC-04:00) Santiago,240,Pacific SA Standard Time,0,Pacific SA Summer Time,-60,4,6,1,23,59,9,6,1,23,59
+60,(UTC-03:30) Newfoundland,210,Newfoundland Standard Time,0,Newfoundland Summer Time,-60,11,0,1,2,0,3,0,2,2,0
+65,(UTC-03:00) Brasilia,180,E. South America Standard Time,0,E. South America Summer Time,-60,,,,,,,,,,
+70,(UTC-03:00) Cayenne; Fortaleza,180,SA Eastern Standard Time,0,SA Eastern Summer Time,-60,,,,,,,,,,
+73,(UTC-03:00) Greenland,180,Greenland Standard Time,0,Greenland Summer Time,-60,10,6,5,23,0,3,6,5,22,0
+75,(UTC-02:00) Mid-Atlantic - Old,120,Mid-Atlantic Standard Time,0,Mid-Atlantic Summer Time,-60,9,0,5,2,0,3,0,5,2,0
+80,(UTC-01:00) Azores,60,Azores Standard Time,0,Azores SummerTime,-60,10,0,5,1,0,3,0,5,0,0
+83,(UTC-01:00) Cabo Verde Is.,60,Cabo Verde Standard Time,0,Cabo Verde Summer Time,-60,,,,,,,,,,
+85,(UTC+00:00) Dublin; Edinburgh; Lisbon; London,0,GMT Standard Time,0,GMT Summer Time,-60,10,0,5,2,0,3,0,5,1,0
+90,(UTC+00:00) Monrovia; Reykjavik,0,Greenwich Standard Time,0,Greenwich Summer Time,-60,,,,,,,,,,
+95,(UTC+01:00) Belgrade; Bratislava; Budapest; Ljubljana; Prague,-60,Central Europe Standard Time,0,Central Europe Summer Time,-60,10,0,5,3,0,3,0,5,2,0
+100,(UTC+01:00) Sarajevo; Skopje; Warsaw; Zagreb,-60,Central European Standard Time,0,Central European Summer Time,-60,10,0,5,3,0,3,0,5,2,0
+105,(UTC+01:00) Brussels; Copenhagen; Madrid; Paris,-60,Romance Standard Time,0,Romance Summer Time,-60,10,0,5,3,0,3,0,5,2,0
+110,(UTC+01:00) Amsterdam; Berlin; Bern; Rome; Stockholm; Vienna,-60,W. Europe Standard Time,0,W. Europe Summer Time,-60,10,0,5,3,0,3,0,5,2,0
+113,(UTC+01:00) West Central Africa,-60,W. Central Africa Standard Time,0,W. Central Africa Summer Time,-60,,,,,,,,,,
+115,(UTC+02:00) Chisinau,-120,E. Europe Standard Time,0,E. Europe Summer Time,-60,10,0,5,3,0,3,0,5,2,0
+120,(UTC+02:00) Cairo,-120,Egypt Standard Time,0,Egypt Summer Time,-60,10,4,5,23,59,4,4,5,23,59
+125,(UTC+02:00) Helsinki; Kyiv; Riga; Sofia; Tallinn; Vilnius,-120,FLE Standard Time,0,FLE Summer Time,-60,10,0,5,4,0,3,0,5,3,0
+130,(UTC+02:00) Athens; Bucharest,-120,GTB Standard Time,0,GTB Summer Time,-60,10,0,5,4,0,3,0,5,3,0
+135,(UTC+02:00) Jerusalem,-120,Jerusalem Standard Time,0,Jerusalem Summer Time,-60,10,0,5,2,0,3,5,4,2,0
+140,(UTC+02:00) Harare; Pretoria,-120,South Africa Standard Time,0,South Africa Summer Time,-60,,,,,,,,,,
+145,(UTC+03:00) Moscow; St Petersburg,-180,Russia TZ 2 Standard Time,0,Russia TZ 2 Summer Time,-60,,,,,,,,,,
+150,(UTC+03:00) Kuwait; Riyadh,-180,Arab Standard Time,0,Arab Summer Time,-60,,,,,,,,,,
+155,(UTC+03:00) Nairobi,-180,E. Africa Standard Time,0,E. Africa Summer Time,-60,,,,,,,,,,
+158,(UTC+03:00) Baghdad,-180,Arabic Standard Time,0,Arabic Summer Time,-60,,,,,,,,,,
+160,(UTC+03:30) Tehran,-210,Iran Standard Time,0,Iran Summer Time,-60,,,,,,,,,,
+165,(UTC+04:00) Abu Dhabi; Muscat,-240,Arabian Standard Time,0,Arabian Summer Time,-60,,,,,,,,,,
+170,(UTC+04:00) Yerevan,-240,Caucasus Standard Time,0,Caucasus Summer Time,-60,,,,,,,,,,
+175,(UTC+04:30) Kabul,-270,Afghanistan Standard Time,0,Afghanistan Summer Time,-60,,,,,,,,,,
+180,(UTC+05:00) Ekaterinburg,-300,Russia TZ 4 Standard Time,0,Russia TZ 4 Summer Time,-60,,,,,,,,,,
+185,(UTC+05:00) Ashgabat; Tashkent,-300,West Asia Standard Time,0,West Asia Summer Time,-60,,,,,,,,,,
+190,(UTC+05:30) Chennai; Kolkata; Mumbai; New Delhi,-330,India Standard Time,0,India Summer Time,-60,,,,,,,,,,
+193,(UTC+05:45) Kathmandu,-345,Nepal Standard Time,0,Nepal Summer Time,-60,,,,,,,,,,
+195,(UTC+06:00) Nur-Sultan,-360,Central Asia Standard Time,0,Central Asia Summer Time,-60,,,,,,,,,,
+200,(UTC+05:30) Sri Jayawardenepura,-330,Sri Lanka Standard Time,0,Sri Lanka Summer Time,-60,,,,,,,,,,
+201,(UTC+07:00) Novosibirsk,-420,Novosibirsk Standard Time,0,Novosibirsk Summer Time,-60,,,,,,,,,,
+203,(UTC+06:30) Yangon (Rangoon),-390,Myanmar Standard Time,0,Myanmar Summer Time,-60,,,,,,,,,,
+205,(UTC+07:00) Bangkok; Hanoi; Jakarta,-420,SE Asia Standard Time,0,SE Asia Summer Time,-60,,,,,,,,,,
+207,(UTC+07:00) Krasnoyarsk,-420,Russia TZ 6 Standard Time,0,Russia TZ 6 Summer Time,-60,,,,,,,,,,
+210,(UTC+08:00) Beijing; Chongqing; Hong Kong SAR; Urumqi,-480,China Standard Time,0,China Summer Time,-60,,,,,,,,,,
+215,(UTC+08:00) Kuala Lumpur; Singapore,-480,Malay Peninsula Standard Time,0,Malay Peninsula Summer Time,-60,,,,,,,,,,
+220,(UTC+08:00) Taipei,-480,Taipei Standard Time,0,Taipei Summer Time,-60,,,,,,,,,,
+225,(UTC+08:00) Perth,-480,W. Australia Standard Time,0,W. Australia Summer Time,-60,,,,,,,,,,
+227,(UTC+08:00) Irkutsk,-480,Russia TZ 7 Standard Time,0,Russia TZ 7 Summer Time,-60,,,,,,,,,,
+230,(UTC+09:00) Seoul,-540,Korea Standard Time,0,Korea Summer Time,-60,,,,,,,,,,
+235,(UTC+09:00) Osaka; Sapporo; Tokyo,-540,Tokyo Standard Time,0,Tokyo Summer Time,-60,,,,,,,,,,
+240,(UTC+09:00) Yakutsk,-540,Russia TZ 8 Standard Time,0,Russia TZ 8 Summer Time,-60,,,,,,,,,,
+245,(UTC+09:30) Darwin,-570,AUS Central Standard Time,0,AUS Central Summer Time,-60,,,,,,,,,,
+250,(UTC+09:30) Adelaide,-570,Cen. Australia Standard Time,0,Cen. Australia Summer Time,-60,4,0,1,3,0,10,0,1,2,0
+255,(UTC+10:00) Canberra; Melbourne; Sydney,-600,AUS Eastern Standard Time,0,AUS Eastern Summer Time,-60,4,0,1,3,0,10,0,1,2,0
+260,(UTC+10:00) Brisbane,-600,E. Australia Standard Time,0,E. Australia Summer Time,-60,,,,,,,,,,
+265,(UTC+10:00) Hobart,-600,Tasmania Standard Time,0,Tasmania Summer Time,-60,4,0,1,3,0,10,0,1,2,0
+270,(UTC+10:00) Vladivostok,-600,Russia TZ 9 Standard Time,0,Russia TZ 9 Summer Time,-60,,,,,,,,,,
+275,(UTC+10:00) Guam; Port Moresby,-600,West Pacific Standard Time,0,West Pacific Summer Time,-60,,,,,,,,,,
+280,(UTC+11:00) Solomon Is.; New Caledonia,-660,Central Pacific Standard Time,0,Central Pacific Summer Time,-60,,,,,,,,,,
+285,(UTC+12:00) Fiji,-720,Fiji Standard Time,0,Fiji Summer Time,-60,,,,,,,,,,
+290,(UTC+12:00) Auckland; Wellington,-720,New Zealand Standard Time,0,New Zealand Summer Time,-60,4,0,1,3,0,9,0,5,2,0
+300,(UTC+13:00) Nuku'alofa,-780,Tonga Standard Time,0,Tonga Summer Time,-60,,,,,,,,,,
+900,(GMT-04:00) Falkland Islands,240,Falkland Islands Standard Time,0,Falkland Islands Daylight Time,-60,4,0,3,2,0,9,0,2,2,0
+901,(GMT+11:30) Norfolk Islands,-690,Norfolk Islands Standard Time,0,Norfolk Islands Daylight Time,-60,,,,,,,,,,
+902,(GMT-02:00) Mid-Atlantic,120,Mid-Atlantic Standard Time,0,Mid-Atlantic Daylight Time,-60,,,,,,,,,,
+1000,(UTC+03:00) Istanbul,-180,T³rkiye Standard Time,0,T³rkiye Daylight Time,-60,,,,,,,,,,
+1001,(UTC+06:00) Dhaka,-360,Bangladesh Standard Time,0,Bangladesh Summer Time,-60,,,,,,,,,,
+1002,(UTC-05:00) Havana,300,Cuba Standard Time,0,Cuba Summer Time,-60,11,0,1,1,0,3,0,2,0,0
+1003,(UTC-05:00) Haiti,300,Haiti Standard Time,0,Haiti Summer Time,-60,11,0,1,2,0,3,0,2,2,0
+1004,(UTC+02:00) Tripoli,-120,Libya Standard Time,0,Libya Summer Time,-60,,,,,,,,,,
+1005,(UTC+11:00) Norfolk Island,-660,Norfolk Standard Time,0,Norfolk Summer Time,-60,4,0,1,3,0,10,0,1,2,0
+1006,(UTC+02:00) Khartoum,-120,Sudan Standard Time,0,Sudan Daylight Time,-60,,,,,,,,,,
+1007,(UTC+02:00) Damascus,-120,Syria Standard Time,0,Syria Summer Time,-60,10,4,5,23,59,3,5,5,0,0
+1008,(UTC+03:00) Minsk,-180,Belarus Standard Time,0,Belarus Summer Time,-60,,,,,,,,,,
+1009,(UTC-05:00) Turks and Caicos,300,Turks and Caicos Standard Time,0,Turks and Caicos Summer Time,-60,11,0,1,2,0,3,0,2,2,0
+1010,(UTC+03:00) Volgograd,-180,Volgograd Standard Time,0,Volgograd Summer Time,-60,,,,,,,,,,
+1011,(UTC-07:00) Yukon,420,Yukon Standard Time,0,Yukon Daylight Time,-60,,,,,,,,,,

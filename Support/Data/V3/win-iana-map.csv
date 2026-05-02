@@ -1,0 +1,94 @@
+win indx, win name, IANA name
+-2147483584,Azerbaijan Standard Time,Asia/Baku
+-2147483583,Middle East Standard Time,Asia/Beirut
+-2147483582,Jordan Standard Time,Asia/Amman
+-2147483581,Central Standard Time (Mexico),America/Mexico_City
+-2147483578,Namibia Standard Time,Africa/Windhoek
+-2147483577,Georgian Standard Time,Asia/Tbilisi
+-2147483576,Central Brazilian Standard Time,America/Cuiaba
+-2147483575,Montevideo Standard Time,America/Montevideo
+-2147483573,Venezuela Standard Time,America/Caracas
+1,Samoa Standard Time,Pacific/Apia
+2,Hawaiian Standard Time,Pacific/Honolulu
+3,Alaskan Standard Time,America/Anchorage
+4,Pacific Standard Time,America/Los_Angeles
+10,Mountain Standard Time,America/Denver
+15,US Mountain Standard Time,America/Phoenix
+20,Central Standard Time,America/Chicago
+25,Canada Central Standard Time,America/Regina
+33,Central America Standard Time,America/Guatemala
+35,Eastern Standard Time,America/New_York
+40,US Eastern Standard Time,America/Indiana/Indianapolis
+45,SA Pacific Standard Time,America/Bogota
+50,Atlantic Standard Time,America/Halifax
+55,SA Western Standard Time,America/La_Paz
+56,Pacific SA Standard Time,America/Santiago
+60,Newfoundland Standard Time,America/St_Johns
+65,E. South America Standard Time,America/Sao_Paulo
+70,SA Eastern Standard Time,America/Cayenne
+73,Greenland Standard Time,America/Nuuk
+83,Cape Verde Standard Time,Atlantic/Cape_Verde
+85,GMT Standard Time,Europe/London
+90,Greenwich Standard Time,Africa/Abidjan
+95,Central Europe Standard Time,Europe/Budapest
+100,Central European Standard Time,Europe/Warsaw
+105,Romance Standard Time,Europe/Paris
+110,W. Europe Standard Time,Europe/Berlin
+113,W. Central Africa Standard Time,Africa/Lagos
+120,Egypt Standard Time,Africa/Cairo
+125,FLE Standard Time,Europe/Kyiv
+130,GTB Standard Time,Europe/Bucharest
+135,Israel Standard Time,Asia/Jerusalem
+140,South Africa Standard Time,Africa/Johannesburg
+145,Russian Standard Time,Europe/Moscow
+150,Arab Standard Time,Asia/Riyadh
+155,E. Africa Standard Time,Africa/Nairobi
+158,Arabic Standard Time,Asia/Baghdad
+160,Iran Standard Time,Asia/Tehran
+165,Arabian Standard Time,Asia/Dubai
+170,Caucasus Standard Time,Asia/Yerevan
+175,Afghanistan Standard Time,Asia/Kabul
+180,Ekaterinburg Standard Time,Asia/Yekaterinburg
+185,West Asia Standard Time,Asia/Tashkent
+190,India Standard Time,Asia/Kolkata
+193,Nepal Standard Time,Asia/Kathmandu
+195,Central Asia Standard Time,Asia/Bishkek
+200,Sri Lanka Standard Time,Asia/Colombo
+201,N. Central Asia Standard Time,Asia/Novosibirsk
+203,Myanmar Standard Time,Asia/Yangon
+205,SE Asia Standard Time,Asia/Bangkok
+207,North Asia Standard Time,Asia/Krasnoyarsk
+210,China Standard Time,Asia/Shanghai
+215,Singapore Standard Time,Asia/Singapore
+220,Taipei Standard Time,Asia/Taipei
+225,W. Australia Standard Time,Australia/Perth
+227,North Asia East Standard Time,Asia/Irkutsk
+227,Ulaanbaatar Standard Time,Asia/Ulaanbaatar
+230,Korea Standard Time,Asia/Seoul
+235,Tokyo Standard Time,Asia/Tokyo
+240,Yakutsk Standard Time,Asia/Yakutsk
+245,AUS Central Standard Time,Australia/Darwin
+250,Cen. Australia Standard Time,Australia/Adelaide
+255,AUS Eastern Standard Time,Australia/Sydney
+260,E. Australia Standard Time,Australia/Brisbane
+265,Tasmania Standard Time,Australia/Hobart
+270,Vladivostok Standard Time,Asia/Vladivostok
+275,West Pacific Standard Time,Pacific/Port_Moresby
+280,Central Pacific Standard Time,Pacific/Guadalcanal
+285,Fiji Standard Time,Pacific/Fiji
+290,New Zealand Standard Time,Pacific/Auckland
+300,Tonga Standard Time,Pacific/Tongatapu
+900,SA Eastern Standard Time,America/Cayenne
+902,Mid-Atlantic Standard Time,Etc/GMT+2
+1000,Turkey Standard Time,Europe/Istanbul
+1001,Bangladesh Standard Time,Asia/Dhaka
+1002,Cuba Standard Time,America/Havana
+1003,Haiti Standard Time,America/Port-au-Prince
+1004,Libya Standard Time,Africa/Tripoli
+1005,Norfolk Standard Time,Pacific/Norfolk
+1006,Sudan Standard Time,Africa/Khartoum
+1007,Syria Standard Time,Asia/Damascus
+1008,Belarus Standard Time,Europe/Minsk
+1009,Turks and Caicos Standard Time,America/Grand_Turk
+1010,Volgograd Standard Time,Europe/Volgograd
+1011,Yukon Standard Time,America/Whitehorse
