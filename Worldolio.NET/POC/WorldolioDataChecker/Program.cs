@@ -118,10 +118,11 @@ namespace WorldolioDataChecker
             foreach (City city in cities)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"City {city.Id}, {city.DisplayName}, {city.Country.DisplayName}, Pos {city.Position.ToString(true)} Drives {city.Country.DriveSide.Description}, TZ {city.WindowsTzIndex}, {city.IanaTz}");
+                Console.WriteLine($"City {city.Id}, {city.DisplayName}, {city.Country.DisplayName}, Pos {city.Position.ToString(true)} Drives {city.Country.DriveSide.Description}, TZ {city.WindowsTzIndex}, {city.IanaTz}, {city.TimeZone.GetDisplayName()}");
                 Console.ResetColor();
             }
-            Console.WriteLine("Cities count = {0}", cities.Count);
+            var invalidCount = cities.Count(c => !c.TimeZone.IsValid);
+            Console.WriteLine($"Cities count = {cities.Count}, invalid TZ = {invalidCount}");
         }
     }
 }

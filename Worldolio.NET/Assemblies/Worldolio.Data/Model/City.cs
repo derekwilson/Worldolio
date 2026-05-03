@@ -37,5 +37,7 @@ namespace Worldolio.Data.Model
 
         [Column(Name = "cty_ianatz")]
         public required string IanaTz { get; set; }
+
+        public TimeZone TimeZone { get; set; } = default!;
     }
 }

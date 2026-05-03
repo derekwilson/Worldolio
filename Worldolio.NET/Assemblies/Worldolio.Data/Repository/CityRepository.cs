@@ -64,6 +64,7 @@ namespace Worldolio.Data.Repository
             cty.Country = cnt;
             // we store the lat/long in integers in the DB
             cty.Position = new Position(cty.Latitude / 100.0, cty.Longitude / 100.0);
+            cty.TimeZone = new Model.TimeZone(cty.IanaTz);
             return cty;
         }
     }

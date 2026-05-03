@@ -1,4 +1,5 @@
-﻿using TimeZoneConverter;
+﻿using NodaTime;
+using TimeZoneConverter;
 
 namespace WorldolioPOC
 {
@@ -123,10 +124,13 @@ namespace WorldolioPOC
             };
 
             OutputToConsole($"win indx, win name, IANA name");
+            Instant now = SystemClock.Instance.GetCurrentInstant();
             foreach (var tz in tzdata)
             {
                 var name = TZConvert.WindowsToIana(tz.Item2);
-                OutputToConsole($"{tz.Item1},{tz.Item2},{name}");
+                var tzdb = DateTimeZoneProviders.Tzdb;
+                var _zone = tzdb[name];
+                OutputToConsole($"{tz.Item1},{tz.Item2},{name}, {_zone.ToString()}, {_zone.GetUtcOffset(now)}");
             }
         }
     }
