@@ -1,12 +1,14 @@
 ﻿using NodaTime;
+using Worldolio.Data.Utility;
 
 namespace Worldolio.Data.Model
 {
     public class TimeZone
     {
         private DateTimeZone? _zone;
+        private IInstantProvider _instantProvider;
 
-        public TimeZone(string ianaId)
+        public TimeZone(string ianaId, IInstantProvider instantProvider)
         {
             var tzdb = DateTimeZoneProviders.Tzdb;
             try
@@ -17,6 +19,7 @@ namespace Worldolio.Data.Model
             {
                 _zone = null;
             }
+            _instantProvider = instantProvider;
         }
 
         public bool IsValid
@@ -34,6 +37,16 @@ namespace Worldolio.Data.Model
                 return _zone?.ToString() ?? "NULL";
             }
             return "Unknown";
+        }
+
+        public string GetNow()
+        {
+            if (!IsValid)
+            {
+                return "Unknown";
+            }
+            ZonedDateTime time = _instantProvider.Now.InZone(_zone);
+            return time.ToString("F", System.Globalization.CultureInfo.CurrentCulture);
         }
     }
 }

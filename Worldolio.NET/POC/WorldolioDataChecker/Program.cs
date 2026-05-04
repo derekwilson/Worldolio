@@ -55,10 +55,12 @@ namespace WorldolioDataChecker
         static void Init()
         {
             DapperExtensions.AttachMappers();
+            var instantProvider = new InstantProvider();
+            var timeZoneFactory = new TimeZoneFactory(instantProvider);
             _connectionFactory = new LocalFileDbConnectionFactory("./worldolio.sqlite");
             _drivesideRepository = new DriveSideRepository(_connectionFactory);
             _countriesRepository = new CountryRepository(_connectionFactory);
-            _citiesRepository = new CityRepository(_connectionFactory);
+            _citiesRepository = new CityRepository(_connectionFactory, timeZoneFactory);
         }
 
         static void DisplayData()
@@ -66,10 +68,11 @@ namespace WorldolioDataChecker
             DisplayDriveSide(-1);
             DisplayCountries(null);
             DisplayCountriesWithCities(null);
-            DisplayCities(-1);
+            DisplayCities(null);
 
             DisplayCountriesWithCities("NZ");
-            DisplayCities(458);
+            long[] cityIds = [458, 252, 324, 313, 477, 79, 320];
+            DisplayCities(cityIds);
         }
 
         private static void DisplayDriveSide(int id)
@@ -111,14 +114,14 @@ namespace WorldolioDataChecker
             Console.WriteLine("Countires count = {0}", countries.Count);
         }
 
-        private static void DisplayCities(int id)
+        private static void DisplayCities(long[]? ids)
         {
-            ICollection<City> cities = id < 0 ? _citiesRepository.GetAll() : _citiesRepository.GetById(id);
+            ICollection<City> cities = ids == null ? _citiesRepository.GetAll() : _citiesRepository.GetByIds(ids);
 
             foreach (City city in cities)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"City {city.Id}, {city.DisplayName}, {city.Country.DisplayName}, Pos {city.Position.ToString(true)} Drives {city.Country.DriveSide.Description}, TZ {city.WindowsTzIndex}, {city.IanaTz}, {city.TimeZone.GetDisplayName()}");
+                Console.WriteLine($"City {city.Id}, {city.DisplayName}, {city.Country.DisplayName}, Pos {city.Position.ToString(true)} Drives {city.Country.DriveSide.Description}, TZ {city.IanaTz}, {city.TimeZone.GetNow()}");
                 Console.ResetColor();
             }
             var invalidCount = cities.Count(c => !c.TimeZone.IsValid);
