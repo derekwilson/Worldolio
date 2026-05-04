@@ -125,12 +125,17 @@ namespace WorldolioPOC
 
             OutputToConsole($"win indx, win name, IANA name");
             Instant now = SystemClock.Instance.GetCurrentInstant();
+            Instant starWars = Instant.FromUtc(2026, 5, 4, 12, 0);
             foreach (var tz in tzdata)
             {
                 var name = TZConvert.WindowsToIana(tz.Item2);
                 var tzdb = DateTimeZoneProviders.Tzdb;
-                var _zone = tzdb[name];
-                OutputToConsole($"{tz.Item1},{tz.Item2},{name}, {_zone.ToString()}, {_zone.GetUtcOffset(now)}");
+                DateTimeZone zone = tzdb[name];
+                ZonedDateTime time = now.InZone(zone);
+                string display = time.ToString("F", System.Globalization.CultureInfo.CurrentCulture);
+                ZonedDateTime time2 = starWars.InZone(zone);
+                string display2 = time2.ToString("F", System.Globalization.CultureInfo.CurrentCulture);
+                OutputToConsole($"{tz.Item1},{tz.Item2},{name}, {zone.ToString()}, {zone.GetUtcOffset(now)}, {display}, {display2}");
             }
         }
     }
