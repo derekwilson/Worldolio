@@ -1,4 +1,6 @@
 ﻿using NodaTime;
+using System.Globalization;
+using System.Text;
 using TimeZoneConverter;
 
 namespace WorldolioPOC
@@ -132,11 +134,47 @@ namespace WorldolioPOC
                 var tzdb = DateTimeZoneProviders.Tzdb;
                 DateTimeZone zone = tzdb[name];
                 ZonedDateTime time = now.InZone(zone);
-                string display = time.ToString("F", System.Globalization.CultureInfo.CurrentCulture);
+                string display = time.ToString("F", CultureInfo.CurrentCulture);
                 ZonedDateTime time2 = starWars.InZone(zone);
-                string display2 = time2.ToString("F", System.Globalization.CultureInfo.CurrentCulture);
+                string display2 = time2.ToString("F", CultureInfo.CurrentCulture);
                 OutputToConsole($"{tz.Item1},{tz.Item2},{name}, {zone.ToString()}, {zone.GetUtcOffset(now)}, {display}, {display2}");
+                OutputToConsole($"  {GetDSTDatesForDisplay(zone, 2026)}");
             }
+        }
+
+        private static string GetDSTDatesForDisplay(DateTimeZone zone, int year)
+        {
+            //var start = new LocalDateTime(year, 1, 1, 0, 0).InZoneLeniently(zone).ToInstant();
+            //var end = new LocalDateTime(year + 1, 1, 1, 0, 0).InZoneLeniently(zone).ToInstant();
+            Instant start = SystemClock.Instance.GetCurrentInstant();
+            Instant end = start
+                            .InUtc()
+                            .LocalDateTime
+                            .PlusYears(1)
+                            .InUtc()
+                            .ToInstant();
+            var allIntervals = zone.GetZoneIntervals(start, end);
+
+            StringBuilder str = new StringBuilder(100);
+            if (allIntervals.Count() == 1)
+            {
+                return "No DST";
+            }
+
+            // if you are getting 2026 to 2027 then allIntervals will contain all the intervals for 2027, we only one the ones in the next year
+            var intervals = allIntervals.Select(i => i.IsoLocalEnd).Where(intervalEnd => isBetween(zone,intervalEnd,start,end));
+            foreach (var interval in intervals)
+            {
+                str.Append(interval.ToString("dd MMM yyyy", CultureInfo.CurrentCulture));
+                str.Append(' ');
+            }
+            return str.ToString();
+        }
+
+        private static bool isBetween(DateTimeZone zone, LocalDateTime time, Instant start, Instant end)
+        {
+            Instant targetInstant = time.InZoneLeniently(zone).ToInstant();
+            return targetInstant >= start && targetInstant < end;
         }
     }
 }
