@@ -1,0 +1,1 @@
+copy worldolio.sqlite ..\..\..\Worldolio.NET\POC\WorldolioDataChecker\bin\Debug\net8.0
