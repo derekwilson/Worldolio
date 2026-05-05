@@ -12,9 +12,6 @@ namespace Worldolio.Data.Model
 
         public Country Country { get; set; } = default!;
 
-        [Column(Name = "cty_usesdst")]
-        public int UsesDST { get; set; }
-
         [Column(Name = "cty_windowstzindex")]
         public int WindowsTzIndex { get; set; }
 

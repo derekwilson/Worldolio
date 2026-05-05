@@ -78,7 +78,6 @@ CREATE TABLE cty_city (
 	cty_displayname varchar(255) not null,
 	cty_cnt_iso2name varchar(255) not null
            CONSTRAINT fk_cty_cnt REFERENCES cnt_country(cnt_iso2name),
-    cty_usesdst INTEGER NOT NULL,
     cty_windowstzindex INTEGER NOT NULL,
 	cty_areacode varchar(255),
     cty_latitude INTEGER NOT NULL,
