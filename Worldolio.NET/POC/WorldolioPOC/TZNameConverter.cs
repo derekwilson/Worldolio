@@ -126,20 +126,32 @@ namespace WorldolioPOC
             };
 
             OutputToConsole($"win indx, win name, IANA name");
-            Instant now = SystemClock.Instance.GetCurrentInstant();
-            Instant starWars = Instant.FromUtc(2026, 5, 4, 12, 0);
             foreach (var tz in tzdata)
             {
                 var name = TZConvert.WindowsToIana(tz.Item2);
-                var tzdb = DateTimeZoneProviders.Tzdb;
-                DateTimeZone zone = tzdb[name];
-                ZonedDateTime time = now.InZone(zone);
-                string display = time.ToString("F", CultureInfo.CurrentCulture);
-                ZonedDateTime time2 = starWars.InZone(zone);
-                string display2 = time2.ToString("F", CultureInfo.CurrentCulture);
-                OutputToConsole($"{tz.Item1},{tz.Item2},{name}, {zone.ToString()}, {zone.GetUtcOffset(now)}, {display}, {display2}");
-                OutputToConsole($"  {GetDSTDatesForDisplay(zone, 2026)}");
+                OutputToConsole($"{tz.Item1},{tz.Item2},{name}");
+                DisplayTimeZone(name);
             }
+
+            OutputToConsole($"\n\nextras");
+            DisplayTimeZone("Africa/Casablanca");
+            DisplayTimeZone("Africa/Cairo");
+        }
+
+        private static void DisplayTimeZone(string name)
+        {
+            Instant now = SystemClock.Instance.GetCurrentInstant();
+            Instant starWars = Instant.FromUtc(2026, 5, 4, 12, 0);
+
+            var tzdb = DateTimeZoneProviders.Tzdb;
+            DateTimeZone zone = tzdb[name];
+
+            ZonedDateTime time = now.InZone(zone);
+            string display = time.ToString("F", CultureInfo.CurrentCulture);
+            ZonedDateTime time2 = starWars.InZone(zone);
+            string display2 = time2.ToString("F", CultureInfo.CurrentCulture);
+            OutputToConsole($"  {zone.ToString()}, {zone.GetUtcOffset(now)}, {display}");
+            OutputToConsole($"  {GetDSTDatesForDisplay(zone, 2026)}");
         }
 
         private static string GetDSTDatesForDisplay(DateTimeZone zone, int year)
