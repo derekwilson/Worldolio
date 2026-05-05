@@ -13,7 +13,7 @@ AT,AUT,Austria,Austrian,40,43,00,0,2
 AU,AUS,Australia,Australian,36,61,0011,0,1
 AW,ABW,Aruba,Aruba,533,297,00,,2
 AZ,AZE,Azerbaijan,Azerbaijan,31,994,810,8,2
-BA,BIH,Bosnia and Herzegowina,Bosnia and Herzegowina,70,387,00,0,2
+BA,BIH,Bosnia and Herzegovina,Bosnia and Herzegovina,70,387,00,0,2
 BB,BRB,Barbados,Barbados,52,1246,011,1,1
 BD,BGD,Bangladesh,Bangladeshi,50,880,00,0,1
 BE,BEL,Belgium,Belgian,56,32,00,0,2
@@ -29,14 +29,14 @@ BR,BRA,Brazil,Brazilian,76,55,0014,014,2
 BS,BHS,Bahamas,Bahamas,44,1242,011,1,1
 BT,BTN,Bhutan,Bhutan,64,975,00,,1
 BW,BWA,Botswana,Botswana,72,267,00,,1
-BY,BLR,Belarus,Belarus,112,375,8…10,8,2
+BY,BLR,Belarus,Belarus,112,375,00,8,2
 BZ,BLZ,Belize,Belize,84,501,00,0,2
 CA,CAN,Canada,Canadian,124,1,011,1,2
 CD,COD,Congo; DR,Congo; DR,180,243,00,,2
 CF,CAF,Central African Republic,Central African Republic,140,236,19,,2
 CG,COG,Congo,Congo,178,242,00,,2
 CH,CHE,Switzerland,Swiss,756,41,00,0,2
-CI,CIV,Cote d'Ivoire,Cote d'Ivoire,384,225,00…,0,2
+CI,CIV,Cote d'Ivoire,Cote d'Ivoire,384,225,00,0,2
 CK,COK,Cook Islands,Cook Islands,184,682,00,00,1
 CL,CHL,Chile,Chilean,152,56,00,0,2
 CM,CMR,Cameroon,Cameroon,120,237,00,,2
@@ -54,7 +54,7 @@ DJ,DJI,Djibouti,Djibouti,262,253,00,,2
 DK,DNK,Denmark,Danish,208,45,00,,2
 DM,DMA,Dominica,Dominican,212,1767,011,1,1
 DO,DOM,Dominican Republic,Dominican Republic,214,1809,011,1,2
-DZ,DZA,Algeria,Algerian,12,213,00…,7,2
+DZ,DZA,Algeria,Algerian,12,213,00,7,2
 EC,ECU,Ecuador,Ecuadorian,218,593,00,0,2
 EE,EST,Estonia,Estonian,233,372,00,0,2
 EG,EGY,Egypt,Egyptian,818,20,00,0,2
@@ -121,9 +121,9 @@ LT,LTU,Lithuania,Lithuanian,440,370,00,8,2
 LU,LUX,Luxembourg,Luxembourg,442,352,00,,2
 LV,LVA,Latvia,Latvian,428,371,00,8,2
 LY,LBY,Libya,Libyan,434,218,00,0,2
-MA,MAR,Morocco,Moroccan,504,212,00…,,2
+MA,MAR,Morocco,Moroccan,504,212,00,,2
 MC,MCO,Monaco,Monaco,492,377,00,0,2
-MD,MDA,Moldova,Moldovan,498,373,8…10,8,2
+MD,MDA,Moldova,Moldovan,498,373,00,8,2
 MG,MDG,Madagascar,Madagascar,450,261,00,0,2
 MK,MKD,Macedonia,Macedonia,807,359,00,0,2
 ML,MLI,Mali,Mali,466,223,00,0,2
@@ -151,7 +151,7 @@ NO,NOR,Norway,Norwegian,578,47,00,,2
 NP,NPL,Nepal,Nepal,524,977,00,0,1
 NR,NRU,Nauru,Nauru,520,674,00,0,1
 NU,NIU,Niue,Niue,570,683,00,0,1
-NZ,NZL,New Zealand,New Zealand,554,64,00,0,1
+NZ,NZL,New Zealand,New Zealander,554,64,00,0,1
 OM,OMN,Oman,Oman,512,968,00,0,2
 PA,PAN,Panama,Panamanian,591,507,00,0,2
 PE,PER,Peru,Peruvian,604,51,00,0,2
@@ -159,9 +159,9 @@ PF,PYF,French Polynesia,French Polynesia,258,689,00,,2
 PG,PNG,Papua New Guinea,Papua new guinea,598,675,05,,1
 PH,PHL,Philippines,Philippine,608,63,00,0,2
 PK,PAK,Pakistan,Pakistani,586,92,00,0,1
-PL,POL,Poland,Polish,616,48,0…0,0,2
+PL,POL,Poland,Polish,616,48,00,0,2
 PR,PRI,Puerto Rico,Puerto Rico,630,1787,011,1,2
-PT,PRT,Portugal,Portugese,620,351,00,,2
+PT,PRT,Portugal,Portuguese,620,351,00,,2
 PY,PRY,Paraguay,Paraguay,600,595,00,0,2
 QA,QAT,Qatar,Qatar,634,974,0,0,2
 RE,REU,Reunion,Reunion,638,262,00,0,2
@@ -190,8 +190,8 @@ TC,TCA,Turks and Caicos Islands,Turks and Caicos Islands,796,1649,011,1,1
 TD,TCD,Chad,Chad,148,235,15,,2
 TG,TGO,Togo,Togo,768,228,00,,2
 TH,THA,Thailand,Thai,764,66,001,0,1
-TJ,TJK,Tajikistan,Tajikistan,762,7,8…10,8,2
-TM,TKM,Turkmenistan,Turkmenistan,795,993,8…10,8,2
+TJ,TJK,Tajikistan,Tajikistan,762,7,8..10,8,2
+TM,TKM,Turkmenistan,Turkmenistan,795,993,8..10,8,2
 TN,TUN,Tunisia,Tunisia,788,216,00,0,2
 TO,TON,Tonga,Tonga,776,676,00,,1
 TP,TMP,Timor-Leste,Timor-Leste,626,670,00,,1
@@ -200,12 +200,12 @@ TT,TTO,Trinidad and Tobago,Trinidad and Tobago,780,1868,011,1,1
 TV,TUV,Tuvalu,Tuvalu,798,688,00,,1
 TW,TWN,Taiwan,Taiwan,158,886,002,,2
 TZ,TZA,Tanzania; United Republic of,Tanzania; United Republic of,834,255,000,0,1
-UA,UKR,Ukraine,Ukranian,804,380,8…10,8,2
+UA,UKR,Ukraine,Ukrainian,804,380,00,8,2
 UG,UGA,Uganda,Uganda,800,256,000,0,1
 UK,GBR,United Kingdom,United Kingdom,826,44,00,0,1
 US,USA,United States,United States,840,1,011,1,2
 UY,URY,Uruguay,Uruguay,858,598,00,0,2
-UZ,UZB,Uzbekistan,Uzbekistan,860,998,8…10,8,2
+UZ,UZB,Uzbekistan,Uzbekistan,860,998,00,8,2
 VA,VAT,Holy See (Vatican City State),Holy See (Vatican City State),336,39,00,,2
 VC,VCT,St. Vincent and Grenadines,Saint Vincent and the Grenadines,670,1784,011,1,1
 VE,VEN,Venezuela,Venezuela,862,582,00,0,2
@@ -218,4 +218,4 @@ YE,YEM,Yemen,Yemen,887,967,00,0,2
 YT,MYT,Mayotte,Mayotte,175,269,10,,2
 ZA,ZAF,South Africa,South African,710,27,09,0,1
 ZM,ZMB,Zambia,Zambian,894,260,00,0,1
-ZW,ZWE,Zimbabwe,Zimbabwian,716,263,00,0,1
+ZW,ZWE,Zimbabwe,Zimbabwean,716,263,00,0,1

@@ -120,7 +120,14 @@ namespace WorldolioDataChecker
 
             foreach (City city in cities)
             {
-                Console.ForegroundColor = ConsoleColor.Yellow;
+                if (city.TimeZone.IsValid)
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                }
                 Console.WriteLine($"City {city.Id}, {city.DisplayName}, {city.Country.DisplayName}, Pos {city.Position.ToString(true)} Drives {city.Country.DriveSide.Description}");
                 Console.WriteLine($"   TZ {city.IanaTz}, {city.TimeZone.GetNow()}, {city.TimeZone.GetDSTDatesForDisplay()}");
                 Console.ResetColor();
