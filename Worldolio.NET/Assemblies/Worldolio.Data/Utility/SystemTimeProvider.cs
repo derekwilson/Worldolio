@@ -2,13 +2,14 @@
 
 namespace Worldolio.Data.Utility
 {
-    public interface IInstantProvider
+    public interface ISystemTimeProvider
     {
         Instant Now { get; }
         Instant GetUtcInstant(int year, int month, int day, int  hour, int minute, int second);
+        ZonedDateTime GetUtcNow();
     }
 
-    public class InstantProvider : IInstantProvider
+    public class SystemTimeProvider : ISystemTimeProvider
     {
         public Instant Now
         {
@@ -21,6 +22,11 @@ namespace Worldolio.Data.Utility
         public Instant GetUtcInstant(int year, int month, int day, int hour, int minute, int second)
         {
             return Instant.FromUtc(year, month, day, hour, minute, second);
+        }
+
+        public ZonedDateTime GetUtcNow()
+        {
+            return Now.InUtc();
         }
     }
 }

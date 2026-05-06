@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NodaTime;
 using Worldolio.Data.Repository;
 
 namespace Worldolio.Data.Model
@@ -90,7 +86,7 @@ namespace Worldolio.Data.Model
         /// <param name="utcNow">utc time to calc the shadow for</param>
         /// <param name="bShadowNorth">true if the shadow is north of the line else south</param>
         /// <returns>array of lat/long points for the edge of the shadow</returns>
-        public static Position[] CalcDayNightShadowEdge(System.DateTime utcNow, ref bool bShadowNorth)
+        public static Position[] CalcDayNightShadowEdge(ZonedDateTime utcNow, ref bool bShadowNorth)
         {
             int x0 = 180;
 
@@ -134,7 +130,7 @@ namespace Worldolio.Data.Model
 
         #region Sunrise and Sunset
 
-        private static int CalcJulianDay(System.DateTime dt)
+        private static int CalcJulianDay(ZonedDateTime dt)
         {
             return dt.DayOfYear;
         }
@@ -186,7 +182,7 @@ namespace Worldolio.Data.Model
         }
 
         // please note that the logitude for this calc is east = -ve, west =+ve
-        private static double calcSunsetGMT(int iJulianDay, double latitude, double longitude)
+        private static double calcSunsetUTC(int iJulianDay, double latitude, double longitude)
         {
             // First calculates sunrise and approx length of day
             double dGamma = CalcGamma(iJulianDay + 1);
@@ -195,22 +191,22 @@ namespace Worldolio.Data.Model
             double hourAngle = CalcHourAngle(latitude, solarDec, false);
             double delta = longitude - dRadToDeg(hourAngle);
             double timeDiff = 4 * delta;
-            double setTimeGMT = 720 + timeDiff - eqTime;
+            double setTimeUTC = 720 + timeDiff - eqTime;
 
             // first pass used to include fractional day in gamma calc
-            double gamma_sunset = CalcGamma2(iJulianDay, (int)setTimeGMT / 60);
+            double gamma_sunset = CalcGamma2(iJulianDay, (int)setTimeUTC / 60);
             eqTime = CalcEqofTime(gamma_sunset);
             solarDec = CalcSolarDec(gamma_sunset);
             hourAngle = CalcHourAngle(latitude, solarDec, false);
             delta = longitude - dRadToDeg(hourAngle);
             timeDiff = 4 * delta;
-            setTimeGMT = 720 + timeDiff - eqTime; // in minutes
+            setTimeUTC = 720 + timeDiff - eqTime; // in minutes
 
-            return setTimeGMT;
+            return setTimeUTC;
         }
 
         // please note that the logitude for this calc is east = -ve, west =+ve
-        private static double calcSunriseGMT(int iJulianDay, double latitude, double longitude)
+        private static double calcSunriseUTC(int iJulianDay, double latitude, double longitude)
         {
             // *** First pass to approximate sunrise
             double gamma = CalcGamma(iJulianDay);
@@ -219,29 +215,29 @@ namespace Worldolio.Data.Model
             double hourAngle = CalcHourAngle(latitude, solarDec, true);
             double delta = longitude - dRadToDeg(hourAngle);
             double timeDiff = 4 * delta;
-            double timeGMT = 720 + timeDiff - eqTime;
+            double timeUTC = 720 + timeDiff - eqTime;
 
             // *** Second pass includes fractional jday in gamma calc
-            double gamma_sunrise = CalcGamma2(iJulianDay, (int)timeGMT / 60);
+            double gamma_sunrise = CalcGamma2(iJulianDay, (int)timeUTC / 60);
             eqTime = CalcEqofTime(gamma_sunrise);
             solarDec = CalcSolarDec(gamma_sunrise);
             hourAngle = CalcHourAngle(latitude, solarDec, true);
             delta = longitude - dRadToDeg(hourAngle);
             timeDiff = 4 * delta;
-            timeGMT = 720 + timeDiff - eqTime; // in minutes
+            timeUTC = 720 + timeDiff - eqTime; // in minutes
 
-            return timeGMT;
+            return timeUTC;
         }
 
         // please note that the logitude for this calc is east = -ve, west =+ve
-        private static double calcSolNoonGMT(System.DateTime today, double longitude)
+        private static double calcSolNoonUTC(int iJulianDay, double longitude)
         {
             // Adds approximate fractional day to julday before calc gamma
-            double gamma_solnoon = CalcGamma2(today.DayOfYear, 12 + (int)(longitude / 15));
+            double gamma_solnoon = CalcGamma2(iJulianDay, 12 + (int)(longitude / 15));
             double eqTime = CalcEqofTime(gamma_solnoon);
             double solarNoonDec = CalcSolarDec(gamma_solnoon);
-            double solNoonGMT = 720 + (longitude * 4) - eqTime; // min
-            return solNoonGMT;
+            double solNoonUTC = 720 + (longitude * 4) - eqTime; // min
+            return solNoonUTC;
         }
 
         private static bool IsInteger(double dValue)
@@ -254,173 +250,165 @@ namespace Worldolio.Data.Model
         }
 
         // please note that the logitude for this calc is east = -ve, west =+ve
-        private static double findRecentSunrise(System.DateTime today, double latitude, double longitude)
+        private static double findRecentSunrise(ZonedDateTime today, double latitude, double longitude)
         {
             int jday = today.DayOfYear;
-            double dTime = calcSunriseGMT(jday, latitude, longitude);
+            double dTime = calcSunriseUTC(jday, latitude, longitude);
 
             //			while(!IsInteger(dTime) )
             //			{
             //				jday--;
             //				if (jday < 1) 
             //					jday = 365;
-            //				dTime = calcSunriseGMT(jday,latitude,longitude);
+            //				dTime = calcSunriseUTC(jday,latitude,longitude);
             //			}
             return dTime;
         }
 
         // please note that the logitude for this calc is east = -ve, west =+ve
-        private static double findRecentSunset(System.DateTime today, double latitude, double longitude)
+        private static double findRecentSunset(ZonedDateTime today, double latitude, double longitude)
         {
             int jday = today.DayOfYear;
-            double dTime = calcSunsetGMT(jday, latitude, longitude);
+            double dTime = calcSunsetUTC(jday, latitude, longitude);
 
             //			while(!IsInteger(dTime) )
             //			{
             //				jday--;
             //				if (jday < 1) 
             //					jday = 365;
-            //				dTime = calcSunsetGMT(jday,latitude,longitude);
+            //				dTime = calcSunsetUTC(jday,latitude,longitude);
             //			}
             return dTime;
         }
 
         // please note that the logitude for this calc is east = -ve, west =+ve
-        private static double findNextSunrise(System.DateTime today, double latitude, double longitude)
+        private static double findNextSunrise(ZonedDateTime today, double latitude, double longitude)
         {
             int jday = today.DayOfYear;
-            double dTime = calcSunriseGMT(jday, latitude, longitude);
+            double dTime = calcSunriseUTC(jday, latitude, longitude);
 
             //			while(!IsInteger(dTime) )
             //			{
             //				jday++;
             //				if (jday > 366) 
             //					jday = 1;
-            //				dTime = calcSunriseGMT(jday,latitude,longitude);
+            //				dTime = calcSunriseUTC(jday,latitude,longitude);
             //			}
             return dTime;
         }
 
         // please note that the logitude for this calc is east = -ve, west =+ve
-        private static double findNextSunset(System.DateTime today, double latitude, double longitude)
+        private static double findNextSunset(ZonedDateTime today, double latitude, double longitude)
         {
             int jday = today.DayOfYear;
-            double dTime = calcSunsetGMT(jday, latitude, longitude);
+            double dTime = calcSunsetUTC(jday, latitude, longitude);
 
             //			while(!IsInteger(dTime) )
             //			{
             //				jday++;
             //				if (jday > 366) 
             //					jday = 1;
-            //				dTime = calcSunsetGMT(jday,latitude,longitude);
+            //				dTime = calcSunsetUTC(jday,latitude,longitude);
             //			}
             return dTime;
         }
 
-        /*
+        private static ZonedDateTime ConvertUTCMinutesToZonedDateTime(ZonedDateTime today, double timeUTC)
+        {
+            // trap any wrapping of the day eg. Tonga
+            if (timeUTC < 0)
+                timeUTC += 1440;
+            if (timeUTC > 1440)
+                timeUTC -= 1440;
 
+            double dHour = timeUTC / 60;
+            int iHour = (int)dHour;
+            double dMinute = 60 * (dHour - iHour);
+            int iMinute = (int)dMinute;
+            double dSecond = 60 * (dMinute - iMinute);
+            int iSecond = (int)dSecond;
 
-private static System.DateTime ConvertToLocalTime(System.DateTime today, double timeGMT, Worldolio.Data.TimeZone timeZone)
-{
-    System.TimeSpan utcOffset = timeZone.GetUtcOffset(today);
-    double dUtcOffset = (utcOffset.Hours * 60) + utcOffset.Minutes;     // god help us all if we get TZ offsets in secs
-    double timeLocal = timeGMT + dUtcOffset;
+            LocalDateTime local = new LocalDateTime(today.Year, today.Month, today.Day, iHour, iMinute, iSecond);
+            // no duplicate times in UTC so strictly will work
+            return local.InZoneStrictly(DateTimeZone.Utc);
+        }
 
-    // trap any wrapping of the day eg. Tonga
-    if (timeLocal < 0)
-        timeLocal += 1440;
-    if (timeLocal > 1440)
-        timeLocal -= 1440;
+        /// <summary>
+        /// Get the time of apparent sunrse for the specified place
+        /// </summary>
+        /// <param name="today">the day to calc the sunrise for, time is ignored</param>
+        /// <param name="pos">place to calculate for</param>
+        /// <returns>the local time of sunrise</returns>
+        public static ZonedDateTime GetSunriseInUtc(ZonedDateTime today, Position pos)
+        {
+            // the rest of the app uses +ve to mean east this calc uses +ve to mean west
+            double longitude = -pos.Longitude;
+            double timeUTC = calcSunriseUTC(today.DayOfYear, pos.Latitude, longitude);
 
-    double dHour = timeLocal / 60;
-    int iHour = (int)dHour;
-    double dMinute = 60 * (dHour - iHour);
-    int iMinute = (int)dMinute;
-    double dSecond = 60 * (dMinute - iMinute);
-    int iSecond = (int)dSecond;
+            int iJulianDay = today.DayOfYear;
+            // if Northern hemisphere and spring or summer, use last sunrise and next sunset
+            if ((pos.Latitude > 66.4) && (iJulianDay > 79) && (iJulianDay < 267))
+                timeUTC = findRecentSunrise(today, pos.Latitude, longitude);
+            // if Northern hemisphere and fall or winter, use next sunrise and last sunset
+            else if ((pos.Latitude > 66.4) && ((iJulianDay < 83) || (iJulianDay > 263)))
+                timeUTC = findNextSunrise(today, pos.Latitude, longitude);
+            // if Southern hemisphere and fall or winter, use last sunrise and next sunset
+            else if ((pos.Latitude < -66.4) && ((iJulianDay < 83) || (iJulianDay > 263)))
+                timeUTC = findRecentSunrise(today, pos.Latitude, longitude);
+            // if Southern hemisphere and spring or summer, use next sunrise and last sunset
+            else if ((pos.Latitude < -66.4) && (iJulianDay > 79) && (iJulianDay < 267))
+                timeUTC = findNextSunrise(today, pos.Latitude, longitude);
 
-    return new System.DateTime(today.Year, today.Month, today.Day, iHour, iMinute, iSecond);
+            return ConvertUTCMinutesToZonedDateTime(today, timeUTC);
+        }
 
-    //			System.DateTime gmtSunrise = new System.DateTime(today.Year,today.Month,today.Day,iHour,iMinute,iSecond);
-    //			return this.m_timeZone.ToLocalTime(gmtSunrise);
-}
+        /// <summary>
+        /// Get the time of apparent sunset for the specified place
+        /// </summary>
+        /// <param name="today">the day to calc the sunset for, time is ignored</param>
+        /// <param name="pos">place to calculate for</param>
+        /// <param name="timeZone">the timezone that applies for this place</param>
+        /// <returns>the local time of sunset</returns>
+        public static ZonedDateTime GetSunsetInUtc(ZonedDateTime today, Position pos)
+        {
+            // the rest of the app uses +ve to mean east this calc uses +ve to mean west
+            double longitude = -pos.Longitude;
+            double timeUTC = calcSunsetUTC(today.DayOfYear, pos.Latitude, longitude);
 
-/// <summary>
-/// Get the time of apparent sunrse for the specified place
-/// </summary>
-/// <param name="today">the day to calc the sunrise for, time is ignored</param>
-/// <param name="pos">place to calculate for</param>
-/// <param name="timeZone">the timezone that applies for this place</param>
-/// <returns>the local time of sunrise</returns>
-public static System.DateTime GetSunrise(System.DateTime today, Worldolio.Data.Position pos, Worldolio.Data.TimeZone timeZone)
-{
-    // the rest of the app uses +ve to mean east this calc uses +ve to mean west
-    double longitude = -pos.Longitude;
-    double timeGMT = calcSunriseGMT(today.DayOfYear, pos.Latitude, longitude);
+            int iJulianDay = today.DayOfYear;
+            // if Northern hemisphere and spring or summer, use last sunrise and next sunset
+            if ((pos.Latitude > 66.4) && (iJulianDay > 79) && (iJulianDay < 267))
+                timeUTC = findRecentSunset(today, pos.Latitude, longitude);
+            // if Northern hemisphere and fall or winter, use next sunrise and last sunset
+            else if ((pos.Latitude > 66.4) && ((iJulianDay < 83) || (iJulianDay > 263)))
+                timeUTC = findNextSunset(today, pos.Latitude, longitude);
+            // if Southern hemisphere and fall or winter, use last sunrise and next sunset
+            else if ((pos.Latitude < -66.4) && ((iJulianDay < 83) || (iJulianDay > 263)))
+                timeUTC = findRecentSunset(today, pos.Latitude, longitude);
+            // if Southern hemisphere and spring or summer, use next sunrise and last sunset
+            else if ((pos.Latitude < -66.4) && (iJulianDay > 79) && (iJulianDay < 267))
+                timeUTC = findNextSunset(today, pos.Latitude, longitude);
 
-    int iJulianDay = today.DayOfYear;
-    // if Northern hemisphere and spring or summer, use last sunrise and next sunset
-    if ((pos.Latitude > 66.4) && (iJulianDay > 79) && (iJulianDay < 267))
-        timeGMT = findRecentSunrise(today, pos.Latitude, longitude);
-    // if Northern hemisphere and fall or winter, use next sunrise and last sunset
-    else if ((pos.Latitude > 66.4) && ((iJulianDay < 83) || (iJulianDay > 263)))
-        timeGMT = findNextSunrise(today, pos.Latitude, longitude);
-    // if Southern hemisphere and fall or winter, use last sunrise and next sunset
-    else if ((pos.Latitude < -66.4) && ((iJulianDay < 83) || (iJulianDay > 263)))
-        timeGMT = findRecentSunrise(today, pos.Latitude, longitude);
-    // if Southern hemisphere and spring or summer, use next sunrise and last sunset
-    else if ((pos.Latitude < -66.4) && (iJulianDay > 79) && (iJulianDay < 267))
-        timeGMT = findNextSunrise(today, pos.Latitude, longitude);
+            return ConvertUTCMinutesToZonedDateTime(today, timeUTC);
+        }
 
-    return ConvertToLocalTime(today, timeGMT, timeZone);
-}
+        /// <summary>
+        /// Get the time of solar noon
+        /// </summary>
+        /// <param name="today">the day to calc the noon for, time is ignored</param>
+        /// <param name="longitude">logitude of place, west = -ve, east = +ve</param>
+        /// <param name="timeZone">the timezone that applies for this place</param>
+        /// <returns>the local time of noon</returns>
+        public static ZonedDateTime GetSolarNoonInUtc(ZonedDateTime today, double longitude)
+        {
+            // the rest of the app uses +ve to mean east this calc uses +ve to mean west
+            longitude = -longitude;
 
-/// <summary>
-/// Get the time of apparent sunset for the specified place
-/// </summary>
-/// <param name="today">the day to calc the sunset for, time is ignored</param>
-/// <param name="pos">place to calculate for</param>
-/// <param name="timeZone">the timezone that applies for this place</param>
-/// <returns>the local time of sunset</returns>
-public static System.DateTime GetSunset(System.DateTime today, Worldolio.Data.Position pos, Worldolio.Data.TimeZone timeZone)
-{
-    // the rest of the app uses +ve to mean east this calc uses +ve to mean west
-    double longitude = -pos.Longitude;
-    double timeGMT = calcSunsetGMT(today.DayOfYear, pos.Latitude, longitude);
+            int jday = today.DayOfYear;
+            double timeUTC = calcSolNoonUTC(jday, longitude);
+            return ConvertUTCMinutesToZonedDateTime(today, timeUTC);
+        }
 
-    int iJulianDay = today.DayOfYear;
-    // if Northern hemisphere and spring or summer, use last sunrise and next sunset
-    if ((pos.Latitude > 66.4) && (iJulianDay > 79) && (iJulianDay < 267))
-        timeGMT = findRecentSunset(today, pos.Latitude, longitude);
-    // if Northern hemisphere and fall or winter, use next sunrise and last sunset
-    else if ((pos.Latitude > 66.4) && ((iJulianDay < 83) || (iJulianDay > 263)))
-        timeGMT = findNextSunset(today, pos.Latitude, longitude);
-    // if Southern hemisphere and fall or winter, use last sunrise and next sunset
-    else if ((pos.Latitude < -66.4) && ((iJulianDay < 83) || (iJulianDay > 263)))
-        timeGMT = findRecentSunset(today, pos.Latitude, longitude);
-    // if Southern hemisphere and spring or summer, use next sunrise and last sunset
-    else if ((pos.Latitude < -66.4) && (iJulianDay > 79) && (iJulianDay < 267))
-        timeGMT = findNextSunset(today, pos.Latitude, longitude);
-
-    return ConvertToLocalTime(today, timeGMT, timeZone);
-}
-
-/// <summary>
-/// Get the time of solar noon
-/// </summary>
-/// <param name="today">the day to calc the noon for, time is ignored</param>
-/// <param name="longitude">logitude of place, west = -ve, east = +ve</param>
-/// <param name="timeZone">the timezone that applies for this place</param>
-/// <returns>the local time of noon</returns>
-public static System.DateTime GetSolarNoon(System.DateTime today, double longitude, Worldolio.Data.TimeZone timeZone)
-{
-    // the rest of the app uses +ve to mean east this calc uses +ve to mean west
-    longitude = -longitude;
-
-    double timeGMT = calcSolNoonGMT(today, longitude);
-    return ConvertToLocalTime(today, timeGMT, timeZone);
-}
-*/
         #endregion
 
         #region Distances

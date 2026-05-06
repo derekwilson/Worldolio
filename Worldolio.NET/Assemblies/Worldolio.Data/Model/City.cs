@@ -1,4 +1,5 @@
-﻿using Worldolio.Data.Utility;
+﻿using NodaTime;
+using Worldolio.Data.Utility;
 
 namespace Worldolio.Data.Model
 {
@@ -40,6 +41,39 @@ namespace Worldolio.Data.Model
         public Distance GetDistance(Position pos)
         {
             return GeoCalculator.GetDistance(Position, pos);
+        }
+
+        public string GetSunrise()
+        {
+            return GetSunrise(TimeZone.GetUtcNow());
+        }
+
+        public string GetSunrise(ZonedDateTime today)
+        {
+            var sunriseUtc = GeoCalculator.GetSunriseInUtc(today, Position);
+            return TimeZone.ToLocalTimeFormatted(sunriseUtc);
+        }
+
+        public string GetSunset()
+        {
+            return GetSunset(TimeZone.GetUtcNow());
+        }
+
+        public string GetSunset(ZonedDateTime today)
+        {
+            var sunsetUtc = GeoCalculator.GetSunsetInUtc(today, Position);
+            return TimeZone.ToLocalTimeFormatted(sunsetUtc);
+        }
+
+        public string GetNoon()
+        {
+            return GetNoon(TimeZone.GetUtcNow());
+        }
+
+        public string GetNoon(ZonedDateTime today)
+        {
+            var noonUtc = GeoCalculator.GetSolarNoonInUtc(today, Position.Longitude);
+            return TimeZone.ToLocalTimeFormatted(noonUtc);
         }
     }
 }

@@ -55,8 +55,8 @@ namespace WorldolioDataChecker
         static void Init()
         {
             DapperExtensions.AttachMappers();
-            var instantProvider = new InstantProvider();
-            var timeZoneFactory = new TimeZoneFactory(instantProvider);
+            var systemTimeProvider = new SystemTimeProvider();
+            var timeZoneFactory = new TimeZoneFactory(systemTimeProvider);
             _connectionFactory = new LocalFileDbConnectionFactory("./worldolio.sqlite");
             _drivesideRepository = new DriveSideRepository(_connectionFactory);
             _countriesRepository = new CountryRepository(_connectionFactory);
@@ -149,9 +149,10 @@ namespace WorldolioDataChecker
                 var nearby = _citiesRepository.GetNearbyCities(city, new Distance(500, Distance.Units.Miles));
                 foreach (City city2 in nearby)
                 {
-                    Console.WriteLine($"City {city2.Id}, {city2.DisplayName}, {city2.Country.DisplayName}, {city.GetDistance(city2.Position).ToString(Distance.Units.Kilometers)}");
+                    //Console.WriteLine($"     City {city2.Id}, {city2.DisplayName}, {city2.Country.DisplayName}, {city.GetDistance(city2.Position).ToString(Distance.Units.Kilometers)}");
                 }
-                Console.WriteLine($"Nearby cities count = {nearby.Count}");
+                Console.WriteLine($"   Nearby cities count = {nearby.Count}");
+                Console.WriteLine($"   Sunrise: {city.GetSunrise()}, Sunset: {city.GetSunset()}, Noon: {city.GetNoon()}");
                 Console.ResetColor();
             }
             var invalidCount = cities.Count(c => !c.TimeZone.IsValid);

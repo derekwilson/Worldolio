@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Worldolio.Data.Utility;
+﻿using Worldolio.Data.Utility;
 
 namespace Worldolio.Data.Model
 {
@@ -14,16 +9,16 @@ namespace Worldolio.Data.Model
 
     public class TimeZoneFactory : ITimeZoneFactory
     {
-        private IInstantProvider _instantProvider;
+        private ISystemTimeProvider _systemTimeProvider;
 
-        public TimeZoneFactory(IInstantProvider instantProvider)
+        public TimeZoneFactory(ISystemTimeProvider systemTimeProvider)
         {
-            _instantProvider = instantProvider;
+            _systemTimeProvider = systemTimeProvider;
         }
 
         public TimeZone GetTimeZoneFromIanaName(string name)
         {
-            return new Model.TimeZone(name, _instantProvider);
+            return new TimeZone(name, _systemTimeProvider);
         }
     }
 }

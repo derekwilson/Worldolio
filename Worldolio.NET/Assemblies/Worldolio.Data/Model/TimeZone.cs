@@ -22,9 +22,9 @@ namespace Worldolio.Data.Model
         }
 
         private readonly DateTimeZone? _zone;
-        private IInstantProvider _instantProvider;
+        private ISystemTimeProvider _systemTimeProvider;
 
-        public TimeZone(string ianaId, IInstantProvider instantProvider)
+        public TimeZone(string ianaId, ISystemTimeProvider systemTimeProvider)
         {
             var tzdb = DateTimeZoneProviders.Tzdb;
             try
@@ -35,7 +35,7 @@ namespace Worldolio.Data.Model
             {
                 _zone = null;
             }
-            _instantProvider = instantProvider;
+            _systemTimeProvider = systemTimeProvider;
         }
 
         public bool IsValid
@@ -54,10 +54,14 @@ namespace Worldolio.Data.Model
             }
             return _zone.ToString();
         }
+        public ZonedDateTime GetUtcNow()
+        {
+            return _systemTimeProvider.GetUtcNow();
+        }
 
         public ZonedDateTime GetLocalTime()
         {
-            return GetLocalTime(_instantProvider.Now);
+            return GetLocalTime(_systemTimeProvider.Now);
         }
 
         public ZonedDateTime GetLocalTime(Instant instant)
@@ -89,7 +93,7 @@ namespace Worldolio.Data.Model
 
         public string GetDSTDatesForDisplay()
         {
-            return GetDSTDatesForDisplay(_instantProvider.Now);
+            return GetDSTDatesForDisplay(_systemTimeProvider.Now);
         }
 
         public string GetDSTDatesForDisplay(Instant start)
@@ -145,6 +149,16 @@ namespace Worldolio.Data.Model
                     break;
             }
             return time.ToString(strTimeFormat, System.Globalization.CultureInfo.CurrentCulture);
+        }
+
+        public string ToLocalTimeFormatted(ZonedDateTime time)
+        {
+            if (_zone == null)
+            {
+                return "Unknown";
+            }
+            var localtime = time.ToInstant().InZone(_zone);
+            return FormatTime(TimeFormat.SHORT_AMPM, localtime);
         }
     }
 }
