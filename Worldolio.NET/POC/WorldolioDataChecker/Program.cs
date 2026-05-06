@@ -66,13 +66,15 @@ namespace WorldolioDataChecker
         static void DisplayData()
         {
             DisplayDriveSide(-1);
-            DisplayCountries(null);
-            DisplayCountriesWithCities(null);
-            DisplayCities(null);
 
-            DisplayCountriesWithCities("NZ");
+            //DisplayCountries(null);
+            //DisplayCountriesWithCities(null, false);
+
+            //DisplayCities(null);
+
+            DisplayCountriesWithCities("NZ", true);
             long[] cityIds = [458, 252, 324, 313, 477, 79, 320];
-            DisplayCitiesExtra(458,cityIds);
+            DisplayCityGrid(458,cityIds,true);
         }
 
         private static void DisplayDriveSide(int id)
@@ -101,7 +103,7 @@ namespace WorldolioDataChecker
             Console.WriteLine("Countires count = {0}", countries.Count);
         }
 
-        private static void DisplayCountriesWithCities(string? iso2name)
+        private static void DisplayCountriesWithCities(string? iso2name, bool showCities)
         {
             ICollection<Country> countries = String.IsNullOrEmpty(iso2name) ? _countriesRepository.GetAllWithCities() : _countriesRepository.GetAllWithCitiesById(iso2name);
 
@@ -109,6 +111,13 @@ namespace WorldolioDataChecker
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine($"Country {c.Iso2Name}, {c.Iso3Name}, {c.DisplayName}, {c.DriveSide.Description}, Cities = {c.Cities.Count}");
+                if (showCities)
+                {
+                    foreach (City city in c.Cities)
+                    {
+                        Console.WriteLine($"     City {city.Id}, {city.DisplayName}, {city.Country.DisplayName}");
+                    }
+                }
                 Console.ResetColor();
             }
             Console.WriteLine("Countires count = {0}", countries.Count);
@@ -136,8 +145,10 @@ namespace WorldolioDataChecker
             Console.WriteLine($"Cities count = {cities.Count}, invalid TZ = {invalidCount}");
         }
 
-        private static void DisplayCitiesExtra(long homeId, long[] ids)
+        private static void DisplayCityGrid(long homeId, long[] ids, bool showNearby)
         {
+            Console.WriteLine($"City Grid = {homeId}, [{string.Join(',',ids)}]");
+
             var home = _citiesRepository.GetById(homeId);
             ICollection<City> cities = _citiesRepository.GetByIds(ids);
 
@@ -147,9 +158,12 @@ namespace WorldolioDataChecker
                 Console.WriteLine($"City {city.Id}, {city.DisplayName}, {city.Country.DisplayName}, Pos {city.Position.ToString(true)} Drives {city.Country.DriveSide.Description}");
                 Console.WriteLine($"   TZ {city.IanaTz}, {city.TimeZone.GetFormattedLocalTime()}, {city.TimeZone.GetDSTDatesForDisplay()}");
                 var nearby = _citiesRepository.GetNearbyCities(city, new Distance(500, Distance.Units.Miles));
-                foreach (City city2 in nearby)
+                if (showNearby)
                 {
-                    //Console.WriteLine($"     City {city2.Id}, {city2.DisplayName}, {city2.Country.DisplayName}, {city.GetDistance(city2.Position).ToString(Distance.Units.Kilometers)}");
+                    foreach (City city2 in nearby)
+                    {
+                        Console.WriteLine($"     City {city2.Id}, {city2.DisplayName}, {city2.Country.DisplayName}, {city.GetDistance(city2.Position).ToString(Distance.Units.Kilometers)}");
+                    }
                 }
                 Console.WriteLine($"   Nearby cities count = {nearby.Count}");
                 Console.WriteLine($"   Sunrise: {city.GetSunrise()}, Sunset: {city.GetSunset()}, Noon: {city.GetNoon()}");

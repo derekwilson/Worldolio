@@ -30,11 +30,14 @@ namespace Worldolio.Data.Repository
                     ";
         private const string SQL_WHERE_ID_SUFFIX = " WHERE cnt.cnt_iso2name = @ID ";
 
-        private const string SQL_SELECT_ALL = SQL_SELECT;
-        private const string SQL_SELECT_BY_ID = SQL_SELECT + SQL_WHERE_ID_SUFFIX;
+        private const string SQL_ORDER_BY_SUFFIX = " ORDER BY cnt.cnt_displayname";
+        private const string SQL_ORDER_BY_WITH_CITIES_SUFFIX = " ORDER BY cnt.cnt_displayname, cty.cty_displayname";
 
-        private const string SQL_SELECT_ALL_WITH_CITIES = SQL_SELECT_WITH_CITIES;
-        private const string SQL_SELECT_BY_ID_WITH_CITIES = SQL_SELECT_WITH_CITIES + SQL_WHERE_ID_SUFFIX;
+        private const string SQL_SELECT_ALL = SQL_SELECT + SQL_ORDER_BY_SUFFIX;
+        private const string SQL_SELECT_BY_ID = SQL_SELECT + SQL_WHERE_ID_SUFFIX + SQL_ORDER_BY_SUFFIX;
+
+        private const string SQL_SELECT_ALL_WITH_CITIES = SQL_SELECT_WITH_CITIES + SQL_ORDER_BY_WITH_CITIES_SUFFIX;
+        private const string SQL_SELECT_BY_ID_WITH_CITIES = SQL_SELECT_WITH_CITIES + SQL_WHERE_ID_SUFFIX + SQL_ORDER_BY_WITH_CITIES_SUFFIX;
 
         private IConnectionFactory _connectionFactory;
 
@@ -90,6 +93,7 @@ namespace Worldolio.Data.Repository
                                 Country country;
                                 if (!lookup.TryGetValue(cnt.Iso2Name, out country))
                                     lookup.Add(cnt.Iso2Name, country = cnt);
+                                cty.Country = country;
                                 country.Cities.Add(cty);
                                 return country;
                             },
@@ -112,6 +116,7 @@ namespace Worldolio.Data.Repository
                                 Country country;
                                 if (!lookup.TryGetValue(cnt.Iso2Name, out country))
                                     lookup.Add(cnt.Iso2Name, country = cnt);
+                                cty.Country = country;
                                 country.Cities.Add(cty);
                                 return country;
                             },
