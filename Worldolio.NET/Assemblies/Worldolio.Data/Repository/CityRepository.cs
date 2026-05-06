@@ -6,11 +6,13 @@ namespace Worldolio.Data.Repository
 {
     public interface ICityRepository
     {
-        ICollection<City> GetById(long id);
+        City? GetById(long id);
 
         ICollection<City> GetByIds(long[] ids);
 
         ICollection<City> GetAll();
+
+        ICollection<City> GetNearbyCities(City c, Distance dist);
     }
 
     public class CityRepository : ICityRepository
@@ -50,7 +52,7 @@ namespace Worldolio.Data.Repository
             }
         }
 
-        public ICollection<City> GetById(long id)
+        public City? GetById(long id)
         {
             using (IDbConnection connection = _connectionFactory.GetOpenConnection())
             {
@@ -60,7 +62,7 @@ namespace Worldolio.Data.Repository
                             new { ID = id },
                             splitOn: "cty_id, cnt_iso2name, dsi_id"
                         );
-                return items.ToList();
+                return items.FirstOrDefault();
             }
         }
 
@@ -86,6 +88,16 @@ namespace Worldolio.Data.Repository
             cty.Position = new Position(cty.Latitude / 100.0, cty.Longitude / 100.0);
             cty.TimeZone = _timeZoneFactory.GetTimeZoneFromIanaName(cty.IanaTz);
             return cty;
+        }
+
+        /// <summary>
+        /// Gets all the cities in a box drawn around the city
+        /// </summary>
+        /// <param name="dist">distance to the edges of the box</param>
+        /// <returns>dataview of cities in the area</returns>
+        public ICollection<City> GetNearbyCities(City c, Distance dist)
+        {
+            return GeoCalculator.GetCitiesInArea(this, c.Position, dist, dist);
         }
     }
 }

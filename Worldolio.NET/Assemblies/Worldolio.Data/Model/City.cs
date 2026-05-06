@@ -36,5 +36,10 @@ namespace Worldolio.Data.Model
         public required string IanaTz { get; set; }
 
         public TimeZone TimeZone { get; set; } = default!;
+
+        public Distance GetDistance(Position pos)
+        {
+            return GeoCalculator.GetDistance(Position, pos);
+        }
     }
 }

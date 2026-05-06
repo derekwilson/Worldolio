@@ -72,7 +72,7 @@ namespace WorldolioDataChecker
 
             DisplayCountriesWithCities("NZ");
             long[] cityIds = [458, 252, 324, 313, 477, 79, 320];
-            DisplayCities(cityIds);
+            DisplayCitiesExtra(458,cityIds);
         }
 
         private static void DisplayDriveSide(int id)
@@ -135,5 +135,28 @@ namespace WorldolioDataChecker
             var invalidCount = cities.Count(c => !c.TimeZone.IsValid);
             Console.WriteLine($"Cities count = {cities.Count}, invalid TZ = {invalidCount}");
         }
+
+        private static void DisplayCitiesExtra(long homeId, long[] ids)
+        {
+            var home = _citiesRepository.GetById(homeId);
+            ICollection<City> cities = _citiesRepository.GetByIds(ids);
+
+            foreach (City city in cities)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"City {city.Id}, {city.DisplayName}, {city.Country.DisplayName}, Pos {city.Position.ToString(true)} Drives {city.Country.DriveSide.Description}");
+                Console.WriteLine($"   TZ {city.IanaTz}, {city.TimeZone.GetFormattedLocalTime()}, {city.TimeZone.GetDSTDatesForDisplay()}");
+                var nearby = _citiesRepository.GetNearbyCities(city, new Distance(500, Distance.Units.Miles));
+                foreach (City city2 in nearby)
+                {
+                    Console.WriteLine($"City {city2.Id}, {city2.DisplayName}, {city2.Country.DisplayName}, {city.GetDistance(city2.Position).ToString(Distance.Units.Kilometers)}");
+                }
+                Console.WriteLine($"Nearby cities count = {nearby.Count}");
+                Console.ResetColor();
+            }
+            var invalidCount = cities.Count(c => !c.TimeZone.IsValid);
+            Console.WriteLine($"Cities count = {cities.Count}, invalid TZ = {invalidCount}");
+        }
+
     }
 }

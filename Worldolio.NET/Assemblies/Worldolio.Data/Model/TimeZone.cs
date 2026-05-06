@@ -5,14 +5,22 @@ using Worldolio.Data.Utility;
 
 namespace Worldolio.Data.Model
 {
-    public enum TimeFormat
-    {
-        SHORT_AMPM = 0,
-        SHORT_24 = 1
-    }
-
     public class TimeZone
     {
+        public enum TimeFormat
+        {
+            SHORT_AMPM = 0,
+            SHORT_24 = 1
+        }
+
+        /// <summary>
+        /// Inflate the enumerated type from supplied int
+        /// </summary>
+        public static TimeFormat LoadFromInt(int val)
+        {
+            return (TimeFormat)Enum.ToObject(typeof(TimeFormat), (object)val);
+        }
+
         private readonly DateTimeZone? _zone;
         private IInstantProvider _instantProvider;
 

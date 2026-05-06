@@ -130,5 +130,36 @@
 
             return string.Format("{0} {1}' {2}", Math.Abs(WholeDegrees), Math.Abs(WholeMinutes), (deg < 0 ? negSuffix : posSuffix));
         }
+
+        /// <summary>
+        /// The difference between two positions is the distance between them
+        /// </summary>
+        /// <param name="p1">pos1</param>
+        /// <param name="p2">pos2</param>
+        /// <returns>distance between the points</returns>
+        public static Distance operator -(Position p1, Position p2)
+        {
+            return GeoCalculator.GetDistance(p1, p2);
+        }
+
+        /// <summary>
+        /// Move the position by the specified distance
+        /// </summary>
+        /// <param name="northSouth">north = +ve, south = -ve</param>
+        /// <param name="eastWest">west = -ve, east = +ve</param>
+        /// <returns>the moved position</returns>
+        public Position Move(Distance northSouth, Distance eastWest)
+        {
+            // a NM = 1 min, 60 NM = 1 deg for movements in latitude and for movements of longitude at the equator
+            // a degree movement of longitude away from the equator is smaller as the meridians approach each other
+
+            double newLat = m_latitude + northSouth.NauticalMiles / 60;
+
+            double latRad = Math.PI * m_latitude / 180;
+            double nmPerDeg = Math.Cos(latRad) * 60;
+            double newLong = m_longitude + eastWest.NauticalMiles / nmPerDeg;
+
+            return new Position(newLat, newLong);
+        }
     }
 }
