@@ -129,7 +129,7 @@ namespace WorldolioDataChecker
                     Console.ForegroundColor = ConsoleColor.Red;
                 }
                 Console.WriteLine($"City {city.Id}, {city.DisplayName}, {city.Country.DisplayName}, Pos {city.Position.ToString(true)} Drives {city.Country.DriveSide.Description}");
-                Console.WriteLine($"   TZ {city.IanaTz}, {city.TimeZone.GetNow()}, {city.TimeZone.GetDSTDatesForDisplay()}");
+                Console.WriteLine($"   TZ {city.IanaTz}, {city.TimeZone.GetFormattedLocalTime()}, {city.TimeZone.GetDSTDatesForDisplay()}");
                 Console.ResetColor();
             }
             var invalidCount = cities.Count(c => !c.TimeZone.IsValid);

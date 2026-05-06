@@ -5,9 +5,15 @@ using Worldolio.Data.Utility;
 
 namespace Worldolio.Data.Model
 {
+    public enum TimeFormat
+    {
+        SHORT_AMPM = 0,
+        SHORT_24 = 1
+    }
+
     public class TimeZone
     {
-        private DateTimeZone? _zone;
+        private readonly DateTimeZone? _zone;
         private IInstantProvider _instantProvider;
 
         public TimeZone(string ianaId, IInstantProvider instantProvider)
@@ -34,21 +40,43 @@ namespace Worldolio.Data.Model
 
         public string GetDisplayName()
         {
-            if (IsValid)
-            {
-                return _zone?.ToString() ?? "NULL";
-            }
-            return "Unknown";
-        }
-
-        public string GetNow()
-        {
-            if (!IsValid)
+            if (_zone == null)
             {
                 return "Unknown";
             }
-            ZonedDateTime time = _instantProvider.Now.InZone(_zone);
-            return time.ToString("F", System.Globalization.CultureInfo.CurrentCulture);
+            return _zone.ToString();
+        }
+
+        public ZonedDateTime GetLocalTime()
+        {
+            return GetLocalTime(_instantProvider.Now);
+        }
+
+        public ZonedDateTime GetLocalTime(Instant instant)
+        {
+            if (_zone == null)
+            {
+                throw new InvalidOperationException("Invalid timezone");
+            }
+            return instant.InZone(_zone);
+        }
+
+        public string GetFormattedLocalTime()
+        {
+            if (_zone == null)
+            {
+                return "Unknown";
+            }
+            return FormatTime(TimeFormat.SHORT_AMPM, GetLocalTime());
+        }
+
+        public string GetFormattedLocalTime(Instant instant)
+        {
+            if (_zone == null)
+            {
+                return "Unknown";
+            }
+            return FormatTime(TimeFormat.SHORT_AMPM, GetLocalTime(instant));
         }
 
         public string GetDSTDatesForDisplay()
@@ -58,7 +86,7 @@ namespace Worldolio.Data.Model
 
         public string GetDSTDatesForDisplay(Instant start)
         {
-            if (!IsValid)
+            if (_zone == null)
             {
                 return "Unknown";
             }
@@ -80,21 +108,35 @@ namespace Worldolio.Data.Model
             var intervals = allIntervals
                 .Where(i => i.HasEnd)
                 .Select(i => i.IsoLocalEnd)
-                .Where(intervalEnd => isBetween(_zone, intervalEnd, start, end));
+                .Where(intervalEnd => IsBetween(_zone, intervalEnd, start, end));
 
+            List<string> dates = [];
             foreach (var interval in intervals)
             {
-                str.Append(interval.ToString("dd MMM yyyy", CultureInfo.CurrentCulture));
-                str.Append(' ');
+                dates.Add(interval.ToString("dd MMM yyyy", CultureInfo.CurrentCulture));
             }
-            return str.ToString();
+            return string.Join(',',dates);
         }
 
-        private bool isBetween(DateTimeZone zone, LocalDateTime time, Instant start, Instant end)
+        private bool IsBetween(DateTimeZone zone, LocalDateTime time, Instant start, Instant end)
         {
             Instant targetInstant = time.InZoneLeniently(zone).ToInstant();
             return targetInstant >= start && targetInstant < end;
         }
 
+        private string FormatTime(TimeFormat format, ZonedDateTime time)
+        {
+            string strTimeFormat = "h:mm tt";
+            switch (format)
+            {
+                case TimeFormat.SHORT_AMPM:
+                    strTimeFormat = "h:mm tt";
+                    break;
+                case TimeFormat.SHORT_24:
+                    strTimeFormat = "HH:mm";
+                    break;
+            }
+            return time.ToString(strTimeFormat, System.Globalization.CultureInfo.CurrentCulture);
+        }
     }
 }
