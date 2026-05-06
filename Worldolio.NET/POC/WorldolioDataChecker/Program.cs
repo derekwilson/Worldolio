@@ -70,11 +70,11 @@ namespace WorldolioDataChecker
             //DisplayCountries(null);
             //DisplayCountriesWithCities(null, false);
 
-            //DisplayCities(null);
+            DisplayCities(null);
 
             DisplayCountriesWithCities("NZ", true);
             long[] cityIds = [458, 252, 324, 313, 477, 79, 320];
-            DisplayCityGrid(458,cityIds,true);
+            DisplayCityGrid(458,cityIds,false);
         }
 
         private static void DisplayDriveSide(int id)

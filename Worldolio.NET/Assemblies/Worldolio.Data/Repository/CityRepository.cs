@@ -102,7 +102,11 @@ namespace Worldolio.Data.Repository
         /// <returns>dataview of cities in the area</returns>
         public ICollection<City> GetNearbyCities(City c, Distance dist)
         {
-            return GeoCalculator.GetCitiesInArea(this, c.Position, dist, dist);
+            var items = GeoCalculator.GetCitiesInArea(this, c.Position, dist, dist).ToList();
+            // do not include the original city in the list
+            items.RemoveAll(i => i.Id == c.Id);
+            // order them by how far away they are
+            return items.OrderBy(i => i.GetDistance(c.Position).Kilometers).ToList();
         }
     }
 }
