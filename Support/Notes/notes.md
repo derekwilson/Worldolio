@@ -166,3 +166,15 @@ Key Considerations
     Use .NET 6+: If you are using .NET 6 or higher, TimeZoneInfo.FindSystemTimeZoneById accepts both IANA and Windows names directly, handling the conversion automatically. 
 
 
+## GeoCalculator
+
+Check results using
+
+https://aa.usno.navy.mil/data/RS_OneYear
+
+Moon phase algorithm
+
+https://www.celestialprogramming.com/risesetalgorithm.html
+
+https://fcds.cs.put.poznan.pl/MyWeb/Praca/Ubiquitous/LunarPhases.pdf
+
