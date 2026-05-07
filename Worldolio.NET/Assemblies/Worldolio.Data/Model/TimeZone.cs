@@ -9,8 +9,10 @@ namespace Worldolio.Data.Model
     {
         public enum TimeFormat
         {
-            SHORT_AMPM = 0,
-            SHORT_24 = 1
+            TIME_SHORT_AMPM = 0,
+            TIME_SHORT_24 = 1,
+            DATE_LONG = 2,
+            DAY_SHORT = 3,
         }
 
         /// <summary>
@@ -73,22 +75,22 @@ namespace Worldolio.Data.Model
             return instant.InZone(_zone);
         }
 
-        public string GetFormattedLocalTime()
+        public string GetFormattedLocalTime(TimeFormat format)
         {
             if (_zone == null)
             {
                 return "Unknown";
             }
-            return FormatTime(TimeFormat.SHORT_AMPM, GetLocalTime());
+            return FormatTime(format, GetLocalTime().LocalDateTime);
         }
 
-        public string GetFormattedLocalTime(Instant instant)
+        public string GetFormattedLocalTime(Instant instant, TimeFormat format)
         {
             if (_zone == null)
             {
                 return "Unknown";
             }
-            return FormatTime(TimeFormat.SHORT_AMPM, GetLocalTime(instant));
+            return FormatTime(format, GetLocalTime(instant).LocalDateTime);
         }
 
         public string GetDSTDatesForDisplay()
@@ -125,7 +127,7 @@ namespace Worldolio.Data.Model
             List<string> dates = [];
             foreach (var interval in intervals)
             {
-                dates.Add(interval.ToString("dd MMM yyyy", CultureInfo.CurrentCulture));
+                dates.Add(FormatTime(TimeFormat.DATE_LONG,interval));
             }
             return string.Join(',',dates);
         }
@@ -136,29 +138,36 @@ namespace Worldolio.Data.Model
             return targetInstant >= start && targetInstant < end;
         }
 
-        private string FormatTime(TimeFormat format, ZonedDateTime time)
+        private string FormatTime(TimeFormat format, LocalDateTime time)
         {
             string strTimeFormat = "h:mm tt";
             switch (format)
             {
-                case TimeFormat.SHORT_AMPM:
+                case TimeFormat.TIME_SHORT_AMPM:
                     strTimeFormat = "h:mm tt";
                     break;
-                case TimeFormat.SHORT_24:
+                case TimeFormat.TIME_SHORT_24:
                     strTimeFormat = "HH:mm";
                     break;
+                case TimeFormat.DAY_SHORT:
+                    strTimeFormat = "ddd";
+                    break;
+                case TimeFormat.DATE_LONG:
+                    // TODO - take account of the device culture
+                    strTimeFormat = "dd MMM yyyy";
+                    break;
             }
-            return time.ToString(strTimeFormat, System.Globalization.CultureInfo.CurrentCulture);
+            return time.ToString(strTimeFormat, CultureInfo.CurrentCulture);
         }
 
-        public string ToLocalTimeFormatted(ZonedDateTime time)
+        public string ToLocalTimeFormatted(ZonedDateTime time, TimeFormat format)
         {
             if (_zone == null)
             {
                 return "Unknown";
             }
             var localtime = time.ToInstant().InZone(_zone);
-            return FormatTime(TimeFormat.SHORT_AMPM, localtime);
+            return FormatTime(format, localtime.LocalDateTime);
         }
     }
 }

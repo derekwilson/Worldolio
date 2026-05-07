@@ -5,6 +5,7 @@ using Worldolio.Data.Model;
 using Worldolio.Data.MSSQLite;
 using Worldolio.Data.Repository;
 using Worldolio.Data.Utility;
+using static Worldolio.Data.Model.TimeZone;
 
 namespace WorldolioDataChecker
 {
@@ -71,8 +72,8 @@ namespace WorldolioDataChecker
             //DisplayCountriesWithCities(null, false);
 
             DisplayCities(null);
-
             DisplayCountriesWithCities("NZ", true);
+
             long[] cityIds = [458, 252, 324, 313, 477, 79, 320];
             DisplayCityGrid(458,cityIds,false);
         }
@@ -138,7 +139,7 @@ namespace WorldolioDataChecker
                     Console.ForegroundColor = ConsoleColor.Red;
                 }
                 Console.WriteLine($"City {city.Id}, {city.DisplayName}, {city.Country.DisplayName}, Pos {city.Position.ToString(true)} Drives {city.Country.DriveSide.Description}");
-                Console.WriteLine($"   TZ {city.IanaTz}, {city.TimeZone.GetFormattedLocalTime()}, {city.TimeZone.GetDSTDatesForDisplay()}");
+                Console.WriteLine($"   TZ {city.IanaTz}, {city.TimeZone.GetFormattedLocalTime(TimeFormat.TIME_SHORT_AMPM)}, {city.TimeZone.GetDSTDatesForDisplay()}");
                 Console.ResetColor();
             }
             var invalidCount = cities.Count(c => !c.TimeZone.IsValid);
@@ -156,7 +157,7 @@ namespace WorldolioDataChecker
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"City {city.Id}, {city.DisplayName}, {city.Country.DisplayName}, Pos {city.Position.ToString(true)} Drives {city.Country.DriveSide.Description}");
-                Console.WriteLine($"   TZ {city.IanaTz}, {city.TimeZone.GetFormattedLocalTime()}, {city.TimeZone.GetDSTDatesForDisplay()}");
+                Console.WriteLine($"   {city.TimeZone.GetFormattedLocalTime(TimeFormat.DAY_SHORT)} {city.TimeZone.GetFormattedLocalTime(TimeFormat.TIME_SHORT_AMPM)}, DST {city.TimeZone.GetDSTDatesForDisplay()}, TZ {city.IanaTz}");
                 var nearby = _citiesRepository.GetNearbyCities(city, new Distance(500, Distance.Units.Miles));
                 if (showNearby)
                 {
@@ -166,7 +167,7 @@ namespace WorldolioDataChecker
                     }
                 }
                 Console.WriteLine($"   Nearby cities count = {nearby.Count}");
-                Console.WriteLine($"   Sunrise: {city.GetSunrise()}, Sunset: {city.GetSunset()}, Noon: {city.GetNoon()}");
+                Console.WriteLine($"   Sunrise: {city.GetSunrise(TimeFormat.TIME_SHORT_AMPM)}, Sunset: {city.GetSunset(TimeFormat.TIME_SHORT_AMPM)}, Noon: {city.GetNoon(TimeFormat.TIME_SHORT_AMPM)}");
                 Console.ResetColor();
             }
             var invalidCount = cities.Count(c => !c.TimeZone.IsValid);

@@ -43,37 +43,37 @@ namespace Worldolio.Data.Model
             return GeoCalculator.GetDistance(Position, pos);
         }
 
-        public string GetSunrise()
+        public string GetSunrise(TimeZone.TimeFormat format)
         {
-            return GetSunrise(TimeZone.GetUtcNow());
+            return GetSunrise(TimeZone.GetUtcNow(), format);
         }
 
-        public string GetSunrise(ZonedDateTime today)
+        public string GetSunrise(ZonedDateTime today, TimeZone.TimeFormat format)
         {
             var sunriseUtc = GeoCalculator.GetSunriseInUtc(today, Position);
-            return TimeZone.ToLocalTimeFormatted(sunriseUtc);
+            return TimeZone.ToLocalTimeFormatted(sunriseUtc, format);
         }
 
-        public string GetSunset()
+        public string GetSunset(TimeZone.TimeFormat format)
         {
-            return GetSunset(TimeZone.GetUtcNow());
+            return GetSunset(TimeZone.GetUtcNow(), format);
         }
 
-        public string GetSunset(ZonedDateTime today)
+        public string GetSunset(ZonedDateTime today, TimeZone.TimeFormat format)
         {
             var sunsetUtc = GeoCalculator.GetSunsetInUtc(today, Position);
-            return TimeZone.ToLocalTimeFormatted(sunsetUtc);
+            return TimeZone.ToLocalTimeFormatted(sunsetUtc, format);
         }
 
-        public string GetNoon()
+        public string GetNoon(TimeZone.TimeFormat format)
         {
-            return GetNoon(TimeZone.GetUtcNow());
+            return GetNoon(TimeZone.GetUtcNow(), format);
         }
 
-        public string GetNoon(ZonedDateTime today)
+        public string GetNoon(ZonedDateTime today, TimeZone.TimeFormat format)
         {
             var noonUtc = GeoCalculator.GetSolarNoonInUtc(today, Position.Longitude);
-            return TimeZone.ToLocalTimeFormatted(noonUtc);
+            return TimeZone.ToLocalTimeFormatted(noonUtc, format);
         }
     }
 }
