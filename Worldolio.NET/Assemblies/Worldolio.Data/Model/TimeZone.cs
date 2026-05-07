@@ -61,6 +61,15 @@ namespace Worldolio.Data.Model
             return _systemTimeProvider.GetUtcNow();
         }
 
+        public Offset GetUtcOffset(Instant instant)
+        {
+            if (_zone == null)
+            {
+                throw new InvalidOperationException("Invalid timezone");
+            }
+            return _zone.GetUtcOffset(instant);
+        }
+
         public ZonedDateTime GetLocalTime()
         {
             return GetLocalTime(_systemTimeProvider.Now);
@@ -91,6 +100,32 @@ namespace Worldolio.Data.Model
                 return "Unknown";
             }
             return FormatTime(format, GetLocalTime(instant).LocalDateTime);
+        }
+
+        public string GetOffset(TimeZone otherTz)
+        {
+            return GetOffset(_systemTimeProvider.Now, otherTz);
+        }
+
+        public string GetOffset(Instant instant, TimeZone otherTz)
+        {
+            if (_zone == null || !otherTz.IsValid)
+            {
+                return "Unknown";
+            }
+            Duration myOffset = Duration.FromSeconds(_zone.GetUtcOffset(instant).Seconds);
+            Duration otherOffset = Duration.FromSeconds(otherTz.GetUtcOffset(instant).Seconds);
+
+            // we need a Duration as the combined offset may be bigger than 18 Hours which is the maximum allowed in an Offset
+            Duration difference = myOffset.Minus(otherOffset);
+            if (difference.TotalSeconds == 0)
+            {
+                return "No offset";
+            }
+
+            var offsetStr = difference.ToString("H:mm", CultureInfo.CurrentCulture);
+            var offsetSuffix = difference.TotalSeconds > 0 ? "ahead" : "behind";
+            return $"{offsetStr} {offsetSuffix}";
         }
 
         public string GetDSTDatesForDisplay()

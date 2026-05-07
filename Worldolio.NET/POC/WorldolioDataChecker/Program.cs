@@ -74,8 +74,8 @@ namespace WorldolioDataChecker
             DisplayCities(null);
             DisplayCountriesWithCities("NZ", true);
 
-            long[] cityIds = [458, 252, 324, 313, 477, 79, 320];
-            DisplayCityGrid(458,cityIds,false);
+            long[] cityIds = [458, 252, 324, 313, 477, 79, 320, 279, 180];
+            DisplayCityGrid(252,cityIds,false);
         }
 
         private static void DisplayDriveSide(int id)
@@ -151,13 +151,18 @@ namespace WorldolioDataChecker
             Console.WriteLine($"City Grid = {homeId}, [{string.Join(',',ids)}]");
 
             var home = _citiesRepository.GetById(homeId);
+            if (home == null)
+            {
+                throw new Exception("Bad home city");
+            }
             ICollection<City> cities = _citiesRepository.GetByIds(ids);
 
             foreach (City city in cities)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"City {city.Id}, {city.DisplayName}, {city.Country.DisplayName}, Pos {city.Position.ToString(true)} Drives {city.Country.DriveSide.Description}");
-                Console.WriteLine($"   {city.TimeZone.GetFormattedLocalTime(TimeFormat.DAY_SHORT)} {city.TimeZone.GetFormattedLocalTime(TimeFormat.TIME_SHORT_AMPM)}, DST {city.TimeZone.GetDSTDatesForDisplay()}, TZ {city.IanaTz}");
+                Console.WriteLine($"   {city.TimeZone.GetFormattedLocalTime(TimeFormat.DAY_SHORT)} {city.TimeZone.GetFormattedLocalTime(TimeFormat.TIME_SHORT_AMPM)}");
+                Console.WriteLine($"   {city.TimeZone.GetOffset(home.TimeZone)}, DST {city.TimeZone.GetDSTDatesForDisplay()}, TZ {city.IanaTz}");
                 var nearby = _citiesRepository.GetNearbyCities(city, new Distance(500, Distance.Units.Miles));
                 if (showNearby)
                 {
