@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
-using Worldolio.Data;
 using Worldolio.Data.Model;
 using Worldolio.Data.MSSQLite;
 using Worldolio.Data.Repository;
@@ -48,6 +47,7 @@ namespace WorldolioDataChecker
             DisplayData();
         }
 
+        private static ILogger? Logger;
         private static IConnectionFactory _connectionFactory;
         private static IDriveSideRepository _drivesideRepository;
         private static ICountryRepository _countriesRepository;
@@ -55,6 +55,12 @@ namespace WorldolioDataChecker
 
         static void Init()
         {
+            var loggerFactory = new NLoggerLoggerFactory();
+            Logger = loggerFactory.Logger;
+            Logger.Info(() => $"WorldolioDataChecker, v{GetCodeVersion()}, Running on .NET CLR: {Environment.Version.ToString()}");
+
+            SetupExceptionHandler();
+
             DapperExtensions.AttachMappers();
             var systemTimeProvider = new SystemTimeProvider();
             var timeZoneFactory = new TimeZoneFactory(systemTimeProvider);
@@ -63,6 +69,30 @@ namespace WorldolioDataChecker
             _countriesRepository = new CountryRepository(_connectionFactory);
             _citiesRepository = new CityRepository(_connectionFactory, timeZoneFactory);
         }
+
+        #region Exception Handling
+
+        private static void SetupExceptionHandler()
+        {
+            // Add handler for non-UI thread exceptions
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+
+            // Add handler for background threads/tasks
+            TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
+        }
+
+        private static void TaskSchedulerOnUnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
+        {
+            Logger?.LogException(() => "TaskSchedulerOnUnobservedTaskException", e.Exception);
+        }
+
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            var ex = e.ExceptionObject as Exception ?? new Exception("EXCEPTION NOT PROVIDED");
+            Logger?.LogException(() => "CurrentDomain_UnhandledException", ex);
+        }
+
+        #endregion
 
         static void DisplayData()
         {
@@ -75,7 +105,7 @@ namespace WorldolioDataChecker
             DisplayCountriesWithCities("NZ", true);
 
             long[] cityIds = [458, 252, 324, 313, 477, 79, 320, 279, 180];
-            DisplayCityGrid(252,cityIds,false);
+            DisplayCityGrid(458,cityIds,false);
         }
 
         private static void DisplayDriveSide(int id)
@@ -153,7 +183,7 @@ namespace WorldolioDataChecker
             var home = _citiesRepository.GetById(homeId);
             if (home == null)
             {
-                throw new Exception("Bad home city");
+                throw new Exception($"Bad home city. ID: {homeId}");
             }
             ICollection<City> cities = _citiesRepository.GetByIds(ids);
 

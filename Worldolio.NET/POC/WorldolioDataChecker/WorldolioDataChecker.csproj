@@ -12,4 +12,10 @@
     <ProjectReference Include="..\..\Assemblies\Worldolio.Data\Worldolio.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="nlog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using Dapper;
 using Worldolio.Data.Model;
+using Worldolio.Data.MSSQLite;
 
 namespace Worldolio.Data.Repository
 {

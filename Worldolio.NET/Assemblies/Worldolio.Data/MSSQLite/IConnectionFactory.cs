@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace Worldolio.Data
+namespace Worldolio.Data.MSSQLite
 {
     public interface IConnectionFactory
     {
