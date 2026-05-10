@@ -102,22 +102,37 @@ namespace Worldolio.Data.Model
             return FormatTime(format, GetLocalTime(instant).LocalDateTime);
         }
 
-        public string GetOffset(TimeZone otherTz)
+        public Duration GetOffset(TimeZone otherTz)
         {
             return GetOffset(_systemTimeProvider.Now, otherTz);
         }
 
-        public string GetOffset(Instant instant, TimeZone otherTz)
+        public Duration GetOffset(Instant instant, TimeZone otherTz)
         {
             if (_zone == null || !otherTz.IsValid)
             {
-                return "Unknown";
+                throw new InvalidOperationException("Invalid timezone");
             }
             Duration myOffset = Duration.FromSeconds(_zone.GetUtcOffset(instant).Seconds);
             Duration otherOffset = Duration.FromSeconds(otherTz.GetUtcOffset(instant).Seconds);
 
             // we need a Duration as the combined offset may be bigger than 18 Hours which is the maximum allowed in an Offset
-            Duration difference = myOffset.Minus(otherOffset);
+            return myOffset.Minus(otherOffset);
+        }
+
+        public string GetFormattedOffset(TimeZone otherTz)
+        {
+            return GetFormattedOffset(_systemTimeProvider.Now, otherTz);
+        }
+
+        public string GetFormattedOffset(Instant instant, TimeZone otherTz)
+        {
+            if (_zone == null || !otherTz.IsValid)
+            {
+                return "Unknown";
+            }
+
+            Duration difference = GetOffset(instant, otherTz);
             if (difference.TotalSeconds == 0)
             {
                 return "No offset";

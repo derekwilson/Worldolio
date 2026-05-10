@@ -193,7 +193,7 @@ namespace WorldolioDataChecker
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"City {city.Id}, {city.DisplayName}, {city.Country.DisplayName}, Pos {city.Position.ToString(true)} Drives {city.Country.DriveSide.Description}");
                 Console.WriteLine($"   {city.TimeZone.GetFormattedLocalTime(TimeFormat.DAY_SHORT)} {city.TimeZone.GetFormattedLocalTime(TimeFormat.TIME_SHORT_AMPM)}");
-                Console.WriteLine($"   {city.TimeZone.GetOffset(home.TimeZone)}, DST {city.TimeZone.GetDSTDatesForDisplay()}, TZ {city.IanaTz}");
+                Console.WriteLine($"   {city.TimeZone.GetFormattedOffset(home.TimeZone)}, DST {city.TimeZone.GetDSTDatesForDisplay()}, TZ {city.IanaTz}");
                 var nearby = _citiesRepository.GetNearbyCities(city, new Distance(500, Distance.Units.Miles));
                 if (showNearby)
                 {
