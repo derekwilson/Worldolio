@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
+using Worldolio.Data.Logging;
 using Worldolio.Data.Model;
 using Worldolio.Data.MSSQLite;
 using Worldolio.Data.Repository;
