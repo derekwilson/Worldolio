@@ -213,10 +213,10 @@ namespace Worldolio.Data.Model
                     strTimeFormat = "yyyy MMM dd HH:mm";
                     break;
                 case TimeFormat.DAY_TIME_SHORT_AMPM:
-                    strTimeFormat = "ddd dd h:mm tt";
+                    strTimeFormat = "ddd dd, h:mm tt";
                     break;
                 case TimeFormat.DAY_TIME_SHORT_24:
-                    strTimeFormat = "ddd dd HH:mm";
+                    strTimeFormat = "ddd dd, HH:mm";
                     break;
             }
             return time.ToString(strTimeFormat, CultureInfo.CurrentCulture);
