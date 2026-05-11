@@ -75,5 +75,46 @@ namespace Worldolio.Data.Model
             var noonUtc = GeoCalculator.GetSolarNoonInUtc(today, Position.Longitude);
             return TimeZone.ToLocalTimeFormatted(noonUtc, format);
         }
+
+        public string GetMoonrise(TimeZone.TimeFormat format)
+        {
+            return GetMoonrise(TimeZone.GetUtcNow(), format);
+        }
+
+        public string GetMoonrise(ZonedDateTime today, TimeZone.TimeFormat format)
+        {
+            (ZonedDateTime? rise, ZonedDateTime? set, bool alwaysUp, bool alwaysDown) = GeoCalculator.GetMoonRiseAndSetInUtc(today, Position);
+            return FormatMoonState(rise, alwaysUp, alwaysDown, format);
+        }
+
+        public string GetMoonset(TimeZone.TimeFormat format)
+        {
+            return GetMoonset(TimeZone.GetUtcNow(), format);
+        }
+
+        public string GetMoonset(ZonedDateTime today, TimeZone.TimeFormat format)
+        {
+            (ZonedDateTime? rise, ZonedDateTime? set, bool alwaysUp, bool alwaysDown) = GeoCalculator.GetMoonRiseAndSetInUtc(today, Position);
+            return FormatMoonState(set, alwaysUp, alwaysDown, format);
+        }
+
+        private string FormatMoonState(ZonedDateTime? eventUtc, bool alwaysUp, bool alwaysDown, TimeZone.TimeFormat format)
+        {
+            if (eventUtc != null)
+            {
+                return TimeZone.ToLocalTimeFormatted(eventUtc.Value, format);
+            }
+
+            if (alwaysUp)
+            {
+                return "Always Up";
+            }
+            if (alwaysDown)
+            {
+                return "Always Up";
+            }
+            return "None";
+        }
+
     }
 }

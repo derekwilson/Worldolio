@@ -13,6 +13,9 @@ namespace Worldolio.Data.Model
             TIME_SHORT_24 = 1,
             DATE_LONG = 2,
             DAY_SHORT = 3,
+            DATE_TIME_LONG = 4,
+            DAY_TIME_SHORT_AMPM = 5,
+            DAY_TIME_SHORT_24 = 6,
         }
 
         /// <summary>
@@ -205,6 +208,15 @@ namespace Worldolio.Data.Model
                 case TimeFormat.DATE_LONG:
                     // TODO - take account of the device culture
                     strTimeFormat = "dd MMM yyyy";
+                    break;
+                case TimeFormat.DATE_TIME_LONG:
+                    strTimeFormat = "yyyy MMM dd HH:mm";
+                    break;
+                case TimeFormat.DAY_TIME_SHORT_AMPM:
+                    strTimeFormat = "ddd dd h:mm tt";
+                    break;
+                case TimeFormat.DAY_TIME_SHORT_24:
+                    strTimeFormat = "ddd dd HH:mm";
                     break;
             }
             return time.ToString(strTimeFormat, CultureInfo.CurrentCulture);

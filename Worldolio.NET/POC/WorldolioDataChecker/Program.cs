@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using NodaTime;
+using System.Diagnostics;
 using System.Reflection;
 using Worldolio.Data.Logging;
 using Worldolio.Data.Model;
@@ -53,6 +54,7 @@ namespace WorldolioDataChecker
         private static IDriveSideRepository _drivesideRepository;
         private static ICountryRepository _countriesRepository;
         private static ICityRepository _citiesRepository;
+        private static ISystemTimeProvider _systemTimeProvider;
 
         static void Init()
         {
@@ -63,8 +65,8 @@ namespace WorldolioDataChecker
             SetupExceptionHandler();
 
             DapperExtensions.AttachMappers();
-            var systemTimeProvider = new SystemTimeProvider();
-            var timeZoneFactory = new TimeZoneFactory(systemTimeProvider);
+            _systemTimeProvider = new SystemTimeProvider();
+            var timeZoneFactory = new TimeZoneFactory(_systemTimeProvider);
             _connectionFactory = new LocalFileDbConnectionFactory("./worldolio.sqlite");
             _drivesideRepository = new DriveSideRepository(_connectionFactory);
             _countriesRepository = new CountryRepository(_connectionFactory);
@@ -105,8 +107,10 @@ namespace WorldolioDataChecker
             DisplayCities(null);
             DisplayCountriesWithCities("NZ", true);
 
-            long[] cityIds = [458, 252, 324, 313, 477, 79, 320, 279, 180];
+            long[] cityIds = [458, 252, 324, 313, 477, 79, 320, 279, 180, 351];
             DisplayCityGrid(458,cityIds,false);
+
+            DisplayMoonPhase(458, _systemTimeProvider.GetUtcNow());
         }
 
         private static void DisplayDriveSide(int id)
@@ -204,11 +208,43 @@ namespace WorldolioDataChecker
                 }
                 Console.WriteLine($"   Nearby cities count = {nearby.Count}");
                 Console.WriteLine($"   Sunrise: {city.GetSunrise(TimeFormat.TIME_SHORT_AMPM)}, Sunset: {city.GetSunset(TimeFormat.TIME_SHORT_AMPM)}, Noon: {city.GetNoon(TimeFormat.TIME_SHORT_AMPM)}");
+                Console.WriteLine($"   Moonrise: {city.GetMoonrise(TimeFormat.DAY_TIME_SHORT_AMPM)}, Moonset: {city.GetMoonset(TimeFormat.DAY_TIME_SHORT_AMPM)}");
                 Console.ResetColor();
             }
             var invalidCount = cities.Count(c => !c.TimeZone.IsValid);
             Console.WriteLine($"Cities count = {cities.Count}, invalid TZ = {invalidCount}");
         }
 
+        private static void DisplayMoonPhase(int homeId, ZonedDateTime date)
+        {
+            for (int day = 1; day <= 31; day++)
+            {
+                Console.WriteLine($"Moon Phase {day} May 2026 = {GeoCalculator.GetMoonPhase(2026, 5, day)}, {GeoCalculator.GetFormattedMoonPhase(2026, 5, day)}");
+            }
+
+            var home = _citiesRepository.GetById(homeId);
+            if (home == null)
+            {
+                throw new Exception($"Bad home city. ID: {homeId}");
+            }
+            var moon = GeoCalculator.GetMoonRiseAndSetInUtc(date, home.Position);
+            var rise = moon.Item1 == null ? "None" : moon.Item1.ToString();
+            var set = moon.Item2 == null ? "None" : moon.Item2.ToString();
+            Console.WriteLine($"Moon Rise {rise} Set {set}");
+
+            var localTime = new LocalDateTime(2026, 5, 10, 00, 00);
+            var zone = DateTimeZoneProviders.Tzdb["Pacific/Auckland"];
+            //var zone = DateTimeZoneProviders.Tzdb["UTC"];
+
+            // Option A: Be strict (safe if you know it's a valid time)
+            ZonedDateTime strictZdt = localTime.InZoneStrictly(zone);
+
+            moon = GeoCalculator.GetMoonRiseAndSetInUtc(strictZdt, home.Position);
+            rise = moon.Item1 == null ? "None" : moon.Item1.ToString();
+            set = moon.Item2 == null ? "None" : moon.Item2.ToString();
+            Console.WriteLine($"Moon Rise2 {rise} Set {set}");
+
+            Console.WriteLine($"   Moonrise: {home.GetMoonrise(strictZdt, TimeFormat.DATE_TIME_LONG)}, Moonset: {home.GetMoonset(strictZdt, TimeFormat.DATE_TIME_LONG)}");
+        }
     }
 }

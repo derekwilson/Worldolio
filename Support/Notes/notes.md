@@ -178,3 +178,9 @@ https://www.celestialprogramming.com/risesetalgorithm.html
 
 https://fcds.cs.put.poznan.pl/MyWeb/Praca/Ubiquitous/LunarPhases.pdf
 
+Javascript
+
+http://hinch.me.uk/riset.html
+
+
+
