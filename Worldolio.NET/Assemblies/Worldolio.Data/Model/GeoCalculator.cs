@@ -1,5 +1,7 @@
 ﻿using NodaTime;
+using System.Threading;
 using Worldolio.Data.Repository;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Worldolio.Data.Model
 {
@@ -413,6 +415,79 @@ namespace Worldolio.Data.Model
 
         #region Moon
 
+        //
+        // phase
+        //
+
+        /*
+        Greg Miller gmiller@gregmiller.net 2021
+        http://www.celestialprogramming.com/
+        Released as public domain
+        */
+
+        public static double JulianDateFromUnixTime(long t)
+        {
+            //Not valid for dates before Oct 15, 1582
+            return (t / 86400000) + 2440587.5;
+        }
+
+        public static double UnixTimeFromJulianDate(double jd)
+        {
+            //Not valid for dates before Oct 15, 1582
+            return (jd - 2440587.5) * 86400000;
+        }
+
+        public static double constrain(double d)
+        {
+            var t = d % 360;
+            if (t < 0) { t += 360; }
+            return t;
+        }
+
+        public static double GetIlluminatedFractionOfMoon(double jd)
+        {
+            var toRad= Math.PI / 180.0;
+            var T= (jd - 2451545) / 36525.0;
+
+            var D = constrain(297.8501921 + 445267.1114034 * T - 0.0018819 * T * T + 1.0 / 545868.0 * T * T * T - 1.0 / 113065000.0 * T * T * T * T) * toRad; //47.2
+            var M = constrain(357.5291092 + 35999.0502909 * T - 0.0001536 * T * T + 1.0 / 24490000.0 * T * T * T) * toRad; //47.3
+            var Mp = constrain(134.9633964 + 477198.8675055 * T + 0.0087414 * T * T + 1.0 / 69699.0 * T * T * T - 1.0 / 14712000.0 * T * T * T * T) * toRad; //47.4
+
+            //48.4
+            var i= constrain(180 - D * 180 / Math.PI - 6.289 * Math.Sin(Mp) + 2.1 * Math.Sin(M) - 1.274 * Math.Sin(2 * D - Mp) - 0.658 * Math.Sin(2 * D) - 0.214 * Math.Sin(2 * Mp) - 0.11 * Math.Sin(D)) * toRad;
+
+            var k= (1 + Math.Cos(i)) / 2;
+            return k;
+        }
+
+        public static double GetIlluminatedFractionOfMoon(Instant today)
+        {
+            var jd = JulianDateFromUnixTime(today.ToUnixTimeMilliseconds());
+            return GetIlluminatedFractionOfMoon(jd);
+        }
+
+        public static string GetFormattedIlluminatedFractionOfMoon(Instant todayUtc)
+        {
+            var tomorrow = todayUtc.Plus(Duration.FromDays(1));
+            var todayFraction = GetIlluminatedFractionOfMoon(todayUtc);
+            var todayFractionFormatted = todayFraction.ToString("P");
+            var tomorrowFraction = GetIlluminatedFractionOfMoon(tomorrow);
+
+            if (todayFraction < 0.04 || todayFraction > 0.97)
+            {
+                return todayFractionFormatted;
+            }
+            if (todayFraction > tomorrowFraction)
+            {
+                return $"{todayFractionFormatted} Waning";
+            }
+            if (todayFraction < tomorrowFraction)
+            {
+                return $"{todayFractionFormatted} Waxing";
+            }
+            return todayFractionFormatted;
+        }
+
         public static string GetFormattedMoonPhase(int year, int month, int day)
         {
             var phase = GetMoonPhase(year, month, day);
@@ -440,6 +515,7 @@ namespace Worldolio.Data.Model
             var j1 = julday(year, month, day);
             var jd = (2415020 + 28 * n) + i;
             var doubleRetval = (j1 - jd + 30) % 30;
+            //return (int) Math.Round(doubleRetval);
             return (int) doubleRetval;
         }
 
@@ -481,14 +557,18 @@ namespace Worldolio.Data.Model
             "Waning Gibbous",     // 20
             "Waning Gibbous",     // 21
             "Waning Gibbous",     // 22
-            "Waning Gibbous",     // 23
-            "Third Quater",     // 24
+            "Third Quater",     // 23
+            "Waning Cresent",     // 24
             "Waning Cresent",     // 25
             "Waning Cresent",     // 26
             "Waning Cresent",     // 27
             "Waning Cresent",     // 28
             "Waning Cresent",     // 29
             ];
+
+        //
+        // rise / set
+        //
 
         public static Tuple<ZonedDateTime?, ZonedDateTime?, bool, bool> GetMoonRiseAndSetInUtc(ZonedDateTime today, Position pos)
         {

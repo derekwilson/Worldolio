@@ -110,7 +110,8 @@ namespace WorldolioDataChecker
             long[] cityIds = [458, 252, 324, 313, 477, 79, 320, 279, 180, 351];
             DisplayCityGrid(458,cityIds,false);
 
-            DisplayMoonPhase(458, _systemTimeProvider.GetUtcNow());
+            DisplayMoonPhase();
+            //DisplayMoonRiseSet(458, _systemTimeProvider.GetUtcNow());
         }
 
         private static void DisplayDriveSide(int id)
@@ -215,13 +216,51 @@ namespace WorldolioDataChecker
             Console.WriteLine($"Cities count = {cities.Count}, invalid TZ = {invalidCount}");
         }
 
-        private static void DisplayMoonPhase(int homeId, ZonedDateTime date)
+        private static void DisplayMoonPhase()
         {
             for (int day = 1; day <= 31; day++)
             {
                 Console.WriteLine($"Moon Phase {day} May 2026 = {GeoCalculator.GetMoonPhase(2026, 5, day)}, {GeoCalculator.GetFormattedMoonPhase(2026, 5, day)}");
             }
 
+            for (int day = 1; day <= 30; day++)
+            {
+                Console.WriteLine($"Moon Phase {day} June 2026 = {GeoCalculator.GetMoonPhase(2026, 6, day)}, {GeoCalculator.GetFormattedMoonPhase(2026, 6, day)}");
+            }
+
+            for (int day = 1; day <= 31; day++)
+            {
+                Console.WriteLine($"Moon Phase {day} July 2026 = {GeoCalculator.GetMoonPhase(2026, 7, day)}, {GeoCalculator.GetFormattedMoonPhase(2026, 7, day)}");
+            }
+
+            for (int day = 1; day <= 31; day++)
+            {
+                Console.WriteLine($"Moon Phase {day} Aug 2026 = {GeoCalculator.GetMoonPhase(2026, 8, day)}, {GeoCalculator.GetFormattedMoonPhase(2026, 8, day)}");
+            }
+
+            DisplayOneMonth(31, 5, 2026);
+            DisplayOneMonth(30, 6, 2026);
+            DisplayOneMonth(31, 7, 2026);
+            DisplayOneMonth(31, 8, 2026);
+        }
+
+        private static void DisplayOneMonth(int nDays, int month, int year)
+        {
+            for (int day = 1; day <= nDays; day++)
+            {
+                var localTime = new LocalDateTime(year, month, day, 00, 00);
+                //var zone = DateTimeZoneProviders.Tzdb["Pacific/Auckland"];
+                var zone = DateTimeZoneProviders.Tzdb["UTC"];
+
+                // Option A: Be strict (safe if you know it's a valid time)
+                ZonedDateTime ztime = localTime.InZoneStrictly(zone);
+
+                Console.WriteLine($"Moon %, {day} {month} {year} = {GeoCalculator.GetFormattedIlluminatedFractionOfMoon(ztime.ToInstant())}");
+            }
+        }
+
+        private static void DisplayMoonRiseSet(int homeId, ZonedDateTime date)
+        {
             var home = _citiesRepository.GetById(homeId);
             if (home == null)
             {
@@ -246,5 +285,6 @@ namespace WorldolioDataChecker
 
             Console.WriteLine($"   Moonrise: {home.GetMoonrise(strictZdt, TimeFormat.DATE_TIME_LONG)}, Moonset: {home.GetMoonset(strictZdt, TimeFormat.DATE_TIME_LONG)}");
         }
+
     }
 }
