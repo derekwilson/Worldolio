@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>1.0.0.1</Version>
+    <Version>1.0.0.2</Version>
 	<OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -9,12 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NodaTime" Version="3.3.2" />
-    <PackageReference Include="TimeZoneConverter" Version="7.2.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Assemblies\Worldolio.Data\Worldolio.Data.csproj" />
   </ItemGroup>
+
+	<ItemGroup>
+		<None Update="nlog.config">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
 </Project>

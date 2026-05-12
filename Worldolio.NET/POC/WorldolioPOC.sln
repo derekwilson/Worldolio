@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldolioDataChecker", "Wor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Worldolio.Data", "..\Assemblies\Worldolio.Data\Worldolio.Data.csproj", "{289F7E3E-F3B2-4ED7-A9F5-DDFFE121278C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldolioCLI", "..\Applications\WorldolioCLI\WorldolioCLI.csproj", "{A0C5AB5E-876C-4655-B5DF-922036D31893}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{289F7E3E-F3B2-4ED7-A9F5-DDFFE121278C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{289F7E3E-F3B2-4ED7-A9F5-DDFFE121278C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{289F7E3E-F3B2-4ED7-A9F5-DDFFE121278C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0C5AB5E-876C-4655-B5DF-922036D31893}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0C5AB5E-876C-4655-B5DF-922036D31893}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0C5AB5E-876C-4655-B5DF-922036D31893}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0C5AB5E-876C-4655-B5DF-922036D31893}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

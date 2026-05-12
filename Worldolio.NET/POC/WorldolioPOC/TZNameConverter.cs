@@ -5,6 +5,7 @@ using TimeZoneConverter;
 
 namespace WorldolioPOC
 {
+
     internal class TZNameConverter
     {
         private static void OutputToConsole(string format, params object[] args)

@@ -1,6 +1,11 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 using TimeZoneConverter;
+using Worldolio.Data.Logging;
+using Worldolio.Data.Model;
+using Worldolio.Data.MSSQLite;
+using Worldolio.Data.Repository;
+using Worldolio.Data.Utility;
 
 namespace WorldolioPOC
 {
@@ -34,13 +39,31 @@ namespace WorldolioPOC
             OutputToConsole($"Running on .NET CLR: {Environment.Version.ToString()}");
         }
 
+        private static ILogger? Logger;
+        private static IConnectionFactory _connectionFactory;
+        private static ICityRepository _citiesRepository;
+        private static ISystemTimeProvider _systemTimeProvider;
+
+        static void Init()
+        {
+            DapperExtensions.AttachMappers();
+            _systemTimeProvider = new SystemTimeProvider();
+            var timeZoneFactory = new TimeZoneFactory(_systemTimeProvider);
+            _connectionFactory = new LocalFileDbConnectionFactory("./worldolio.sqlite");
+            _citiesRepository = new CityRepository(_connectionFactory, timeZoneFactory);
+        }
+
         private static async Task Main(string[] args)
         {
             DisplayBanner();
             DisplayEnvironment();
+            Init();
 
             //DisplayIanaId("GMT Standard Time");
-            TZNameConverter.DisplayAllTzs();
+            //TZNameConverter.DisplayAllTzs();
+
+            Moon.DisplayMoonPhase();
+            Moon.DisplayMoonRiseSet(_citiesRepository, 458, _systemTimeProvider.GetUtcNow());
         }
 
         private static TimeZoneInfo GetTZInfo(string tzName)
