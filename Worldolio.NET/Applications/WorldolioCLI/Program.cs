@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
+using Worldolio.Data.DependencyInjection;
 using Worldolio.Data.Logging;
 using Worldolio.Data.Model;
 using Worldolio.Data.MSSQLite;
@@ -50,28 +51,24 @@ namespace WorldolioCLI
             DisplayCityGrid(458, cityIds, false);
         }
 
-        private static ILogger? Logger;
-        private static IConnectionFactory _connectionFactory;
-        private static IDriveSideRepository _drivesideRepository;
-        private static ICountryRepository _countriesRepository;
-        private static ICityRepository _citiesRepository;
-        private static ISystemTimeProvider _systemTimeProvider;
+        private static IContainer _container = null!;
+
+        private static ILogger _logger = null!;
+        private static ICityRepository _citiesRepository = null!;
 
         static void Init()
         {
-            var loggerFactory = new NLoggerLoggerFactory();
-            Logger = loggerFactory.Logger;
-            Logger.Info(() => $"WorldolioCli, v{GetCodeVersion()}, Running on .NET CLR: {Environment.Version.ToString()}");
+            DapperExtensions.AttachMappers();
+            _container = Registration.GetEmptyContainer();
+            Registration.RegisterFileDbConnection(_container, "./worldolio.sqlite");
+            Registration.RegisterServices(_container);
 
+            var loggerFactory = _container.Resolve<ILoggerFactory>();
+            _logger = loggerFactory.Logger;
+            _logger.Info(() => $"WorldolioCli, v{GetCodeVersion()}, Running on .NET CLR: {Environment.Version.ToString()}");
             SetupExceptionHandler();
 
-            DapperExtensions.AttachMappers();
-            _systemTimeProvider = new SystemTimeProvider();
-            var timeZoneFactory = new TimeZoneFactory(_systemTimeProvider);
-            _connectionFactory = new LocalFileDbConnectionFactory("./worldolio.sqlite");
-            _drivesideRepository = new DriveSideRepository(_connectionFactory);
-            _countriesRepository = new CountryRepository(_connectionFactory);
-            _citiesRepository = new CityRepository(_connectionFactory, timeZoneFactory);
+            _citiesRepository = _container.Resolve<ICityRepository>();
         }
 
         #region Exception Handling
@@ -87,13 +84,13 @@ namespace WorldolioCLI
 
         private static void TaskSchedulerOnUnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
         {
-            Logger?.LogException(() => "TaskSchedulerOnUnobservedTaskException", e.Exception);
+            _logger?.LogException(() => "TaskSchedulerOnUnobservedTaskException", e.Exception);
         }
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             var ex = e.ExceptionObject as Exception ?? new Exception("EXCEPTION NOT PROVIDED");
-            Logger?.LogException(() => "CurrentDomain_UnhandledException", ex);
+            _logger?.LogException(() => "CurrentDomain_UnhandledException", ex);
         }
 
         #endregion

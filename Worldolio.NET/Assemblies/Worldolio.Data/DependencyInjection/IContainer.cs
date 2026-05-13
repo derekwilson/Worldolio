@@ -7,6 +7,15 @@
     public interface IContainer
     {
         /// <summary>
+        /// We need to use an existing container, 
+        /// for example MVC or MAUI have an existing container and we need to add services to that conatiner
+        /// we must call this before registering any services, otherwise they will be added to the wrong container
+        /// </summary>
+        /// <typeparam name="TContainer">Container to use, must be compatable with the DI implementation</typeparam>
+        /// <param name="container"></param>
+        void AttachExistingContainer(object container);
+
+        /// <summary>
         /// register a service
         /// </summary>
         /// <typeparam name="TService">the service to be registered, usually an interface</typeparam>

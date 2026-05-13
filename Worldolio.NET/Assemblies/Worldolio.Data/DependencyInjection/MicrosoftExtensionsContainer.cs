@@ -10,6 +10,12 @@ namespace Worldolio.Data.DependencyInjection
         private ServiceCollection serviceCollection = new ServiceCollection();
         private ServiceProvider? serviceProvider = null;
 
+        public void AttachExistingContainer(object container)
+        {
+            // this will throw if the container is not the correct type
+            serviceCollection = (ServiceCollection) container;
+        }
+
         public void Register<TService, TImplementor>()
             where TService : class
             where TImplementor : class, TService

@@ -50,12 +50,12 @@ namespace WorldolioDataChecker
             DisplayData();
         }
 
+        private static IContainer _container = null!;
+
         private static ILogger _logger = null!;
         private static IDriveSideRepository _drivesideRepository = null!;
         private static ICountryRepository _countriesRepository = null!;
         private static ICityRepository _citiesRepository = null!;
-
-        private static IContainer _container = null!;
 
         static void Init()
         {
