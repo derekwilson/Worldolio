@@ -48,7 +48,7 @@ namespace WorldolioDataChecker
             DisplayEnvironment();
 
             Init();
-            DisplayData();
+            await DisplayData();
         }
 
         private static IContainer _container = null!;
@@ -60,7 +60,7 @@ namespace WorldolioDataChecker
 
         static void Init()
         {
-            var loggerFactory = new NLoggerLoggerFactory();
+            var loggerFactory = new NLogLoggerFactory();
             _logger = loggerFactory.Logger;
             _logger.Info(() => $"WorldolioDataChecker, v{GetCodeVersion()}, Running on .NET CLR: {Environment.Version.ToString()}");
             SetupExceptionHandler();

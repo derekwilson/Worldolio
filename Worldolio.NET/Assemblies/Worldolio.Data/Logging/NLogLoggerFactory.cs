@@ -5,9 +5,9 @@ namespace Worldolio.Data.Logging
     /// <summary>
     /// An implementation of the ILoggerFactory that generates an NlogLogger
     /// </summary>
-    public class NLoggerLoggerFactory : ILoggerFactory
+    public class NLogLoggerFactory : ILoggerFactory
     {
-        public NLoggerLoggerFactory()
+        public NLogLoggerFactory()
         {
             // set the default loglevel
 #if DEBUG

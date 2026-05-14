@@ -58,7 +58,7 @@ namespace WorldolioCLI
 
         static void Init()
         {
-            var loggerFactory = new NLoggerLoggerFactory();
+            var loggerFactory = new NLogLoggerFactory();
             _logger = loggerFactory.Logger;
             _logger.Info(() => $"WorldolioCli, v{GetCodeVersion()}, Running on .NET CLR: {Environment.Version.ToString()}");
             SetupExceptionHandler();

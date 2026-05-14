@@ -91,7 +91,7 @@ namespace Worldolio.Data.Repository
                             SQL_SELECT_ALL_WITH_CITIES,
                             (cnt, dsi, cty) => {
                                 cnt.DriveSide = dsi;
-                                Country country;
+                                Country? country;
                                 if (!lookup.TryGetValue(cnt.Iso2Name, out country))
                                     lookup.Add(cnt.Iso2Name, country = cnt);
                                 cty.Country = country;
@@ -114,7 +114,7 @@ namespace Worldolio.Data.Repository
                             SQL_SELECT_BY_ID_WITH_CITIES,
                             (cnt, dsi, cty) => {
                                 cnt.DriveSide = dsi;
-                                Country country;
+                                Country? country;
                                 if (!lookup.TryGetValue(cnt.Iso2Name, out country))
                                     lookup.Add(cnt.Iso2Name, country = cnt);
                                 cty.Country = country;

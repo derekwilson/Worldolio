@@ -8,7 +8,7 @@ namespace Worldolio.Data.Utility
     {
         public static void AttachMapper<T>()
         {
-            var mapper = (SqlMapper.ITypeMap)Activator.CreateInstance(typeof(ColumnAttributeTypeMapper<>).MakeGenericType(typeof(T)));
+            var mapper = (SqlMapper.ITypeMap?)Activator.CreateInstance(typeof(ColumnAttributeTypeMapper<>).MakeGenericType(typeof(T)));
             SqlMapper.SetTypeMap(typeof(T), mapper);
         }
 

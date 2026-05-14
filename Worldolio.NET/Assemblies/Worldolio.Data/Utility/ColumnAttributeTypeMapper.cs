@@ -33,7 +33,7 @@ namespace Worldolio.Data.Utility
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
     public class ColumnAttribute : Attribute
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
     }
 
     public class FallbackTypeMapper : SqlMapper.ITypeMap
@@ -46,13 +46,13 @@ namespace Worldolio.Data.Utility
         }
 
 
-        public ConstructorInfo FindConstructor(string[] names, Type[] types)
+        public ConstructorInfo? FindConstructor(string[] names, Type[] types)
         {
             foreach (var mapper in _mappers)
             {
                 try
                 {
-                    ConstructorInfo result = mapper.FindConstructor(names, types);
+                    ConstructorInfo? result = mapper.FindConstructor(names, types);
                     if (result != null)
                     {
                         return result;
@@ -65,7 +65,7 @@ namespace Worldolio.Data.Utility
             return null;
         }
 
-        public SqlMapper.IMemberMap GetConstructorParameter(ConstructorInfo constructor, string columnName)
+        public SqlMapper.IMemberMap? GetConstructorParameter(ConstructorInfo constructor, string columnName)
         {
             foreach (var mapper in _mappers)
             {
@@ -84,7 +84,7 @@ namespace Worldolio.Data.Utility
             return null;
         }
 
-        public SqlMapper.IMemberMap GetMember(string columnName)
+        public SqlMapper.IMemberMap? GetMember(string columnName)
         {
             foreach (var mapper in _mappers)
             {
@@ -104,7 +104,7 @@ namespace Worldolio.Data.Utility
         }
 
 
-        public ConstructorInfo FindExplicitConstructor()
+        public ConstructorInfo? FindExplicitConstructor()
         {
             return _mappers
                 .Select(mapper => mapper.FindExplicitConstructor())
