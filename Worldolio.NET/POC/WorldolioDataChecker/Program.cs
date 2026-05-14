@@ -158,22 +158,37 @@ namespace WorldolioDataChecker
 
         private static async Task DisplayCountriesWithCities(string? iso2name, bool showCities)
         {
-            ICollection<Country> countries = String.IsNullOrEmpty(iso2name) ? await _countriesRepository.GetAllWithCitiesAsync() : await _countriesRepository.GetAllWithCitiesByIdAsync(iso2name);
-
-            foreach (Country c in countries)
+            if (string.IsNullOrEmpty(iso2name))
             {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"Country {c.Iso2Name}, {c.Iso3Name}, {c.DisplayName}, {c.DriveSide.Description}, Cities = {c.Cities.Count}");
-                if (showCities)
+                ICollection<Country> countries = await _countriesRepository.GetAllWithCitiesAsync();
+                foreach (Country c in countries)
                 {
-                    foreach (City city in c.Cities)
-                    {
-                        Console.WriteLine($"     City {city.Id}, {city.DisplayName}, {city.Country.DisplayName}");
-                    }
+                    DisplayOneCountryWithCities(c, showCities);
                 }
-                Console.ResetColor();
+                Console.WriteLine("Countires count = {0}", countries.Count);
             }
-            Console.WriteLine("Countires count = {0}", countries.Count);
+            else
+            {
+                Country? c = await _countriesRepository.GetByIdWithCitiesAsync(iso2name);
+                if (c != null)
+                {
+                    DisplayOneCountryWithCities(c, showCities);
+                }
+            }
+        }
+
+        private static void DisplayOneCountryWithCities(Country c, bool showCities)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"Country {c.Iso2Name}, {c.Iso3Name}, {c.DisplayName}, {c.DriveSide.Description}, Cities = {c.Cities.Count}");
+            if (showCities)
+            {
+                foreach (City city in c.Cities)
+                {
+                    Console.WriteLine($"     City {city.Id}, {city.DisplayName}, {city.Country.DisplayName}");
+                }
+            }
+            Console.ResetColor();
         }
 
         private static async Task DisplayCities(long[]? ids)

@@ -11,7 +11,7 @@ namespace Worldolio.Data.Repository
 
         Task<ICollection<Country>> GetAllAsync();
 
-        Task<ICollection<Country>> GetAllWithCitiesByIdAsync(string iso2);
+        Task<Country?> GetByIdWithCitiesAsync(string iso2);
 
         Task<ICollection<Country>> GetAllWithCitiesAsync();
     }
@@ -105,7 +105,7 @@ namespace Worldolio.Data.Repository
             }
         }
 
-        public async Task<ICollection<Country>> GetAllWithCitiesByIdAsync(string iso2)
+        public async Task<Country?> GetByIdWithCitiesAsync(string iso2)
         {
             using (IDbConnection connection = _connectionFactory.GetOpenConnection())
             {
@@ -125,7 +125,7 @@ namespace Worldolio.Data.Repository
                             splitOn: "cnt_iso2name, dsi_id, cty_id"
                         );
                 ICollection<Country> resultList = lookup.Values;
-                return resultList;
+                return resultList.FirstOrDefault();
             }
         }
     }
