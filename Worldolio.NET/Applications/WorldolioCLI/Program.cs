@@ -58,15 +58,18 @@ namespace WorldolioCLI
 
         static void Init()
         {
-            DapperExtensions.AttachMappers();
-            _container = Registration.GetEmptyContainer();
-            Registration.RegisterFileDbConnection(_container, "./worldolio.sqlite");
-            Registration.RegisterServices(_container);
-
-            var loggerFactory = _container.Resolve<ILoggerFactory>();
+            var loggerFactory = new NLoggerLoggerFactory();
             _logger = loggerFactory.Logger;
             _logger.Info(() => $"WorldolioCli, v{GetCodeVersion()}, Running on .NET CLR: {Environment.Version.ToString()}");
             SetupExceptionHandler();
+
+            DapperExtensions.AttachMappers();
+            _container = Registration.GetEmptyContainer();
+            Registration.RegisterFileDbConnection(_container, "./worldolio.sqlite");
+            Registration.RegisterServices(_container, _logger);
+
+            var diLogger = _container.Resolve<ILogger>();
+            diLogger.Info(() => $"DI init OK");
 
             _citiesRepository = _container.Resolve<ICityRepository>();
         }

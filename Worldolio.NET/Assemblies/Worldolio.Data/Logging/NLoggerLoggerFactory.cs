@@ -1,5 +1,4 @@
 ﻿using NLog;
-using Worldolio.Data.Logging;
 
 namespace Worldolio.Data.Logging
 {

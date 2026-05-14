@@ -19,10 +19,13 @@ namespace Worldolio.Data.DependencyInjection
             container.Register<IConnectionFactory>(connectionFactory);
         }
 
-        public static void RegisterServices(IContainer container)
+        public static void RegisterServices(IContainer container, ILogger? logger)
         {
+            if (logger != null)
+            {
+                container.Register<ILogger>(logger);
+            }
             container.Register<ISystemTimeProvider, SystemTimeProvider>();
-            container.Register<ILoggerFactory, NLoggerLoggerFactory>();
             container.Register<ITimeZoneFactory, TimeZoneFactory>();
 
             // data

@@ -47,10 +47,14 @@ namespace WorldolioPOC
 
         static void Init()
         {
+            // we dont do looging the the POC app
+            // if we want logging then use NLoggerLoggerFactory and add a config file
+            var loggerFactory = new NullLoggerFactory();
+
             DapperExtensions.AttachMappers();
             _container = Registration.GetEmptyContainer();
             Registration.RegisterFileDbConnection(_container, "./worldolio.sqlite");
-            Registration.RegisterServices(_container);
+            Registration.RegisterServices(_container, loggerFactory.Logger);
 
             _citiesRepository = _container.Resolve<ICityRepository>();
             _systemTimeProvider = _container.Resolve<ISystemTimeProvider>();
