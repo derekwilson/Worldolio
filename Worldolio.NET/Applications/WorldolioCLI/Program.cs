@@ -48,7 +48,7 @@ namespace WorldolioCLI
             Init();
 
             long[] cityIds = [458, 252, 324, 313, 477, 79, 320, 279, 180, 351];
-            DisplayCityGrid(458, cityIds, false);
+            await DisplayCityGrid(458, cityIds, false);
         }
 
         private static IContainer _container = null!;
@@ -95,16 +95,16 @@ namespace WorldolioCLI
 
         #endregion
 
-        private static void DisplayCityGrid(long homeId, long[] ids, bool showNearby)
+        private static async Task DisplayCityGrid(long homeId, long[] ids, bool showNearby)
         {
             Console.WriteLine($"City Grid = {homeId}, [{string.Join(',', ids)}]");
 
-            var home = _citiesRepository.GetById(homeId);
+            var home = await _citiesRepository.GetByIdAsync(homeId);
             if (home == null)
             {
                 throw new Exception($"Bad home city. ID: {homeId}");
             }
-            ICollection<City> cities = _citiesRepository.GetByIds(ids);
+            ICollection<City> cities = await _citiesRepository.GetByIdsAsync(ids);
 
             foreach (City city in cities)
             {
@@ -112,7 +112,7 @@ namespace WorldolioCLI
                 Console.WriteLine($"City {city.Id}, {city.DisplayName}, {city.Country.DisplayName}, Pos {city.Position.ToString(true)} Drives {city.Country.DriveSide.Description}");
                 Console.WriteLine($"   {city.TimeZone.GetFormattedLocalTime(TimeFormat.DAY_SHORT)} {city.TimeZone.GetFormattedLocalTime(TimeFormat.TIME_SHORT_AMPM)}");
                 Console.WriteLine($"   {city.TimeZone.GetFormattedOffset(home.TimeZone)}, DST {city.TimeZone.GetDSTDatesForDisplay()}, TZ {city.IanaTz}");
-                var nearby = _citiesRepository.GetNearbyCities(city, new Distance(500, Distance.Units.Miles));
+                var nearby = await _citiesRepository.GetNearbyCitiesAsync(city, new Distance(500, Distance.Units.Miles));
                 if (showNearby)
                 {
                     foreach (City city2 in nearby)

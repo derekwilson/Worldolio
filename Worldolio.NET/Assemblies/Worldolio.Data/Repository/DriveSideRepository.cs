@@ -7,9 +7,9 @@ namespace Worldolio.Data.Repository
 {
     public interface IDriveSideRepository
     {
-        ICollection<DriveSide> GetById(long id);
+        Task<DriveSide?> GetByIdAsync(long id);
 
-        ICollection<DriveSide> GetAll();
+        Task<ICollection<DriveSide>> GetAllAsync();
     }
 
     public class DriveSideRepository : IDriveSideRepository
@@ -31,22 +31,23 @@ namespace Worldolio.Data.Repository
             _connectionFactory = connectionFactory;
         }
 
-        public ICollection<DriveSide> GetAll()
+        public async Task<ICollection<DriveSide>> GetAllAsync()
         {
             using (IDbConnection connection = _connectionFactory.GetOpenConnection())
             {
-                return connection.Query<DriveSide>(SQL_SELECT_ALL).ToList();
+                var result = await connection.QueryAsync<DriveSide>(SQL_SELECT_ALL);
+                return result.ToList();
             }
         }
 
-        public ICollection<DriveSide> GetById(long id)
+        public async Task<DriveSide?> GetByIdAsync(long id)
         {
             using (IDbConnection connection = _connectionFactory.GetOpenConnection())
             {
-                return connection.Query<DriveSide>(SQL_SELECT_BY_ID,new { ID = id }).ToList();
+                var result = await connection.QueryAsync<DriveSide>(SQL_SELECT_BY_ID,new { ID = id });
+                return result.FirstOrDefault();
             }
         }
-
 
     }
 }

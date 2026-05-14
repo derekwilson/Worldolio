@@ -7,13 +7,13 @@ namespace Worldolio.Data.Repository
 {
     public interface ICityRepository
     {
-        City? GetById(long id);
+        Task<City?> GetByIdAsync(long id);
 
-        ICollection<City> GetByIds(long[] ids);
+        Task<ICollection<City>> GetByIdsAsync(long[] ids);
 
-        ICollection<City> GetAll();
+        Task<ICollection<City>> GetAllAsync();
 
-        ICollection<City> GetNearbyCities(City c, Distance dist);
+        Task<ICollection<City>> GetNearbyCitiesAsync(City c, Distance dist);
     }
 
     public class CityRepository : ICityRepository
@@ -42,11 +42,11 @@ namespace Worldolio.Data.Repository
             _timeZoneFactory = timeZoneFactory;
         }
 
-        public ICollection<City> GetAll()
+        public async Task<ICollection<City>> GetAllAsync()
         {
             using (IDbConnection connection = _connectionFactory.GetOpenConnection())
             {
-                var items = connection.Query<City, Country, DriveSide, City>(
+                var items = await connection.QueryAsync<City, Country, DriveSide, City>(
                             SQL_SELECT_ALL,
                             MAP,
                             splitOn: "cty_id, cnt_iso2name, dsi_id"
@@ -55,11 +55,11 @@ namespace Worldolio.Data.Repository
             }
         }
 
-        public City? GetById(long id)
+        public async Task<City?> GetByIdAsync(long id)
         {
             using (IDbConnection connection = _connectionFactory.GetOpenConnection())
             {
-                var items = connection.Query<City, Country, DriveSide, City>(
+                var items = await connection.QueryAsync<City, Country, DriveSide, City>(
                             SQL_SELECT_BY_ID,
                             MAP,
                             new { ID = id },
@@ -69,11 +69,11 @@ namespace Worldolio.Data.Repository
             }
         }
 
-        public ICollection<City> GetByIds(long[] ids)
+        public async Task<ICollection<City>> GetByIdsAsync(long[] ids)
         {
             using (IDbConnection connection = _connectionFactory.GetOpenConnection())
             {
-                var items = connection.Query<City, Country, DriveSide, City>(
+                var items = await connection.QueryAsync<City, Country, DriveSide, City>(
                             SQL_SELECT_BY_IDS,
                             MAP,
                             new { IDS = ids },
@@ -101,13 +101,14 @@ namespace Worldolio.Data.Repository
         /// </summary>
         /// <param name="dist">distance to the edges of the box</param>
         /// <returns>dataview of cities in the area</returns>
-        public ICollection<City> GetNearbyCities(City c, Distance dist)
+        public async Task<ICollection<City>> GetNearbyCitiesAsync(City c, Distance dist)
         {
-            var items = GeoCalculator.GetCitiesInArea(this, c.Position, dist, dist).ToList();
+            var items = await GeoCalculator.GetCitiesInAreaAsync(this, c.Position, dist, dist);
+            var itemsList = items.ToList();
             // do not include the original city in the list
-            items.RemoveAll(i => i.Id == c.Id);
+            itemsList.RemoveAll(i => i.Id == c.Id);
             // order them by how far away they are
-            return items.OrderBy(i => i.GetDistance(c.Position).Kilometers).ToList();
+            return itemsList.OrderBy(i => i.GetDistance(c.Position).Kilometers).ToList();
         }
     }
 }

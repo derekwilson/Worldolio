@@ -1,4 +1,5 @@
 ﻿using NodaTime;
+using System.Threading.Tasks;
 using Worldolio.Data.Model;
 using Worldolio.Data.Repository;
 using static Worldolio.Data.Model.TimeZone;
@@ -50,9 +51,9 @@ namespace WorldolioPOC
             }
         }
 
-        public static void DisplayMoonRiseSet(ICityRepository citiesRepository, int homeId, ZonedDateTime date)
+        public static async Task DisplayMoonRiseSet(ICityRepository citiesRepository, int homeId, ZonedDateTime date)
         {
-            var home = citiesRepository.GetById(homeId);
+            var home = await citiesRepository.GetByIdAsync(homeId);
             if (home == null)
             {
                 throw new Exception($"Bad home city. ID: {homeId}");

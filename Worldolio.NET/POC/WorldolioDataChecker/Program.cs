@@ -1,6 +1,7 @@
 ﻿using NodaTime;
 using System.Diagnostics;
 using System.Reflection;
+using System.Threading.Tasks;
 using Worldolio.Data.DependencyInjection;
 using Worldolio.Data.Logging;
 using Worldolio.Data.Model;
@@ -98,47 +99,66 @@ namespace WorldolioDataChecker
 
         #endregion
 
-        static void DisplayData()
+        static async Task DisplayData()
         {
-            DisplayDriveSide(-1);
+            await DisplayDriveSide(-1);
 
-            //DisplayCountries(null);
-            DisplayCountriesWithCities(null, false);
+            //await DisplayCountries(null);
+            await DisplayCountriesWithCities(null, false);
 
-            DisplayCities(null);
-            DisplayCountriesWithCities("NZ", true);
+            await DisplayCities(null);
+            await DisplayCountriesWithCities("NZ", true);
 
         }
 
-        private static void DisplayDriveSide(int id)
+        private static async Task DisplayDriveSide(int id)
         {
-            ICollection<DriveSide> driveSide = id < 0 ? _drivesideRepository.GetAll() : _drivesideRepository.GetById(id);
-
-            foreach (DriveSide ds in driveSide)
+            if (id < 0)
             {
+                ICollection<DriveSide> allDriveSide = await _drivesideRepository.GetAllAsync();
+                foreach (DriveSide ds in allDriveSide)
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine($"DriveSide {ds.Id} {ds.Description}");
+                    Console.ResetColor();
+                }
+                Console.WriteLine("DriveSide count = {0}", allDriveSide.Count);
+            }
+            else
+            {
+                DriveSide? ds = await _drivesideRepository.GetByIdAsync(id);
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"DriveSide {ds.Id} {ds.Description}");
+                Console.WriteLine($"DriveSide {ds?.Id} {ds?.Description}");
                 Console.ResetColor();
             }
-            Console.WriteLine("DriveSide count = {0}", driveSide.Count);
         }
 
-        private static void DisplayCountries(string? iso2name)
+        private static async Task DisplayCountries(string? iso2name)
         {
-            ICollection<Country> countries = String.IsNullOrEmpty(iso2name) ? _countriesRepository.GetAll() : _countriesRepository.GetById(iso2name);
-
-            foreach (Country c in countries)
+            if (string.IsNullOrEmpty(iso2name))
             {
+                ICollection<Country> countries = await _countriesRepository.GetAllAsync();
+                foreach (Country c in countries)
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine($"Country {c.Iso2Name}, {c.Iso3Name}, {c.DisplayName}, {c.DriveSide.Description}, Cities = {c.Cities.Count}");
+                    Console.ResetColor();
+                }
+                Console.WriteLine("Countires count = {0}", countries.Count);
+            }
+            else
+            {
+                Country? c = await _countriesRepository.GetByIdAsync(iso2name);
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"Country {c.Iso2Name}, {c.Iso3Name}, {c.DisplayName}, {c.DriveSide.Description}, Cities = {c.Cities.Count}");
+                Console.WriteLine($"Country {c?.Iso2Name}, {c?.Iso3Name}, {c?.DisplayName}, {c?.DriveSide.Description}, Cities = {c?.Cities.Count}");
                 Console.ResetColor();
             }
-            Console.WriteLine("Countires count = {0}", countries.Count);
+
         }
 
-        private static void DisplayCountriesWithCities(string? iso2name, bool showCities)
+        private static async Task DisplayCountriesWithCities(string? iso2name, bool showCities)
         {
-            ICollection<Country> countries = String.IsNullOrEmpty(iso2name) ? _countriesRepository.GetAllWithCities() : _countriesRepository.GetAllWithCitiesById(iso2name);
+            ICollection<Country> countries = String.IsNullOrEmpty(iso2name) ? await _countriesRepository.GetAllWithCitiesAsync() : await _countriesRepository.GetAllWithCitiesByIdAsync(iso2name);
 
             foreach (Country c in countries)
             {
@@ -156,9 +176,9 @@ namespace WorldolioDataChecker
             Console.WriteLine("Countires count = {0}", countries.Count);
         }
 
-        private static void DisplayCities(long[]? ids)
+        private static async Task DisplayCities(long[]? ids)
         {
-            ICollection<City> cities = ids == null ? _citiesRepository.GetAll() : _citiesRepository.GetByIds(ids);
+            ICollection<City> cities = ids == null ? await _citiesRepository.GetAllAsync() : await _citiesRepository.GetByIdsAsync(ids);
 
             foreach (City city in cities)
             {

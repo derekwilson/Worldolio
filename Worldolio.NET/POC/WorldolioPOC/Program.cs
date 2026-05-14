@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 using TimeZoneConverter;
+using Worldolio.Data.DependencyInjection;
 using Worldolio.Data.Logging;
 using Worldolio.Data.Model;
 using Worldolio.Data.MSSQLite;
@@ -39,18 +40,20 @@ namespace WorldolioPOC
             OutputToConsole($"Running on .NET CLR: {Environment.Version.ToString()}");
         }
 
-        private static ILogger? Logger;
-        private static IConnectionFactory _connectionFactory;
-        private static ICityRepository _citiesRepository;
-        private static ISystemTimeProvider _systemTimeProvider;
+        private static IContainer _container = null!;
+
+        private static ICityRepository _citiesRepository = null!;
+        private static ISystemTimeProvider _systemTimeProvider = null!;
 
         static void Init()
         {
             DapperExtensions.AttachMappers();
-            _systemTimeProvider = new SystemTimeProvider();
-            var timeZoneFactory = new TimeZoneFactory(_systemTimeProvider);
-            _connectionFactory = new LocalFileDbConnectionFactory("./worldolio.sqlite");
-            _citiesRepository = new CityRepository(_connectionFactory, timeZoneFactory);
+            _container = Registration.GetEmptyContainer();
+            Registration.RegisterFileDbConnection(_container, "./worldolio.sqlite");
+            Registration.RegisterServices(_container);
+
+            _citiesRepository = _container.Resolve<ICityRepository>();
+            _systemTimeProvider = _container.Resolve<ISystemTimeProvider>();
         }
 
         private static async Task Main(string[] args)
@@ -63,7 +66,7 @@ namespace WorldolioPOC
             //TZNameConverter.DisplayAllTzs();
 
             Moon.DisplayMoonPhase();
-            Moon.DisplayMoonRiseSet(_citiesRepository, 458, _systemTimeProvider.GetUtcNow());
+            await Moon.DisplayMoonRiseSet(_citiesRepository, 458, _systemTimeProvider.GetUtcNow());
         }
 
         private static TimeZoneInfo GetTZInfo(string tzName)

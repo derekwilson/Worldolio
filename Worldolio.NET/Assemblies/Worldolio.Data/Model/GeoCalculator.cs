@@ -932,9 +932,9 @@ namespace Worldolio.Data.Model
         /// <param name="topLeft">top left corner of the box</param>
         /// <param name="bottomRight">bottom right corner of the box</param>
         /// <returns>a view onto the collection data</returns>
-        public static ICollection<City> GetCitiesInArea(ICityRepository repo, Position topLeft, Position bottomRight)
+        public static async Task<ICollection<City>> GetCitiesInAreaAsync(ICityRepository repo, Position topLeft, Position bottomRight)
         {
-            var allCities = repo.GetAll();
+            var allCities = await repo.GetAllAsync();
 
             return allCities.Where(c => IsInArea(c.Position, topLeft, bottomRight)).ToList();
         }
@@ -955,11 +955,11 @@ namespace Worldolio.Data.Model
         /// <param name="halfHeight">distance to top and bottom edge of the area</param>
         /// <param name="halfWidth">distance to left and right edge of the area</param>
         /// <returns></returns>
-        public static ICollection<City> GetCitiesInArea(ICityRepository repo, Position centre, Distance halfHeight, Distance halfWidth)
+        public static async Task<ICollection<City>> GetCitiesInAreaAsync(ICityRepository repo, Position centre, Distance halfHeight, Distance halfWidth)
         {
             Position topLeft = centre.Move(halfHeight, halfWidth.Negate());
             Position bottomRight = centre.Move(halfHeight.Negate(), halfWidth);
-            return GetCitiesInArea(repo, topLeft, bottomRight);
+            return await GetCitiesInAreaAsync(repo, topLeft, bottomRight);
         }
 
         #endregion

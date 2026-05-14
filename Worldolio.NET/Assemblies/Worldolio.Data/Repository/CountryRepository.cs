@@ -7,13 +7,13 @@ namespace Worldolio.Data.Repository
 {
     public interface ICountryRepository
     {
-        ICollection<Country> GetById(string iso2);
+        Task<Country?> GetByIdAsync(string iso2);
 
-        ICollection<Country> GetAll();
+        Task<ICollection<Country>> GetAllAsync();
 
-        ICollection<Country> GetAllWithCitiesById(string iso2);
+        Task<ICollection<Country>> GetAllWithCitiesByIdAsync(string iso2);
 
-        ICollection<Country> GetAllWithCities();
+        Task<ICollection<Country>> GetAllWithCitiesAsync();
     }
 
     public class CountryRepository : ICountryRepository
@@ -47,11 +47,11 @@ namespace Worldolio.Data.Repository
             _connectionFactory = connectionFactory;
         }
 
-        public ICollection<Country> GetAll()
+        public async Task<ICollection<Country>> GetAllAsync()
         {
             using (IDbConnection connection = _connectionFactory.GetOpenConnection())
             {
-                var items = connection.Query<Country, DriveSide, Country>(
+                var items = await connection.QueryAsync<Country, DriveSide, Country>(
                             SQL_SELECT_ALL,
                             (cnt, dsi) =>
                             {
@@ -64,11 +64,11 @@ namespace Worldolio.Data.Repository
             }
         }
 
-        public ICollection<Country> GetById(string iso2)
+        public async Task<Country?> GetByIdAsync(string iso2)
         {
             using (IDbConnection connection = _connectionFactory.GetOpenConnection())
             {
-                var items = connection.Query<Country, DriveSide, Country>(
+                var items = await connection.QueryAsync<Country, DriveSide, Country>(
                             SQL_SELECT_BY_ID,
                             (cnt, dsi) =>
                             {
@@ -78,16 +78,16 @@ namespace Worldolio.Data.Repository
                             new { ID = iso2 },
                             splitOn: "cnt_iso2name, dsi_id"
                         );
-                return items.ToList();
+                return items.FirstOrDefault();
             }
         }
 
-        public ICollection<Country> GetAllWithCities()
+        public async Task<ICollection<Country>> GetAllWithCitiesAsync()
         {
             using (IDbConnection connection = _connectionFactory.GetOpenConnection())
             {
                 var lookup = new Dictionary<string, Country>();
-                var ratings = connection.Query<Country, DriveSide, City, Country>(
+                var results = await connection.QueryAsync<Country, DriveSide, City, Country>(
                             SQL_SELECT_ALL_WITH_CITIES,
                             (cnt, dsi, cty) => {
                                 cnt.DriveSide = dsi;
@@ -99,18 +99,18 @@ namespace Worldolio.Data.Repository
                                 return country;
                             },
                             splitOn: "cnt_iso2name, dsi_id, cty_id"
-                        ).AsQueryable();
+                        );
                 ICollection<Country> resultList = lookup.Values;
                 return resultList;
             }
         }
 
-        public ICollection<Country> GetAllWithCitiesById(string iso2)
+        public async Task<ICollection<Country>> GetAllWithCitiesByIdAsync(string iso2)
         {
             using (IDbConnection connection = _connectionFactory.GetOpenConnection())
             {
                 var lookup = new Dictionary<string, Country>();
-                var ratings = connection.Query<Country, DriveSide, City, Country>(
+                var results = await connection.QueryAsync<Country, DriveSide, City, Country>(
                             SQL_SELECT_BY_ID_WITH_CITIES,
                             (cnt, dsi, cty) => {
                                 cnt.DriveSide = dsi;
@@ -123,7 +123,7 @@ namespace Worldolio.Data.Repository
                             },
                             new { ID = iso2 },
                             splitOn: "cnt_iso2name, dsi_id, cty_id"
-                        ).AsQueryable();
+                        );
                 ICollection<Country> resultList = lookup.Values;
                 return resultList;
             }
