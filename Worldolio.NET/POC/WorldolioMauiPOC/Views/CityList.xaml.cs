@@ -1,3 +1,5 @@
+using WorldolioMauiPOC.Data;
+
 namespace WorldolioMauiPOC.Views;
 
 public partial class CityList : ContentPage
@@ -5,7 +7,6 @@ public partial class CityList : ContentPage
 	public CityList()
 	{
 		InitializeComponent();
-        // Initializing the BindingContext with Products
         BindingContext = new Models.CityList();
     }
 

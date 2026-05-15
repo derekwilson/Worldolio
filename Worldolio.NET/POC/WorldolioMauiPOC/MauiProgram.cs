@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using System.Reflection;
+using Worldolio.Data.DependencyInjection;
+using WorldolioMauiPOC.Data;
 using WorldolioMauiPOC.Logging;
 
 namespace WorldolioMauiPOC
@@ -8,6 +10,7 @@ namespace WorldolioMauiPOC
     public static class MauiProgram
     {
         private static Worldolio.Data.Logging.ILogger _logger = null!;
+        private static Worldolio.Data.DependencyInjection.IContainer _container = null!;
 
         public static MauiApp CreateMauiApp()
         {
@@ -34,6 +37,16 @@ namespace WorldolioMauiPOC
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+
+            // setup the DI container
+            _container = Registration.GetEmptyContainer();
+            _container.AttachExistingContainer(builder.Services);
+            
+            var dbPath = DatabaseHelper.GetDatabaseFilePath();
+            _logger.Info(() => $"DB = {dbPath}");
+
+            Registration.RegisterFileDbConnection(_container, dbPath);
+            Registration.RegisterServices(_container, _logger);
 
             return builder.Build();
         }

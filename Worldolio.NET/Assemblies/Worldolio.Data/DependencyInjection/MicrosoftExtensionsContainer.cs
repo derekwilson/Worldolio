@@ -7,13 +7,13 @@ namespace Worldolio.Data.DependencyInjection
     /// </summary>
     public class MicrosoftExtensionsContainer : IContainer
     {
-        private ServiceCollection serviceCollection = new ServiceCollection();
+        private IServiceCollection serviceCollection = new ServiceCollection();
         private ServiceProvider? serviceProvider = null;
 
         public void AttachExistingContainer(object container)
         {
             // this will throw if the container is not the correct type
-            serviceCollection = (ServiceCollection) container;
+            serviceCollection = (IServiceCollection) container;
         }
 
         public void Register<TService, TImplementor>()

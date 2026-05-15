@@ -3,6 +3,7 @@ using Worldolio.Data.Model;
 using Worldolio.Data.MSSQLite;
 using Worldolio.Data.Repository;
 using Worldolio.Data.Utility;
+using WorldolioMauiPOC.Data;
 
 namespace WorldolioMauiPOC.Models
 {
@@ -32,26 +33,11 @@ namespace WorldolioMauiPOC.Models
             LoadCities().GetAwaiter();
         }
 
-        public async Task InitializeDatabase()
-        {
-            var databaseName = "worldolio.sqlite";
-            var targetPath = Path.Combine(FileSystem.AppDataDirectory, databaseName);
-
-            // Only copy if it doesn't already exist to avoid overwriting user data
-            if (!File.Exists(targetPath))
-            {
-                using var stream = await FileSystem.OpenAppPackageFileAsync(databaseName);
-                using var newStream = File.Create(targetPath);
-                await stream.CopyToAsync(newStream);
-            }
-        }
-
         public async Task LoadCities()
         {
-            // TODO - move to shell
-            await InitializeDatabase();
+            await DatabaseHelper.CopyDatabaseToFileSystemAsync(DatabaseHelper.GetDatabaseFilePath());
 
-            long[] cityIds = [458, 252, 324, 313, 477, 79, 320, 279, 180, 351];
+            long[] cityIds = [458, 252, 324, 313, 477, 79, 320, 279, 180, 351, 429, 382];
             var temp = await _citiesRepository.GetByIdsAsync(cityIds);
             foreach (City city in temp)
             {
