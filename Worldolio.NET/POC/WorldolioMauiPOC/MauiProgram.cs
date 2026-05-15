@@ -41,7 +41,6 @@ namespace WorldolioMauiPOC
 #endif
 
             // setup the DI container
-            DapperExtensions.AttachMappers();
             _container = Registration.GetEmptyContainer();
             _container.AttachExistingContainer(builder.Services);
             
@@ -53,6 +52,10 @@ namespace WorldolioMauiPOC
 
             builder.Services.AddSingleton<CityGridViewModel>();
             builder.Services.AddSingleton<CityGrid>();
+
+            // database init
+            DapperExtensions.AttachMappers();
+            DatabaseHelper.CopyDatabaseToFileSystem(DatabaseHelper.GetDatabaseFilePath());
 
             return builder.Build();
         }

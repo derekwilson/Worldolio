@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Worldolio.Data.Model;
 using Worldolio.Data.Repository;
-using WorldolioMauiPOC.Data;
 
 namespace WorldolioMauiPOC.Views
 {
@@ -20,8 +19,6 @@ namespace WorldolioMauiPOC.Views
 
         public async Task LoadCities()
         {
-            await DatabaseHelper.CopyDatabaseToFileSystemAsync(DatabaseHelper.GetDatabaseFilePath());
-
             long[] cityIds = [458, 252, 324, 477, 79, 320, 279, 180, 351, 429, 382];
             var temp = await _citiesRepository.GetByIdsAsync(cityIds);
             foreach (City city in temp)
