@@ -45,7 +45,7 @@ namespace WorldolioMauiPOC
             _container.AttachExistingContainer(builder.Services);
             
             var dbPath = DatabaseHelper.GetDatabaseFilePath();
-            _logger.Info(() => $"DB = {dbPath}");
+            _logger.Debug(() => $"DB = {dbPath}");
 
             Registration.RegisterFileDbConnection(_container, dbPath);
             Registration.RegisterServices(_container, _logger);

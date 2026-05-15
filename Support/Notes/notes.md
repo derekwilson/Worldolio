@@ -186,3 +186,14 @@ http://hinch.me.uk/riset.html
 
 
 
+## MAUI
+
+https://www.codemag.com/Article/2408041/Exploring-.NET-MAUI-Getting-Started
+
+https://blog.ewers-peters.de/are-you-using-dependency-injection-in-your-net-maui-app-yet
+
+https://www.nuget.org/packages/NLog.Targets.MauiLog
+
+https://github.com/EmDe-NJ/Bundled-SQLite-Database-NetMaui/tree/master
+
+
