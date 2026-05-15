@@ -2,8 +2,10 @@
 using NLog.Extensions.Logging;
 using System.Reflection;
 using Worldolio.Data.DependencyInjection;
+using Worldolio.Data.Utility;
 using WorldolioMauiPOC.Data;
 using WorldolioMauiPOC.Logging;
+using WorldolioMauiPOC.Views;
 
 namespace WorldolioMauiPOC
 {
@@ -39,6 +41,7 @@ namespace WorldolioMauiPOC
 #endif
 
             // setup the DI container
+            DapperExtensions.AttachMappers();
             _container = Registration.GetEmptyContainer();
             _container.AttachExistingContainer(builder.Services);
             
@@ -47,6 +50,9 @@ namespace WorldolioMauiPOC
 
             Registration.RegisterFileDbConnection(_container, dbPath);
             Registration.RegisterServices(_container, _logger);
+
+            builder.Services.AddSingleton<CityGridViewModel>();
+            builder.Services.AddSingleton<CityGrid>();
 
             return builder.Build();
         }

@@ -9,7 +9,7 @@
 
     <ShellContent
         Title="Cities"
-        ContentTemplate="{DataTemplate local:Views.CityList}"
+        ContentTemplate="{DataTemplate local:Views.CityGrid}"
         Route="MainPage" />
 
 </Shell>
