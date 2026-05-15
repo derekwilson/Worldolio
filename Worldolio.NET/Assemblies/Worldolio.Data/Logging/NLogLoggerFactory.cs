@@ -11,33 +11,10 @@ namespace Worldolio.Data.Logging
         {
             // set the default loglevel
 #if DEBUG
-            SetLoggingLevel(LogLevel.Trace);
+            NLogHelper.SetLoggingLevel(LogLevel.Trace);
 #else
-            SetLoggingLevel(LogLevel.Trace);
+            NLogHelper.SetLoggingLevel(LogLevel.Trace);
 #endif
-        }
-
-        public void SetLoggingLevel(LogLevel minLevel)
-        {
-            if (minLevel == LogLevel.Off)
-            {
-                LogManager.SuspendLogging();
-                return;
-            }
-
-            if (!LogManager.IsLoggingEnabled())
-            {
-                LogManager.ResumeLogging();
-            }
-            if (LogManager.Configuration != null)
-            {
-                foreach (var rule in LogManager.Configuration.LoggingRules)
-                {
-                    rule.SetLoggingLevels(minLevel, LogLevel.Fatal);
-                }
-            }
-            // re-apply the config
-            LogManager.ReconfigExistingLoggers();
         }
 
         public ILogger Logger

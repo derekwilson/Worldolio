@@ -48,7 +48,7 @@ namespace WorldolioPOC
         static void Init()
         {
             // we dont do looging the the POC app
-            // if we want logging then use NLoggerLoggerFactory and add a config file
+            // if we want logging then use NLogLoggerFactory and add a config file
             var loggerFactory = new NullLoggerFactory();
 
             DapperExtensions.AttachMappers();
