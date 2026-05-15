@@ -29,7 +29,7 @@ namespace WorldolioMauiPOC.Models
             _connectionFactory = new LocalFileDbConnectionFactory(dbFilePath);
             _citiesRepository = new CityRepository(_connectionFactory, timeZoneFactory);
 
-            LoadCities();
+            LoadCities().GetAwaiter();
         }
 
         public async Task InitializeDatabase()
@@ -46,7 +46,7 @@ namespace WorldolioMauiPOC.Models
             }
         }
 
-        public async void LoadCities()
+        public async Task LoadCities()
         {
             // TODO - move to shell
             await InitializeDatabase();

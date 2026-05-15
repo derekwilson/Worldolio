@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using NLog.Extensions.Logging;
 using System.Reflection;
 using WorldolioMauiPOC.Logging;
 
@@ -12,10 +13,15 @@ namespace WorldolioMauiPOC
         {
             var builder = MauiApp.CreateBuilder();
 
+            // configure the logging and test that its woking
             var loggerFactory = new NLogMauiLoggerFactory();        // this will also configure NLog
             _logger = loggerFactory.Logger;
             _logger.Info(() => $"WorldolioMauiPOC, v{GetCodeVersion()}, {GetCodePackage()}, Running on .NET CLR: {Environment.Version.ToString()}");
             SetupExceptionHandler();
+
+            // attach logging to maui
+            builder.Logging.ClearProviders();
+            builder.Logging.AddNLog();
 
             builder
                 .UseMauiApp<App>()
