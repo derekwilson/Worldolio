@@ -10,11 +10,8 @@ namespace WorldolioMauiPOC.Logging
         {
             LoadConfig();
             // set the log file destination
-#if WINDOWS
-            SetupWindowsLoggingDir();
-#elif ANDROID
-            SetupAndroidLoggingDir();
-#endif
+            SetupLoggingDir(GetLoggingDir());
+
             // set the loglevel
 #if DEBUG
             NLogHelper.SetLoggingLevel(NLog.LogLevel.Trace);
@@ -31,26 +28,37 @@ namespace WorldolioMauiPOC.Logging
                 .LoadConfigurationFromAssemblyResource(typeof(App).Assembly);
         }
 
-        private void SetupWindowsLoggingDir()
+        public static string GetLoggingDir()
+        {
+#if WINDOWS
+            return GetupWindowsLoggingDir();
+#elif ANDROID
+            return GetupAndroidLoggingDir();
+#else
+            throw new InvalidOperationException("OS not configured");
+#endif
+        }
+
+        private static string GetupWindowsLoggingDir()
         {
             // write logs in the same folder as the app
-            SetupLoggingDir(AppDomain.CurrentDomain.BaseDirectory);
+            return AppDomain.CurrentDomain.BaseDirectory;
         }
 
 #if ANDROID
-        private void SetupAndroidLoggingDir()
+        private static string GetupAndroidLoggingDir()
         {
             var context = Android.App.Application.Context;
             var dirs = context.GetExternalFilesDirs(null);
             if (dirs != null && dirs[0] != null)
             {
                 // use our external folder - dependes on package name
-                SetupLoggingDir(dirs[0].AbsolutePath);
+                return dirs[0].AbsolutePath;
             }
             else
             {
                 // hard code and hope for the best
-                SetupLoggingDir($"/sdcard/Android/data/{context.PackageName}/files/");
+                return $"/sdcard/Android/data/{context.PackageName}/files/";
             }
         }
 #endif
@@ -59,7 +67,7 @@ namespace WorldolioMauiPOC.Logging
         {
             // set the targets for the file loggers
             var config = LogManager.Configuration;
-            var target = config.FindTargetByName("fileTarget");
+            var target = config!.FindTargetByName("fileTarget");
             var fileTarget = target as FileTarget;
             if (fileTarget != null)
             {

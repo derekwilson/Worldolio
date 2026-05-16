@@ -4,8 +4,8 @@
              x:Class="WorldolioMauiPOC.Views.CityGrid"
              Title="CityGrid">
 
-    <VerticalStackLayout>
-        <Label>
+    <Grid RowDefinitions="auto,*">
+        <Label Grid.Row="1">
             <Label.FormattedText>
                 <FormattedString>
                     <Span Text="Version: " TextColor="Gray" />
@@ -13,29 +13,29 @@
                 </FormattedString>
             </Label.FormattedText>
         </Label>
-        <ScrollView>
-            <CollectionView x:Name="citiesCollection"
-                    ItemsSource="{Binding Cities}"
-                    Margin="10"
-                    SelectionMode="Single"
-                    SelectionChanged="citiesCollection_SelectionChanged"
-                    >
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="20" />
-                </CollectionView.ItemsLayout>
+        <CollectionView 
+                x:Name="citiesCollection"
+                Grid.Row="2"
+                ItemsSource="{Binding Cities}"
+                Margin="10"
+                SelectionMode="Single"
+                SelectionChanged="citiesCollection_SelectionChanged"
+                >
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="20" />
+            </CollectionView.ItemsLayout>
 
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <VerticalStackLayout>
-                            <HorizontalStackLayout>
-                                <Label Text="{Binding DisplayName}" FontSize="Default" FontAttributes="Bold" />
-                                <Label Text="{Binding Country.DisplayName}" FontSize="Default" Margin="40,4,0,0" />
-                            </HorizontalStackLayout>
-                        </VerticalStackLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </ScrollView>
-    </VerticalStackLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout>
+                        <HorizontalStackLayout>
+                            <Label Text="{Binding DisplayName}" FontSize="Default" FontAttributes="Bold" />
+                            <Label Text="{Binding Country.DisplayName}" FontSize="Default" Margin="40,4,0,0" />
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
 
 </ContentPage>

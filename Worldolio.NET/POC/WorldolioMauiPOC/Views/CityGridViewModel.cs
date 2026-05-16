@@ -2,6 +2,7 @@
 using Worldolio.Data.Logging;
 using Worldolio.Data.Model;
 using Worldolio.Data.Repository;
+using WorldolioMauiPOC.Utility;
 
 namespace WorldolioMauiPOC.Views
 {
@@ -13,15 +14,17 @@ namespace WorldolioMauiPOC.Views
 
         private ILogger _logger;
         private ICityRepository _citiesRepository;
+        private IEnvironmentInformationProvider _environmentInformationProvider;
 
-        public CityGridViewModel(ICityRepository citiesRepository, ILogger logger)
+        public CityGridViewModel(ICityRepository citiesRepository, ILogger logger, IEnvironmentInformationProvider environmentInformationProvider)
         {
             _logger = logger;
             _citiesRepository = citiesRepository;
+            _environmentInformationProvider = environmentInformationProvider;
 
             _logger.Debug(() => $"CityGridViewModel init");
 
-            AppVersion = AppInfo.Current.VersionString;
+            AppVersion = _environmentInformationProvider.GetAppVersion();
 
             LoadCities().GetAwaiter();
         }

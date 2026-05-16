@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
-using System.Reflection;
 using Worldolio.Data.DependencyInjection;
 using Worldolio.Data.Utility;
 using WorldolioMauiPOC.Data;
 using WorldolioMauiPOC.Logging;
+using WorldolioMauiPOC.Utility;
 using WorldolioMauiPOC.Views;
 
 namespace WorldolioMauiPOC
@@ -19,9 +19,10 @@ namespace WorldolioMauiPOC
             var builder = MauiApp.CreateBuilder();
 
             // configure the logging and test that its woking
+            var env = new EnvironmentInformationProvider();
             var loggerFactory = new NLogMauiLoggerFactory();        // this will also configure NLog
             _logger = loggerFactory.Logger;
-            _logger.Info(() => $"WorldolioMauiPOC, v{GetCodeVersion()}, {GetCodePackage()}, Running on .NET CLR: {Environment.Version.ToString()}");
+            _logger.Info(() => $"WorldolioMauiPOC, v{env.GetAppVersion()}, {env.GetPackageName()}, Running on .NET CLR: {Environment.Version.ToString()}");
             SetupExceptionHandler();
 
             // attach logging to maui
@@ -50,6 +51,10 @@ namespace WorldolioMauiPOC
             Registration.RegisterFileDbConnection(_container, dbPath);
             Registration.RegisterServices(_container, _logger);
 
+            // MAUI objects
+            builder.Services.AddSingleton<IEnvironmentInformationProvider, EnvironmentInformationProvider>();
+
+            // MAUI viewmodels
             builder.Services.AddSingleton<CityGridViewModel>();
             builder.Services.AddSingleton<CityGrid>();
 
@@ -58,24 +63,6 @@ namespace WorldolioMauiPOC
             DatabaseHelper.CopyDatabaseToFileSystem(DatabaseHelper.GetDatabaseFilePath());
 
             return builder.Build();
-        }
-
-        static private string GetCodeVersion()
-        {
-            return $"{AppInfo.Current.VersionString}({AppInfo.Current.Version.Build})";
-        }
-
-        static private string GetCodeVersion2()
-        {
-            // do not move the GetExecutingAssembly call from here into a supporting DLL
-            Assembly me = Assembly.GetExecutingAssembly();
-            AssemblyName name = me.GetName();
-            return name.Version?.ToString() ?? "UNKNOWN";
-        }
-
-        static private string GetCodePackage()
-        {
-            return $"{AppInfo.Current.PackageName}";
         }
 
         #region Exception Handling
