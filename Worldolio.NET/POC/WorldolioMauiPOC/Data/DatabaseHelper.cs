@@ -35,12 +35,13 @@ namespace WorldolioMauiPOC.Data
         public static async Task CopyDatabaseToFileSystemAsync(ILogger logger, string targetPathname)
         {
             var dbExists = File.Exists(targetPathname);
+            logger.Debug(() => $"CopyDatabaseToFileSystemAsync DB exists = {dbExists}, {targetPathname}");
             // Only copy if it doesn't already exist to avoid overwriting user data
             if (!dbExists)
             {
-                logger.Debug(() => $"CopyDatabaseToFileSystemAsync DB exists = {dbExists}, {targetPathname}");
                 using Stream inputStream = await FileSystem.Current.OpenAppPackageFileAsync(RESOURCE_DB_NAME);
                 {
+                    logger.Debug(() => $"CopyDatabaseToFileSystemAsync copying DB {targetPathname}");
                     using FileStream outputStream = File.Create(targetPathname);
                     await inputStream.CopyToAsync(outputStream);
                     logger.Debug(() => $"CopyDatabaseToFileSystemAsync DB copied {targetPathname}");

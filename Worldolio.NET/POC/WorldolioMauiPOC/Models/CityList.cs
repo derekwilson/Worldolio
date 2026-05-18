@@ -35,7 +35,7 @@ namespace WorldolioMauiPOC.Models
 
         public async Task LoadCities()
         {
-            await DatabaseHelper.CopyDatabaseToFileSystemAsync(DatabaseHelper.GetDatabaseFilePath());
+            //await DatabaseHelper.CopyDatabaseToFileSystemAsync(DatabaseHelper.GetDatabaseFilePath());
 
             long[] cityIds = [458, 252, 324, 313, 477, 79, 320, 279, 180, 351, 429, 382];
             var temp = await _citiesRepository.GetByIdsAsync(cityIds);
