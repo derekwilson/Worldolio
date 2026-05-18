@@ -119,6 +119,9 @@ namespace WorldolioDataChecker
 
         private static async Task DisplaySchemaRevisionAudit()
         {
+            var versions = _sraRepository.GetDatabaseSchemaVersions();
+            Console.WriteLine($"SQLite version: {versions.Item1}, Schema Version: {versions.Item2}");
+
             ICollection<SchemaRevisionAudit> allSra = await _sraRepository.GetAllAsync();
             foreach (SchemaRevisionAudit item in allSra)
             {
@@ -126,7 +129,7 @@ namespace WorldolioDataChecker
                 Console.WriteLine($"{item.Timestamp}, {item.Description}");
                 Console.ResetColor();
             }
-            Console.WriteLine("SRA count = {0}", allSra.Count);
+            Console.WriteLine($"SRA count = {allSra.Count}");
         }
 
         private static async Task DisplayDriveSide(int id)

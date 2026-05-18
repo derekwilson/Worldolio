@@ -8,6 +8,8 @@ namespace Worldolio.Data.Repository
     public interface ISchemaRevisionAuditRepository
     {
         Task<ICollection<SchemaRevisionAudit>> GetAllAsync();
+
+        Tuple<string, long> GetDatabaseSchemaVersions();
     }
 
     public class SchemaRevisionAuditRepository : ISchemaRevisionAuditRepository
@@ -32,6 +34,21 @@ namespace Worldolio.Data.Repository
             {
                 var result = await connection.QueryAsync<SchemaRevisionAudit>(SQL_SELECT_ALL);
                 return result.ToList();
+            }
+        }
+
+        public Tuple<string, long> GetDatabaseSchemaVersions()
+        {
+            using (IDbConnection connection = _connectionFactory.GetOpenConnection())
+            {
+                var command = connection.CreateCommand();
+                command.CommandText = "SELECT sqlite_version();";
+                string version = command.ExecuteScalar()?.ToString() ?? "UNKNOWN";
+
+                command.CommandText = "PRAGMA user_version;";
+                long userVersion = (long)(command.ExecuteScalar() ?? -1);
+
+                return Tuple.Create(version, userVersion);
             }
         }
     }

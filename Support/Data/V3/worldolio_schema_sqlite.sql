@@ -6,6 +6,7 @@ CREATE TABLE sra_schema_revision_audit (
 
 /* sra data */
 insert into sra_schema_revision_audit (sra_description) values ('Schema Init v3.0 - start SQLIte v' || sqlite_version());
+PRAGMA user_version = 1;
 
 /* drop tables in the correct order */
 DROP TABLE IF EXISTS cty_city;
