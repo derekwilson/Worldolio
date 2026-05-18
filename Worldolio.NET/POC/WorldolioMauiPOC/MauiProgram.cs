@@ -5,6 +5,7 @@ using Worldolio.Data.Utility;
 using WorldolioMauiPOC.Data;
 using WorldolioMauiPOC.Logging;
 using WorldolioMauiPOC.Utility;
+using WorldolioMauiPOC.ViewModels.CityGrid;
 using WorldolioMauiPOC.Views;
 
 namespace WorldolioMauiPOC

@@ -3,9 +3,8 @@ using Worldolio.Data.Model;
 using Worldolio.Data.MSSQLite;
 using Worldolio.Data.Repository;
 using Worldolio.Data.Utility;
-using WorldolioMauiPOC.Data;
 
-namespace WorldolioMauiPOC.Models
+namespace WorldolioMauiPOC.ViewModels
 {
     internal class CityList
     {

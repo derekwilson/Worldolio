@@ -4,6 +4,21 @@
              x:Class="WorldolioMauiPOC.Views.CityGrid"
              Title="CityGrid">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Settings"
+                     Order="Secondary"
+                     Priority="1"
+                     Clicked="Toolbar_Settings"
+                     >
+        </ToolbarItem>
+        <ToolbarItem Text="About"
+                     Order="Secondary"
+                     Priority="2"
+                     Clicked="Toolbar_About"
+                     >
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+    
     <Grid RowDefinitions="auto,*">
         <Label Grid.Row="1">
             <Label.FormattedText>

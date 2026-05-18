@@ -4,7 +4,7 @@ using Worldolio.Data.Model;
 using Worldolio.Data.Repository;
 using WorldolioMauiPOC.Utility;
 
-namespace WorldolioMauiPOC.Views
+namespace WorldolioMauiPOC.ViewModels.CityGrid
 {
     public class CityGridViewModel
     {
