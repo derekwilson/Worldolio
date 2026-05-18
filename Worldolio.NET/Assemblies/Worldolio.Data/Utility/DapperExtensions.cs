@@ -14,6 +14,8 @@ namespace Worldolio.Data.Utility
 
         public static void AttachMappers()
         {
+            // if you miss out a type here then you will get the correct number of records/model objects but all will be empty
+            AttachMapper<SchemaRevisionAudit>();
             AttachMapper<DriveSide>();
             AttachMapper<Country>();
             AttachMapper<City>();

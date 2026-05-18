@@ -29,6 +29,7 @@ namespace Worldolio.Data.DependencyInjection
             container.Register<ITimeZoneFactory, TimeZoneFactory>();
 
             // data
+            container.Register<ISchemaRevisionAuditRepository, SchemaRevisionAuditRepository>();
             container.Register<IDriveSideRepository, DriveSideRepository>();
             container.Register<ICountryRepository, CountryRepository>();
             container.Register<ICityRepository, CityRepository>();

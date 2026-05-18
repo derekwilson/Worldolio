@@ -57,6 +57,7 @@ namespace WorldolioDataChecker
         private static IDriveSideRepository _drivesideRepository = null!;
         private static ICountryRepository _countriesRepository = null!;
         private static ICityRepository _citiesRepository = null!;
+        private static ISchemaRevisionAuditRepository _sraRepository = null!;
 
         static void Init()
         {
@@ -76,6 +77,7 @@ namespace WorldolioDataChecker
             _citiesRepository = _container.Resolve<ICityRepository>();
             _countriesRepository = _container.Resolve<ICountryRepository>();
             _drivesideRepository = _container.Resolve<IDriveSideRepository>();
+            _sraRepository = _container.Resolve<ISchemaRevisionAuditRepository>();
         }
 
         #region Exception Handling
@@ -112,6 +114,19 @@ namespace WorldolioDataChecker
             await DisplayCities(null);
             await DisplayCountriesWithCities("NZ", true);
 
+            await DisplaySchemaRevisionAudit();
+        }
+
+        private static async Task DisplaySchemaRevisionAudit()
+        {
+            ICollection<SchemaRevisionAudit> allSra = await _sraRepository.GetAllAsync();
+            foreach (SchemaRevisionAudit item in allSra)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"{item.Timestamp}, {item.Description}");
+                Console.ResetColor();
+            }
+            Console.WriteLine("SRA count = {0}", allSra.Count);
         }
 
         private static async Task DisplayDriveSide(int id)

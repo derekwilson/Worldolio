@@ -1,4 +1,6 @@
-﻿namespace WorldolioMauiPOC.Data
+﻿using Worldolio.Data.Logging;
+
+namespace WorldolioMauiPOC.Data
 {
     internal static class DatabaseHelper
     {
@@ -16,46 +18,33 @@
             return dbFilePath;
         }
 
-        public static void CopyDatabaseToFileSystem()
+        public static void CopyDatabaseToFileSystem(ILogger logger)
         {
-            CopyDatabaseToFileSystem(GetDatabaseFilePath());
+            CopyDatabaseToFileSystem(logger, GetDatabaseFilePath());
         }
 
         //to call asyn method synchronously
-        public static void CopyDatabaseToFileSystem(string targetPathname)
+        public static void CopyDatabaseToFileSystem(ILogger logger, string targetPathname)
         {
-            var task = CopyDatabaseToFileSystemAsync(targetPathname);
+            var task = CopyDatabaseToFileSystemAsync(logger, targetPathname);
             Func<System.Runtime.CompilerServices.TaskAwaiter> getAwaiter = task.GetAwaiter;
             Func<System.Runtime.CompilerServices.TaskAwaiter> result = getAwaiter; // Blocks until the task completes
         }
 
         //Copying method from Maui File System Helper
-        public static async Task CopyDatabaseToFileSystemAsync(string targetPathname)
+        public static async Task CopyDatabaseToFileSystemAsync(ILogger logger, string targetPathname)
         {
+            var dbExists = File.Exists(targetPathname);
             // Only copy if it doesn't already exist to avoid overwriting user data
-            if (!File.Exists(targetPathname))
+            if (!dbExists)
             {
+                logger.Debug(() => $"CopyDatabaseToFileSystemAsync DB exists = {dbExists}, {targetPathname}");
                 using Stream inputStream = await FileSystem.Current.OpenAppPackageFileAsync(RESOURCE_DB_NAME);
                 {
-                    // Copy the file to the AppDataDirectory
                     using FileStream outputStream = File.Create(targetPathname);
                     await inputStream.CopyToAsync(outputStream);
+                    logger.Debug(() => $"CopyDatabaseToFileSystemAsync DB copied {targetPathname}");
                 }
-            }
-        }
-
-        public static async Task InitializeDatabase()
-        {
-            var databaseName = "worldolio.sqlite";
-            //var targetPath = Path.Combine(FileSystem.AppDataDirectory, databaseName);
-            var targetPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, databaseName);
-
-            // Only copy if it doesn't already exist to avoid overwriting user data
-            if (!File.Exists(targetPath))
-            {
-                using var stream = await FileSystem.OpenAppPackageFileAsync(databaseName);
-                using var newStream = File.Create(targetPath);
-                await stream.CopyToAsync(newStream);
             }
         }
     }

@@ -136,5 +136,9 @@ insert into sra_schema_revision_audit (sra_description) values ('Schema Init Dat
 .import country.csv cnt_country
 .import city.csv cty_city
 
+insert into sra_schema_revision_audit (sra_description) values ('City count = ' || (select count(*) FROM [cty_city]));
+insert into sra_schema_revision_audit (sra_description) values ('Country count = ' || (select count(*) FROM [cnt_country]));
+insert into sra_schema_revision_audit (sra_description) values ('Drive Side count = ' || (select count(*) FROM [dsi_driveside]));
+
 insert into sra_schema_revision_audit (sra_description) values ('Schema Init Data Load v3.0 - end');
 

@@ -60,7 +60,7 @@ namespace WorldolioMauiPOC
 
             // database init
             DapperExtensions.AttachMappers();
-            DatabaseHelper.CopyDatabaseToFileSystem(DatabaseHelper.GetDatabaseFilePath());
+            DatabaseHelper.CopyDatabaseToFileSystem(_logger, DatabaseHelper.GetDatabaseFilePath());
 
             return builder.Build();
         }
