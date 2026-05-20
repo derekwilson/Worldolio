@@ -34,7 +34,10 @@
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
 		<MauiImage Include="Resources\Icons\arrow_back.svg" />
+		<MauiImage Include="Resources\Icons\globe.svg" />
 		<MauiImage Include="Resources\Icons\info.svg" />
+		<MauiImage Include="Resources\Icons\moon.svg" />
+		<MauiImage Include="Resources\Icons\plan.svg" />
 		<MauiImage Include="Resources\Icons\settings.svg" />
 
 		<!-- Splash Screen -->
@@ -54,7 +57,10 @@
 	<ItemGroup>
 	  <None Remove="nlog.config" />
 	  <None Remove="Resources\Icons\arrow_back.svg" />
+	  <None Remove="Resources\Icons\globe.svg" />
 	  <None Remove="Resources\Icons\info.svg" />
+	  <None Remove="Resources\Icons\moon.svg" />
+	  <None Remove="Resources\Icons\plan.svg" />
 	  <None Remove="Resources\Icons\settings.svg" />
 	</ItemGroup>
 

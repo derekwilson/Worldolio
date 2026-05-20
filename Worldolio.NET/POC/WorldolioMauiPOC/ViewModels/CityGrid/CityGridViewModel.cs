@@ -1,50 +1,124 @@
-﻿using System.Collections.ObjectModel;
+﻿using CommunityToolkit.Mvvm.Input;
+using NodaTime;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows.Input;
 using Worldolio.Data.Logging;
 using Worldolio.Data.Model;
 using Worldolio.Data.Repository;
+using Worldolio.Data.Utility;
 using WorldolioMauiPOC.Utility;
+using static Worldolio.Data.Model.TimeZone;
 
 namespace WorldolioMauiPOC.ViewModels.CityGrid
 {
-    public class CityGridViewModel
+    public class CityViewModel : INotifyPropertyChanged
+    {
+        public string CityName => _city.DisplayName;
+
+        public string CountryName => _city.Country.DisplayName;
+
+        public string Time => _city.TimeZone.GetFormattedLocalTime(_now, _inDayTimeFormat);
+
+        private Instant _now;
+        private TimeFormat _inDayTimeFormat;
+        private City _city;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged(string name) =>
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+        public CityViewModel(City city, Instant now, TimeFormat inDayTimeFormat)
+        {
+            _city = city;
+            _now = now;
+            _inDayTimeFormat = inDayTimeFormat;
+        }
+
+        public void Update(Instant now, TimeFormat inDayTimeFormat)
+        {
+            _now = now;
+            _inDayTimeFormat = inDayTimeFormat;
+            OnPropertyChanged(nameof(Time));
+        }
+    }
+
+    public partial class CityGridViewModel : INotifyPropertyChanged
     {
         public ICommand NavigateToAboutPage { get; }
 
-        public ObservableCollection<City> Cities { get; set; } = new ObservableCollection<City>();
+        public ObservableCollection<CityViewModel> Cities { get; set; } = new ObservableCollection<CityViewModel>();
+        public string CurrentTime { get; set; } = "not set";
 
-        public string AppVersion { get; set; }
+        private Instant _currentInstant;
+        private TimeFormat _currentInDayTimeFormat = TimeFormat.TIME_SHORT_AMPM;      // TODO - read from settings
+        private Timer _timer;
 
         private ILogger _logger;
         private ICityRepository _citiesRepository;
-        private IEnvironmentInformationProvider _environmentInformationProvider;
         private INavigationHelper _navigationHelper;
+        private ISystemTimeProvider _systemTimeProvider;
 
-        public CityGridViewModel(ICityRepository citiesRepository, ILogger logger, IEnvironmentInformationProvider environmentInformationProvider, INavigationHelper navigationHelper)
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged(string name) =>
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+        public CityGridViewModel(ICityRepository citiesRepository, ILogger logger, INavigationHelper navigationHelper, ISystemTimeProvider systemTimeProvider)
         {
             logger.Debug(() => $"CityGridViewModel init");
 
             _logger = logger;
             _citiesRepository = citiesRepository;
-            _environmentInformationProvider = environmentInformationProvider;
             _navigationHelper = navigationHelper;
+            _systemTimeProvider = systemTimeProvider;
 
             NavigateToAboutPage = new Command(async () => await _navigationHelper.ExecuteNavigationAsync(nameof(About)));
 
-            AppVersion = _environmentInformationProvider.GetAppVersion();
-
-            LoadCities().GetAwaiter();
+            // Initialize timer to fire immediately, then tick every 1 second
+            _timer = new Timer(TimerCallback, null, TimeSpan.Zero, TimeSpan.FromSeconds(60));
         }
 
-        public async Task LoadCities()
+        ~CityGridViewModel() {
+            _timer?.Dispose();
+        }
+
+        private void TimerCallback(object? state)
         {
-            _logger.Debug(() => $"CityGridViewModel LoadCities");
+            // MainThread required since Timer ticks on a background thread
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                _logger.Debug(() => $"CityGridViewModel TimerCallback");
+                UpdateTime();
+                _logger.Debug(() => $"CityGridViewModel TimerCallback - end");
+            });
+        }
+
+        private void UpdateTime()
+        {
+            _currentInstant = _systemTimeProvider.Now;
+            // maybe we should be using the home city?
+            DateTimeZone tz = DateTimeZoneProviders.Tzdb.GetSystemDefault();
+            ZonedDateTime zdt = _currentInstant.InZone(tz);
+            CurrentTime = Worldolio.Data.Model.TimeZone.FormatTime(_currentInDayTimeFormat, zdt.LocalDateTime);
+            _logger.Debug(() => $"CityGridViewModel UpdateTime: {CurrentTime}");
+            OnPropertyChanged(nameof(CurrentTime));
+
+            foreach (CityViewModel cityView in Cities)
+            {
+                cityView.Update(_currentInstant, _currentInDayTimeFormat);
+            }
+        }
+
+        [RelayCommand]
+        private async Task InitAsync()
+        {
+            _logger.Debug(() => $"CityGridViewModel InitAsync");
 
             long[] cityIds = [458, 252, 324, 477, 79, 320, 279, 180, 351, 429, 382];
             var temp = await _citiesRepository.GetByIdsAsync(cityIds);
             foreach (City city in temp)
             {
-                Cities.Add(city);
+                Cities.Add(new CityViewModel(city, _currentInstant, _currentInDayTimeFormat));
             }
 
             _logger.Debug(() => $"CityGridViewModel cities = {Cities.Count}");

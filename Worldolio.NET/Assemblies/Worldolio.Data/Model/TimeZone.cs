@@ -191,7 +191,7 @@ namespace Worldolio.Data.Model
             return targetInstant >= start && targetInstant < end;
         }
 
-        private string FormatTime(TimeFormat format, LocalDateTime time)
+        public static string FormatTime(TimeFormat format, LocalDateTime time)
         {
             string strTimeFormat = "h:mm tt";
             switch (format)
