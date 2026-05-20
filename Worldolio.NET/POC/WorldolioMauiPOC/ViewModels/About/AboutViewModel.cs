@@ -1,18 +1,23 @@
-﻿using System.Windows.Input;
+﻿using CommunityToolkit.Mvvm.Input;
+using System.ComponentModel;
+using System.Windows.Input;
 using Worldolio.Data.Logging;
 using Worldolio.Data.Repository;
 using WorldolioMauiPOC.Utility;
 
 namespace WorldolioMauiPOC.ViewModels.About
 {
-    public class AboutViewModel
+    public partial class AboutViewModel : INotifyPropertyChanged
     {
-        public string AppVersion { get; set; }
-        public string DotNetVersion { get; set; }
-        public string Package { get; set; }
-        public string DBVersion { get; set; }
-        public string DBPath { get; set; }
-        public string LoggingPath { get; set; }
+        public bool HasError { get; set; } = false;
+        public bool Loading { get; set; } = false;
+
+        public string AppVersion { get; set; } = "";
+        public string DotNetVersion { get; set; } = "";
+        public string Package { get; set; } = "";
+        public string DBVersion { get; set; } = "";
+        public string DBPath { get; set; } = "";
+        public string LoggingPath { get; set; } = "";
 
         public ICommand NavigateBack { get; }
 
@@ -20,6 +25,10 @@ namespace WorldolioMauiPOC.ViewModels.About
         private ISchemaRevisionAuditRepository _sraRepository;
         private IEnvironmentInformationProvider _environmentInformationProvider;
         private INavigationHelper _navigationHelper;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged(string name) =>
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
         public AboutViewModel(ILogger logger, IEnvironmentInformationProvider environmentInformationProvider, ISchemaRevisionAuditRepository sraRepository, INavigationHelper navigationHelper)
         {
@@ -31,16 +40,46 @@ namespace WorldolioMauiPOC.ViewModels.About
             _navigationHelper = navigationHelper;
 
             NavigateBack = new Command(async () => await _navigationHelper.ExecuteNavigationAsync(".."));
+        }
 
-            AppVersion = _environmentInformationProvider.GetAppVersion();
-            DotNetVersion = Environment.Version.ToString();
-            Package = _environmentInformationProvider.GetPackageName();
-            var versions = _sraRepository.GetDatabaseSchemaVersions();
-            var sra = _sraRepository.GetAllAsync().GetAwaiter().GetResult();
-            var dbDate = sra.FirstOrDefault()?.Timestamp.ToString();
-            DBVersion = $"Schema: {versions.Item2}, {dbDate}";
-            DBPath = _environmentInformationProvider.GetDatabasePath();
-            LoggingPath = _environmentInformationProvider.GetLogfileLocation();
+        [RelayCommand]
+        private async Task InitAsync()
+        {
+            _logger.Debug(() => $"AboutViewModel InitAsync");
+
+            try
+            {
+                AppVersion = _environmentInformationProvider.GetAppVersion();
+                OnPropertyChanged(nameof(AppVersion));
+
+                DotNetVersion = Environment.Version.ToString();
+                OnPropertyChanged(nameof(DotNetVersion));
+
+                Package = _environmentInformationProvider.GetPackageName();
+                OnPropertyChanged(nameof(Package));
+
+                var versions = _sraRepository.GetDatabaseSchemaVersions();
+                var sra = await _sraRepository.GetAllAsync();
+                var dbDate = sra.FirstOrDefault()?.Timestamp.ToString();
+                DBVersion = $"Schema: {versions.Item2}, {dbDate}";
+                OnPropertyChanged(nameof(DBVersion));
+
+                DBPath = _environmentInformationProvider.GetDatabasePath();
+                OnPropertyChanged(nameof(DBPath));
+
+                LoggingPath = _environmentInformationProvider.GetLogfileLocation();
+                OnPropertyChanged(nameof(LoggingPath));
+            }
+            catch
+            {
+                HasError = true;
+                OnPropertyChanged(nameof(HasError));
+            }
+            finally
+            {
+                Loading = false;
+                OnPropertyChanged(nameof(Loading));
+            }
         }
     }
 }
