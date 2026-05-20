@@ -10,10 +10,63 @@
         />
     </Shell.BackButtonBehavior>
 
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout>
+
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="App Version: " TextColor="Gray" />
+                        <Span Text="{Binding AppVersion}" FontAttributes="Bold" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text=".NET Version: " TextColor="Gray" />
+                        <Span Text="{Binding DotNetVersion}" FontAttributes="Bold" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Package: " TextColor="Gray" />
+                        <Span Text="{Binding Package}" FontAttributes="Bold" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="DB Version: " TextColor="Gray" />
+                        <Span Text="{Binding DBVersion}" FontAttributes="Bold" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="DB Path: " TextColor="Gray" />
+                        <Span Text="{Binding DBPath}" FontAttributes="Bold" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Logging Path: " TextColor="Gray" />
+                        <Span Text="{Binding LoggingPath}" FontAttributes="Bold" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

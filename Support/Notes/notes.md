@@ -196,8 +196,10 @@ https://www.nuget.org/packages/NLog.Targets.MauiLog
 
 https://github.com/EmDe-NJ/Bundled-SQLite-Database-NetMaui/tree/master
 
+https://www.damirscorner.com/blog/posts/20221021-AvoidAsyncCallsInViewmodelConstructors.html
+
 icons fonts
 
 https://fonts.google.com/icons?selected=Material+Symbols+Outlined:settings:FILL@0;wght@400;GRAD@0;opsz@24&icon.size=24&icon.color=%231f1f1f
 
-
+https://www.reddit.com/r/dotnetMAUI/comments/1g3ir5k/what_do_you_use_for_icons/
