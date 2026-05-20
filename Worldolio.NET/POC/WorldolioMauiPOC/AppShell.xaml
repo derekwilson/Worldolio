@@ -8,7 +8,7 @@
     Title="WorldolioMauiPOC">
 
     <ShellContent
-        Title="Cities"
+        Title="Worldolio"
         ContentTemplate="{DataTemplate local:Views.CityGrid}"
         Route="MainPage" />
 

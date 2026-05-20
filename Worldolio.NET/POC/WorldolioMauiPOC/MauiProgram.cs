@@ -5,6 +5,7 @@ using Worldolio.Data.Utility;
 using WorldolioMauiPOC.Data;
 using WorldolioMauiPOC.Logging;
 using WorldolioMauiPOC.Utility;
+using WorldolioMauiPOC.ViewModels.About;
 using WorldolioMauiPOC.ViewModels.CityGrid;
 using WorldolioMauiPOC.Views;
 
@@ -46,22 +47,29 @@ namespace WorldolioMauiPOC
             _container = Registration.GetEmptyContainer();
             _container.AttachExistingContainer(builder.Services);
             
+            // add our services from Worldolio.Data into the container
             var dbPath = DatabaseHelper.GetDatabaseFilePath();
             _logger.Debug(() => $"DB = {dbPath}");
-
             Registration.RegisterFileDbConnection(_container, dbPath);
             Registration.RegisterServices(_container, _logger);
 
             // MAUI objects
             builder.Services.AddSingleton<IEnvironmentInformationProvider, EnvironmentInformationProvider>();
+            builder.Services.AddSingleton<INavigationHelper, NavigationHelper>();
 
             // MAUI viewmodels
             builder.Services.AddSingleton<CityGridViewModel>();
             builder.Services.AddSingleton<CityGrid>();
 
+            builder.Services.AddSingleton<AboutViewModel>();
+            builder.Services.AddSingleton<About>();
+
             // database init
             DapperExtensions.AttachMappers();
             DatabaseHelper.CopyDatabaseToFileSystem(_logger, DatabaseHelper.GetDatabaseFilePath());
+
+            // register routes
+            Routing.RegisterRoute(nameof(About), typeof(About));
 
             return builder.Build();
         }

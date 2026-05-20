@@ -9,12 +9,13 @@ public partial class CityGrid : ContentPage
 
     public CityGrid(CityGridViewModel viewModel, ILogger logger)
     {
+        logger.Debug(() => $"CityGrid init");
+
         InitializeComponent();
 
         BindingContext = viewModel;
-        _logger = logger;
 
-        _logger.Debug(() => $"CityGrid init");
+        _logger = logger;
     }
 
     private void citiesCollection_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -25,10 +26,5 @@ public partial class CityGrid : ContentPage
     private void Toolbar_Settings(object sender, EventArgs e)
     {
         _logger.Debug(() => $"CityGrid Toolbar_Settings");
-    }
-
-    private void Toolbar_About(object sender, EventArgs e)
-    {
-        _logger.Debug(() => $"CityGrid Toolbar_About");
     }
 }

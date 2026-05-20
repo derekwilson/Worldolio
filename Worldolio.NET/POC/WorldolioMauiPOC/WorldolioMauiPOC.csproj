@@ -20,20 +20,22 @@
 		<ApplicationId>net.derekwilson.worldoliomauipoc</ApplicationId>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>0.0.9</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion>0.0.13</ApplicationDisplayVersion>
 		<ApplicationVersion>2</ApplicationVersion>
 
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<WindowsPackageType>None</WindowsPackageType>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+		<MauiImage Include="Resources\Icons\arrow_back.svg" />
+		<MauiImage Include="Resources\Icons\info.svg" />
+		<MauiImage Include="Resources\Icons\settings.svg" />
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
@@ -51,6 +53,9 @@
 
 	<ItemGroup>
 	  <None Remove="nlog.config" />
+	  <None Remove="Resources\Icons\arrow_back.svg" />
+	  <None Remove="Resources\Icons\info.svg" />
+	  <None Remove="Resources\Icons\settings.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -76,6 +81,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Views\About.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\CityGrid.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

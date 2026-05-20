@@ -6,15 +6,17 @@
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Settings"
-                     Order="Secondary"
+                     IconImageSource="settings.png"
+                     Order="Primary"
                      Priority="1"
                      Clicked="Toolbar_Settings"
                      >
         </ToolbarItem>
         <ToolbarItem Text="About"
-                     Order="Secondary"
+                     IconImageSource="info.png"
+                     Order="Primary"
                      Priority="2"
-                     Clicked="Toolbar_About"
+                     Command="{Binding NavigateToAboutPage}" 
                      >
         </ToolbarItem>
     </ContentPage.ToolbarItems>
