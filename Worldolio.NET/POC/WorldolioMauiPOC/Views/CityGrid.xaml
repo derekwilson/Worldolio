@@ -51,6 +51,7 @@
                 <DataTemplate>
                     <Frame Padding="0.3" BorderColor="#AC94C9">
                         <Grid   
+                            Style="{StaticResource Grid.DataTemplate}"
                             BackgroundColor="#FFFFFF"
                             Padding="5"  
                             ColumnDefinitions="Auto,Auto,*"  
