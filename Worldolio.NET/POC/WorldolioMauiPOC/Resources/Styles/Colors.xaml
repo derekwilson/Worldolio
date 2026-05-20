@@ -6,10 +6,19 @@
 
     <!-- Note: For Android please see also Platforms\Android\Resources\values\colors.xml -->
 
-    <Color x:Key="Primary">#512BD4</Color>
-    <Color x:Key="PrimaryDark">#ac99ea</Color>
+    <!-- old -->
+    <Color x:Key="OldPrimary">#512BD4</Color>
+    <Color x:Key="OldPrimaryDark">#ac99ea</Color>
+    <Color x:Key="OldPrimaryDarkText">#242424</Color>
+    <Color x:Key="OldSecondary">#DFD8F7</Color>
+    <Color x:Key="OldSecondaryDarkText">#9880e5</Color>
+    <Color x:Key="OldTertiary">#2B0B98</Color>
+
+    <Color x:Key="Primary">#00319c</Color>
+    <Color x:Key="PrimaryDark">#A3C1FF</Color>
     <Color x:Key="PrimaryDarkText">#242424</Color>
-    <Color x:Key="Secondary">#DFD8F7</Color>
+    <Color x:Key="Secondary">#398C31</Color>
+    <Color x:Key="SecondaryLight">#BCEDB5</Color>
     <Color x:Key="SecondaryDarkText">#9880e5</Color>
     <Color x:Key="Tertiary">#2B0B98</Color>
 
