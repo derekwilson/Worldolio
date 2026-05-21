@@ -427,24 +427,35 @@
 
     <!-- added -->
 
-    <Style TargetType="Grid" x:Key="Grid.DataTemplate">
+    <Style TargetType="Frame" x:Key="Frame.DataTemplate">
+        <Setter Property="Padding" Value="0.3"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal" />
-                    <VisualState x:Name="Disabled">
+                    <VisualState x:Name="Normal" >
                         <VisualState.Setters>
-                            <Setter Property="Opacity" Value="0.5" />
+                            <Setter Property="BorderColor" Value="{StaticResource Gray300}" />
                         </VisualState.Setters>
                     </VisualState>
+                    <VisualState x:Name="Disabled" />
                     <VisualState x:Name="PointerOver">
                         <VisualState.Setters>
-                            <Setter Property="BackgroundColor" Value="LightGray" />
+                            <Setter Property="BorderColor" Value="{StaticResource Primary}" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
             </VisualStateGroupList>
         </Setter>
+    </Style>
+
+    <Style TargetType="Label" x:Key="Label.BigGridItem">
+        <Setter Property="FontSize" Value="32" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="Padding" Value="10" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="Label.LittleGridItem">
+        <Setter Property="Padding" Value="3" />
     </Style>
 
 </ResourceDictionary>

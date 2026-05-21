@@ -18,28 +18,57 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
 
         public string CountryName => _city.Country.DisplayName;
 
-        public string Time => _city.TimeZone.GetFormattedLocalTime(_now, _inDayTimeFormat);
+        public string CurrentTime => _city.TimeZone.GetFormattedLocalTime(_now, _inDayTimeFormat);
+        public string CurrentDay => _city.TimeZone.GetFormattedLocalTime(_now, TimeFormat.DAY_SHORT);
+
+        public string OffsetToHome
+        {
+            get
+            {
+                if (_homeCity == null)
+                {
+                    return "";
+                }
+                else
+                {
+                    return _city.TimeZone.GetFormattedOffset(_homeCity.TimeZone);
+                }
+            }
+        }
+
+        public string DSTDates => _city.TimeZone.GetDSTDatesForDisplay();
+
+        public string Sunrise => _city.GetSunrise(_now, _inDayTimeFormat);
+        public string Sunset => _city.GetSunset(_now, _inDayTimeFormat);
+        public string Moonrise => _city.GetMoonrise(_now, _withDayTimeFormat);
+        public string Moonset => _city.GetMoonset(_now, _withDayTimeFormat);
 
         private Instant _now;
         private TimeFormat _inDayTimeFormat;
+        private TimeFormat _withDayTimeFormat;
         private City _city;
+        private City? _homeCity;
 
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged(string name) =>
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-        public CityViewModel(City city, Instant now, TimeFormat inDayTimeFormat)
+        public CityViewModel(City city, City? homeCity, Instant now, TimeFormat inDayTimeFormat, TimeFormat withDayTimeFormat)
         {
             _city = city;
+            _homeCity = homeCity;
             _now = now;
             _inDayTimeFormat = inDayTimeFormat;
+            _withDayTimeFormat = withDayTimeFormat;
         }
 
-        public void Update(Instant now, TimeFormat inDayTimeFormat)
+        public void Update(Instant now, TimeFormat inDayTimeFormat, TimeFormat withDayTimeFormat)
         {
             _now = now;
             _inDayTimeFormat = inDayTimeFormat;
-            OnPropertyChanged(nameof(Time));
+            _withDayTimeFormat = withDayTimeFormat;
+            OnPropertyChanged(nameof(CurrentTime));
+            OnPropertyChanged(nameof(CurrentDay));
         }
     }
 
@@ -50,8 +79,9 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
         public ObservableCollection<CityViewModel> Cities { get; set; } = new ObservableCollection<CityViewModel>();
         public string CurrentTime { get; set; } = "not set";
 
+        private TimeFormat _currentInDayTimeFormat = TimeFormat.TIME_SHORT_AMPM;            // TODO - read from settings
+        private TimeFormat _currentWithDayTimeFormat = TimeFormat.DAY_TIME_SHORT_AMPM;      // TODO - read from settings
         private Instant _currentInstant;
-        private TimeFormat _currentInDayTimeFormat = TimeFormat.TIME_SHORT_AMPM;      // TODO - read from settings
         private Timer _timer;
 
         private ILogger _logger;
@@ -105,7 +135,7 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
 
             foreach (CityViewModel cityView in Cities)
             {
-                cityView.Update(_currentInstant, _currentInDayTimeFormat);
+                cityView.Update(_currentInstant, _currentInDayTimeFormat, _currentWithDayTimeFormat);
             }
         }
 
@@ -116,9 +146,11 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
 
             long[] cityIds = [458, 252, 324, 477, 79, 320, 279, 180, 351, 429, 382];
             var temp = await _citiesRepository.GetByIdsAsync(cityIds);
+            var home = temp.FirstOrDefault();
+
             foreach (City city in temp)
             {
-                Cities.Add(new CityViewModel(city, _currentInstant, _currentInDayTimeFormat));
+                Cities.Add(new CityViewModel(city, home, _currentInstant, _currentInDayTimeFormat, _currentWithDayTimeFormat));
             }
 
             _logger.Debug(() => $"CityGridViewModel cities = {Cities.Count}");

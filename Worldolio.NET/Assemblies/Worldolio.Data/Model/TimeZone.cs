@@ -64,6 +64,11 @@ namespace Worldolio.Data.Model
             return _systemTimeProvider.GetUtcNow();
         }
 
+        public Instant GetNow()
+        {
+            return _systemTimeProvider.Now;
+        }
+
         public Offset GetUtcOffset(Instant instant)
         {
             if (_zone == null)
