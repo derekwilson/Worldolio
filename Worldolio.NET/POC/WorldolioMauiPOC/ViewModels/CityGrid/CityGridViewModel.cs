@@ -69,6 +69,11 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
             _withDayTimeFormat = withDayTimeFormat;
             OnPropertyChanged(nameof(CurrentTime));
             OnPropertyChanged(nameof(CurrentDay));
+            // TODO - actually these only need to be done when the day changes
+            OnPropertyChanged(nameof(Sunrise));
+            OnPropertyChanged(nameof(Sunset));
+            OnPropertyChanged(nameof(Moonrise));
+            OnPropertyChanged(nameof(Moonset));
         }
     }
 
@@ -78,6 +83,8 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
 
         public ObservableCollection<CityViewModel> Cities { get; set; } = new ObservableCollection<CityViewModel>();
         public string CurrentTime { get; set; } = "not set";
+        public string MoonPhase { get; set; } = "not set";
+
 
         private TimeFormat _currentInDayTimeFormat = TimeFormat.TIME_SHORT_AMPM;            // TODO - read from settings
         private TimeFormat _currentWithDayTimeFormat = TimeFormat.DAY_TIME_SHORT_AMPM;      // TODO - read from settings
@@ -130,8 +137,12 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
             DateTimeZone tz = DateTimeZoneProviders.Tzdb.GetSystemDefault();
             ZonedDateTime zdt = _currentInstant.InZone(tz);
             CurrentTime = Worldolio.Data.Model.TimeZone.FormatTime(_currentInDayTimeFormat, zdt.LocalDateTime);
+            MoonPhase = GeoCalculator.GetFormattedIlluminatedFractionOfMoon(_currentInstant);
+
             _logger.Debug(() => $"CityGridViewModel UpdateTime: {CurrentTime}");
             OnPropertyChanged(nameof(CurrentTime));
+            // TODO - actually these only need to be done when the day changes
+            OnPropertyChanged(nameof(MoonPhase));
 
             foreach (CityViewModel cityView in Cities)
             {

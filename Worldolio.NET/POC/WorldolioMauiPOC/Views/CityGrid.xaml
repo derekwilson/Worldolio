@@ -34,6 +34,8 @@
                 <FormattedString>
                     <Span Text="Time: " TextColor="Gray" />
                     <Span Text="{Binding CurrentTime}" FontAttributes="Bold" />
+                    <Span Text=" Moon: " TextColor="Gray" />
+                    <Span Text="{Binding MoonPhase}" />
                 </FormattedString>
             </Label.FormattedText>
         </Label>
@@ -56,80 +58,76 @@
                         >
                         <Grid   
                             Padding="5"  
-                            ColumnDefinitions="Auto,*,Auto"  
-                            RowDefinitions="Auto, Auto, Auto, Auto">
+                            ColumnDefinitions="Auto, *"  
+                            RowDefinitions="Auto, Auto, Auto, Auto, Auto">
 
                             <Label  
                                 Style="{StaticResource Label.BigGridItem}"
                                 HorizontalTextAlignment="Center"
-                                Grid.RowSpan="2"
                                 Text="{Binding CurrentDay}" />
 
                             <Label  
                                 Style="{StaticResource Label.BigGridItem}"
-                                Grid.Row="2"
-                                Grid.RowSpan="2"
+                                Grid.Column="1"
                                 Text="{Binding CurrentTime}" />
 
-                            <HorizontalStackLayout
-                                Grid.Column="1"
-                                >
-                                <Label  
-                                    Style="{StaticResource Label.LittleGridItem}"
-                                    FontAttributes="Bold"  
-                                    Text="{Binding CityName}" />
-                                <Label  
-                                    Style="{StaticResource Label.LittleGridItem}"
-                                    Text="{Binding CountryName}" />
-                            </HorizontalStackLayout>
-
-                            <HorizontalStackLayout
-                                Grid.Column="1"
+                            <Label
                                 Grid.Row="1"
+                                Grid.ColumnSpan="2"
+                                Style="{StaticResource Label.LittleGridItem}"
                                 >
-                                <Label  
-                                    Style="{StaticResource Label.LittleGridItem}"
-                                    Text="{Binding OffsetToHome}" />
-                                <Label  
-                                    Style="{StaticResource Label.LittleGridItem}"
-                                    Text="{Binding DSTDates}" />
-                            </HorizontalStackLayout>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding CityName}" FontAttributes="Bold" />
+                                        <Span Text=", "/>
+                                        <Span Text="{Binding CountryName}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
 
-                            <HorizontalStackLayout
-                                Grid.Column="1"
+                            <Label
                                 Grid.Row="2"
+                                Grid.ColumnSpan="2"
+                                Style="{StaticResource Label.LittleGridItem}"
                                 >
-                                <Label  
-                                    Style="{StaticResource Label.LittleGridItem}"
-                                    Text="Sun Rise" />
-                                <Label  
-                                    Style="{StaticResource Label.LittleGridItem}"
-                                    Text="{Binding Sunrise}" />
-                                <Label  
-                                    Style="{StaticResource Label.LittleGridItem}"
-                                    Text=", Set" />
-                                <Label  
-                                    Style="{StaticResource Label.LittleGridItem}"
-                                    Text="{Binding Sunset}" />
-                            </HorizontalStackLayout>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding OffsetToHome}" FontAttributes="Bold" />
+                                        <Span Text=" DST: "/>
+                                        <Span Text="{Binding DSTDates}" FontAttributes="Bold" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
 
-                            <HorizontalStackLayout
-                                Grid.Column="1"
+                            <Label
                                 Grid.Row="3"
+                                Grid.ColumnSpan="2"
+                                Style="{StaticResource Label.LittleGridItem}"
                                 >
-                                <Label  
-                                    Style="{StaticResource Label.LittleGridItem}"
-                                    Text="Moon Rise" />
-                                <Label  
-                                    Style="{StaticResource Label.LittleGridItem}"
-                                    Text="{Binding Moonrise}" />
-                                <Label  
-                                    Style="{StaticResource Label.LittleGridItem}"
-                                    Text=", Set" />
-                                <Label  
-                                    Style="{StaticResource Label.LittleGridItem}"
-                                    Text="{Binding Moonset}" />
-                            </HorizontalStackLayout>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Sun Rise: "/>
+                                        <Span Text="{Binding Sunrise}" FontAttributes="Bold" />
+                                        <Span Text=", Set: "/>
+                                        <Span Text="{Binding Sunset}" FontAttributes="Bold" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <Label
+                                Grid.Row="4"
+                                Grid.ColumnSpan="2"
+                                Style="{StaticResource Label.LittleGridItem}"
+                                >
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Moon Rise: "/>
+                                        <Span Text="{Binding Moonrise}" FontAttributes="Bold" />
+                                        <Span Text=", Set: "/>
+                                        <Span Text="{Binding Moonset}" FontAttributes="Bold" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
                             
                             <!--
                             <Button
