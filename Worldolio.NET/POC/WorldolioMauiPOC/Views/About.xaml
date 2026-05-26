@@ -57,6 +57,15 @@
             <Label>
                 <Label.FormattedText>
                     <FormattedString>
+                        <Span Text="Timezone Data Version: " TextColor="Gray" />
+                        <Span Text="{Binding TzDbVersion}" FontAttributes="Bold" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
                         <Span Text="DB Path: " TextColor="Gray" />
                         <Span Text="{Binding DBPath}" FontAttributes="Bold" />
                     </FormattedString>

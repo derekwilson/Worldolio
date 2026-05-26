@@ -1,4 +1,5 @@
-﻿using WorldolioMauiPOC.Logging;
+﻿using NodaTime.TimeZones;
+using WorldolioMauiPOC.Logging;
 
 namespace WorldolioMauiPOC.Utility
 {
@@ -8,6 +9,7 @@ namespace WorldolioMauiPOC.Utility
         string GetDatabasePath();
         string GetPackageName();
         string GetLogfileLocation();
+        string GetIanaTzDatabaseVersion();
     }
 
     public class EnvironmentInformationProvider : IEnvironmentInformationProvider
@@ -20,6 +22,12 @@ namespace WorldolioMauiPOC.Utility
         public string GetDatabasePath()
         {
             return Data.DatabaseHelper.GetDatabaseFilePath();
+        }
+
+        public string GetIanaTzDatabaseVersion()
+        {
+            // Access the version via the default TZDB source
+            return TzdbDateTimeZoneSource.Default.TzdbVersion;
         }
 
         public string GetLogfileLocation()

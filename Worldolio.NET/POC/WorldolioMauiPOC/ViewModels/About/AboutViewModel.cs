@@ -18,6 +18,7 @@ namespace WorldolioMauiPOC.ViewModels.About
         public string DBVersion { get; set; } = "";
         public string DBPath { get; set; } = "";
         public string LoggingPath { get; set; } = "";
+        public string TzDbVersion { get; set; } = "";
 
         public ICommand NavigateBack { get; }
 
@@ -69,6 +70,9 @@ namespace WorldolioMauiPOC.ViewModels.About
 
                 LoggingPath = _environmentInformationProvider.GetLogfileLocation();
                 OnPropertyChanged(nameof(LoggingPath));
+
+                TzDbVersion = _environmentInformationProvider.GetIanaTzDatabaseVersion();
+                OnPropertyChanged(nameof(TzDbVersion));
             }
             catch
             {
