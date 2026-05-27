@@ -42,7 +42,9 @@ namespace WorldolioMauiPOC.Logging
         private static string GetupWindowsLoggingDir()
         {
             // write logs in the same folder as the app
-            return AppDomain.CurrentDomain.BaseDirectory;
+            //return AppDomain.CurrentDomain.BaseDirectory;
+            // write logs to the AppData folder
+            return FileSystem.Current.AppDataDirectory;
         }
 
 #if ANDROID

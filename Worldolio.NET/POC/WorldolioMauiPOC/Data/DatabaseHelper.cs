@@ -9,7 +9,8 @@ namespace WorldolioMauiPOC.Data
         static public string GetDatabaseFilePath()
         {
 #if WINDOWS
-            var dbFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, RESOURCE_DB_NAME);
+            //var dbFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, RESOURCE_DB_NAME);
+            var dbFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, RESOURCE_DB_NAME);
 #elif ANDROID
             var dbFilePath = Path.Combine(FileSystem.AppDataDirectory, RESOURCE_DB_NAME);
 #else

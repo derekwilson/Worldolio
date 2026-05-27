@@ -18,9 +18,11 @@
 
 		<!-- App Identifier -->
 		<ApplicationId>net.derekwilson.worldoliomauipoc</ApplicationId>
-
+		<!-- Debug App Identifier -->
+		<ApplicationId Condition="'$(Configuration)' == 'Debug'">net.derekwilson.worldoliomauipoc.debug</ApplicationId>
+		
 		<!-- Versions -->
-		<ApplicationDisplayVersion>0.0.16</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion>0.0.17</ApplicationDisplayVersion>
 		<ApplicationVersion>2</ApplicationVersion>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
