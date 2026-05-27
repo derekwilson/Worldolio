@@ -1,4 +1,8 @@
-﻿using NodaTime.TimeZones;
+﻿#if ANDROID
+using Android.Content.PM;
+using AndroidX.Core.Content.PM;
+#endif
+using NodaTime.TimeZones;
 using WorldolioMauiPOC.Logging;
 
 namespace WorldolioMauiPOC.Utility
@@ -16,7 +20,24 @@ namespace WorldolioMauiPOC.Utility
     {
         public string GetAppVersion()
         {
-            return $"{AppInfo.Current.Version.Major}.{AppInfo.Current.Version.Minor}.{AppInfo.Current.Version.Build} ({AppInfo.Current.Version.Revision})";
+            return $"{AppInfo.Current.Version.Major}.{AppInfo.Current.Version.Minor}.{AppInfo.Current.Version.Build} ({GetVersionCode()})";
+        }
+
+        private string GetVersionCode()
+        {
+#if ANDROID
+            var context = Android.App.Application.Context;
+            PackageInfo? package = (
+                //Build.VERSION.SdkInt >= BuildVersionCodes.Tiramisu ?
+                OperatingSystem.IsAndroidVersionAtLeast(33) ?
+                context.PackageManager?.GetPackageInfo(context.PackageName ?? "", PackageManager.PackageInfoFlags.Of((long)0)) :
+                context.PackageManager?.GetPackageInfo(context.PackageName ?? "", 0)
+            );
+            long longVersionCode = package != null ? PackageInfoCompat.GetLongVersionCode(package) : 0;
+            return longVersionCode.ToString();
+#else
+            return AppInfo.Current.Version.Revision.ToString();
+#endif
         }
 
         public string GetDatabasePath()
