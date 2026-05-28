@@ -203,3 +203,19 @@ icons fonts
 https://fonts.google.com/icons?selected=Material+Symbols+Outlined:settings:FILL@0;wght@400;GRAD@0;opsz@24&icon.size=24&icon.color=%231f1f1f
 
 https://www.reddit.com/r/dotnetMAUI/comments/1g3ir5k/what_do_you_use_for_icons/
+
+info == e88e
+settings == e8b8
+globe == e64c
+plan == ebcc
+moon == ef44
+
+
+toolbar
+
+https://github.com/dotnet/maui/issues/9240
+
+https://blog.ewers-peters.de/customize-the-title-bar-of-a-maui-app-with-these-simple-steps
+
+https://github.com/dotnet/maui/issues/23201
+
