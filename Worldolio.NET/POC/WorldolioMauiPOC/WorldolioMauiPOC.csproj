@@ -35,20 +35,10 @@
 	<ItemGroup>
 		<!-- App Icon -->
 		<!-- Android Specific Foreground Scale -->
-		<MauiIcon 
-			Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'"
-			Include="Resources\AppIcon\appicon_worldolio.svg"
-			ForegroundFile="Resources\AppIcon\appiconfg_worldolio.svg"
-			Color="#00319c"
-			ForegroundScale="0.65" />
+		<MauiIcon Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'" Include="Resources\AppIcon\appicon_worldolio.svg" ForegroundFile="Resources\AppIcon\appiconfg_worldolio.svg" Color="#00319c" ForegroundScale="0.65" />
 
 		<!-- Default Icon Configuration for all other platforms -->
-		<MauiIcon
-			Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) != 'android'"
-			Include="Resources\AppIcon\appicon_worldolio.svg"
-			ForegroundFile="Resources\AppIcon\appiconfg_worldolio.svg"
-			Color="#00319c"
-			/>
+		<MauiIcon Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) != 'android'" Include="Resources\AppIcon\appicon_worldolio.svg" ForegroundFile="Resources\AppIcon\appiconfg_worldolio.svg" Color="#00319c" />
 
 		<MauiImage Include="Resources\Icons\arrow_back.svg" />
 		<MauiImage Include="Resources\Icons\globe.svg" />
@@ -113,6 +103,12 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\CityList.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Moon.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Plan.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

@@ -7,9 +7,51 @@
     Shell.FlyoutBehavior="Disabled"
     Title="WorldolioMauiPOC">
 
-    <ShellContent
-        Title="Worldolio"
-        ContentTemplate="{DataTemplate local:Views.CityGrid}"
-        Route="MainPage" />
+    <TabBar>
+        <ShellContent
+            Title="Home"
+            Route="MainPage"
+            ContentTemplate="{DataTemplate local:Views.CityGrid}"
+            >
+            <ShellContent.Icon>
+                <FontImageSource 
+                        FontFamily="MaterialSymbolsOutlined"
+                        Glyph="&#xe64c;"
+                        Color="{AppThemeBinding Light={StaticResource OffBlack},
+                                                     Dark={StaticResource White}}"
+                        />
+            </ShellContent.Icon>
+        </ShellContent>
+
+        <ShellContent
+            Title="Plan"
+            ContentTemplate="{DataTemplate local:Views.Plan}"
+            >
+            <ShellContent.Icon>
+                <FontImageSource 
+                        FontFamily="MaterialSymbolsOutlined"
+                        Glyph="&#xebcc;"
+                        Color="{AppThemeBinding Light={StaticResource OffBlack},
+                                                     Dark={StaticResource White}}"
+                        />
+            </ShellContent.Icon>
+        </ShellContent>
+
+        <ShellContent
+            Title="Moon"
+            ContentTemplate="{DataTemplate local:Views.Moon}"
+            >
+            <ShellContent.Icon>
+                <FontImageSource 
+                        FontFamily="MaterialSymbolsOutlined"
+                        Glyph="&#xef44;"
+                        Color="{AppThemeBinding Light={StaticResource OffBlack},
+                                                     Dark={StaticResource White}}"
+                        />
+            </ShellContent.Icon>
+        </ShellContent>
+
+    </TabBar>
+    
 
 </Shell>

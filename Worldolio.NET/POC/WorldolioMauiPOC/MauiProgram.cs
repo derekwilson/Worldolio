@@ -67,9 +67,13 @@ namespace WorldolioMauiPOC
             // MAUI viewmodels
             builder.Services.AddSingleton<CityGridViewModel>();
             builder.Services.AddSingleton<CityGrid>();
+//            builder.Services.AddSingleton<PlanViewModel>();
+//            builder.Services.AddSingleton<Plan>();
+//            builder.Services.AddSingleton<MoonViewModel>();
+//            builder.Services.AddSingleton<Moon>();
 
-            builder.Services.AddSingleton<AboutViewModel>();
-            builder.Services.AddSingleton<About>();
+            builder.Services.AddTransient<AboutViewModel>();
+            builder.Services.AddTransient<About>();
 
             // database init
             DapperExtensions.AttachMappers();

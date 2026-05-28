@@ -109,7 +109,8 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
             _navigationHelper = navigationHelper;
             _systemTimeProvider = systemTimeProvider;
 
-            NavigateToAboutPage = new Command(async () => await _navigationHelper.ExecuteNavigationAsync(nameof(About)));
+            //NavigateToAboutPage = new Command(async () => await _navigationHelper.ExecuteNavigationAsync(nameof(About)));
+            NavigateToAboutPage = new Command(async () => await _navigationHelper.ExecuteModalNavigationAsync<Views.About>());
 
             // Initialize timer to fire immediately, then tick every 1 second
             _timer = new Timer(TimerCallback, null, TimeSpan.Zero, TimeSpan.FromSeconds(60));
