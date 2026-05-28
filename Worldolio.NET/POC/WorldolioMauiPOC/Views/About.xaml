@@ -15,6 +15,23 @@
         />
     </Shell.BackButtonBehavior>
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Done"
+                     Order="Primary"
+                     Priority="1"
+                     Command="{Binding NavigateBack}" 
+                     >
+            <ToolbarItem.IconImageSource>
+                <FontImageSource
+                    FontFamily="MaterialSymbolsOutlined"
+                    Glyph="&#xe5cd;"
+                    Color="{AppThemeBinding Light={StaticResource OffBlack},
+                                                 Dark={StaticResource White}}"
+                    Size="20"/>
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
     <ScrollView>
         <VerticalStackLayout>
 

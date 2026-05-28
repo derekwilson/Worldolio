@@ -15,7 +15,7 @@ public partial class About : ContentPage
         _logger = logger;
 
 #if WINDOWS
-        AddBackButtonToToolbar(viewModel);
+        //AddBackButtonToToolbar(viewModel);
 #endif
         BindingContext = viewModel;
     }

@@ -46,7 +46,9 @@
             >
             <Label.FormattedText>
                 <FormattedString>
-                    <Span Text="Time: " TextColor="Gray" />
+                    <Span Text="Cities: " TextColor="Gray" />
+                    <Span Text="{Binding NumberOfCities}" FontAttributes="Bold" />
+                    <Span Text=" Time: " TextColor="Gray" />
                     <Span Text="{Binding CurrentTime}" FontAttributes="Bold" />
                     <Span Text=" Moon: " TextColor="Gray" />
                     <Span Text="{Binding MoonPhase}" />

@@ -84,6 +84,7 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
         public ObservableCollection<CityViewModel> Cities { get; set; } = new ObservableCollection<CityViewModel>();
         public string CurrentTime { get; set; } = "not set";
         public string MoonPhase { get; set; } = "not set";
+        public string NumberOfCities { get; set; } = "not set";
 
 
         private TimeFormat _currentInDayTimeFormat = TimeFormat.TIME_SHORT_AMPM;            // TODO - read from settings
@@ -160,10 +161,14 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
             var temp = await _citiesRepository.GetByIdsAsync(cityIds);
             var home = temp.FirstOrDefault();
 
+            Cities.Clear();
             foreach (City city in temp)
             {
                 Cities.Add(new CityViewModel(city, home, _currentInstant, _currentInDayTimeFormat, _currentWithDayTimeFormat));
             }
+
+            NumberOfCities = Cities.Count.ToString();
+            OnPropertyChanged(nameof(NumberOfCities));
 
             _logger.Debug(() => $"CityGridViewModel cities = {Cities.Count}");
         }
