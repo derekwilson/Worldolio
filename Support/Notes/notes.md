@@ -190,6 +190,8 @@ http://hinch.me.uk/riset.html
 
 https://www.codemag.com/Article/2408041/Exploring-.NET-MAUI-Getting-Started
 
+https://www.codemag.com/Article/2409041/Exploring-.NET-MAUI-Styles-Navigation-and-Reusable-UI
+
 https://blog.ewers-peters.de/are-you-using-dependency-injection-in-your-net-maui-app-yet
 
 https://www.nuget.org/packages/NLog.Targets.MauiLog
@@ -211,6 +213,7 @@ plan == ebcc
 moon == ef44
 
 back == e5c4
+close == e5cd
 
 toolbar
 
