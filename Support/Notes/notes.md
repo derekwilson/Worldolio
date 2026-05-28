@@ -220,3 +220,19 @@ https://blog.ewers-peters.de/customize-the-title-bar-of-a-maui-app-with-these-si
 
 https://github.com/dotnet/maui/issues/23201
 
+
+Date picker
+
+https://medium.com/syncfusion/choosing-the-right-net-maui-picker-date-time-and-lists-made-simple-69d597bf20a3
+
+https://www.stephanarnas.com/posts/maui-date-picker-nullable
+
+https://learn.microsoft.com/en-us/dotnet/maui/user-interface/controls/datepicker?view=net-maui-10.0
+
+
+slider
+
+https://stackoverflow.com/questions/73521926/is-there-a-way-to-set-an-interval-or-tick-on-a-slider-in-net-maui
+
+
+
