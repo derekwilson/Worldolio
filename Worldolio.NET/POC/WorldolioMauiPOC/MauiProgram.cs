@@ -40,6 +40,10 @@ namespace WorldolioMauiPOC
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    fonts.AddFont("MaterialIcons-Regular.ttf", "MaterialIconsRegular");
+                    fonts.AddFont("MaterialSymbolsOutlined.ttf", "MaterialSymbolsOutlined");
+                    fonts.AddFont("MaterialSymbolsRounded.ttf", "MaterialSymbolsRounded");
+                    fonts.AddFont("MaterialSymbolsSharp.ttf", "MaterialSymbolsSharp");
                 });
 
 #if DEBUG

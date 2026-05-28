@@ -11,18 +11,32 @@
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Settings"
-                     IconImageSource="settings.png"
                      Order="Primary"
                      Priority="1"
                      Clicked="Toolbar_Settings"
                      >
+            <ToolbarItem.IconImageSource>
+                <FontImageSource
+                    FontFamily="MaterialSymbolsOutlined"
+                    Glyph="&#xe8b8;"
+                    Color="{AppThemeBinding Light={StaticResource OffBlack},
+                                                 Dark={StaticResource White}}"
+                    Size="20"/>
+            </ToolbarItem.IconImageSource>
         </ToolbarItem>
         <ToolbarItem Text="About"
-                     IconImageSource="info.png"
                      Order="Primary"
                      Priority="2"
                      Command="{Binding NavigateToAboutPage}" 
                      >
+            <ToolbarItem.IconImageSource>
+                <FontImageSource
+                    FontFamily="MaterialSymbolsOutlined"
+                    Glyph="&#xe88e;"
+                    Color="{AppThemeBinding Light={StaticResource OffBlack},
+                                                 Dark={StaticResource White}}"
+                    Size="20"/>
+            </ToolbarItem.IconImageSource>
         </ToolbarItem>
     </ContentPage.ToolbarItems>
     
