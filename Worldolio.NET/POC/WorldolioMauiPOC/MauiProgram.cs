@@ -8,6 +8,7 @@ using WorldolioMauiPOC.Logging;
 using WorldolioMauiPOC.Utility;
 using WorldolioMauiPOC.ViewModels.About;
 using WorldolioMauiPOC.ViewModels.CityGrid;
+using WorldolioMauiPOC.ViewModels.Plan;
 using WorldolioMauiPOC.Views;
 
 namespace WorldolioMauiPOC
@@ -67,8 +68,8 @@ namespace WorldolioMauiPOC
             // MAUI viewmodels
             builder.Services.AddSingleton<CityGridViewModel>();
             builder.Services.AddSingleton<CityGrid>();
-//            builder.Services.AddSingleton<PlanViewModel>();
-//            builder.Services.AddSingleton<Plan>();
+            builder.Services.AddSingleton<PlanViewModel>();
+            builder.Services.AddSingleton<Plan>();
 //            builder.Services.AddSingleton<MoonViewModel>();
 //            builder.Services.AddSingleton<Moon>();
 
@@ -94,7 +95,31 @@ namespace WorldolioMauiPOC
 
             // Add handler for background threads/tasks
             TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
+
+#if WINDOWS
+            Microsoft.UI.Xaml.Application.Current.UnhandledException += Ui_Current_UnhandledException;
+#elif ANDROID
+            // For Android:
+            // All exceptions will flow through Android.Runtime.AndroidEnvironment.UnhandledExceptionRaiser,
+            // and NOT through AppDomain.CurrentDomain.UnhandledException
+
+            Android.Runtime.AndroidEnvironment.UnhandledExceptionRaiser += AndroidEnvironment_UnhandledExceptionRaiser;
+#endif
         }
+
+#if ANDROID
+        private static void AndroidEnvironment_UnhandledExceptionRaiser(object? sender, Android.Runtime.RaiseThrowableEventArgs e)
+        {
+            _logger?.LogException(() => "AndroidEnvironment_UnhandledExceptionRaiser", e.Exception);
+        }
+#endif
+
+#if WINDOWS
+        private static void Ui_Current_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            _logger?.LogException(() => "Ui_Current_UnhandledException", e.Exception);
+        }
+#endif
 
         private static void TaskSchedulerOnUnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
         {
@@ -107,6 +132,6 @@ namespace WorldolioMauiPOC
             _logger?.LogException(() => "CurrentDomain_UnhandledException", ex);
         }
 
-        #endregion
+#endregion
     }
 }

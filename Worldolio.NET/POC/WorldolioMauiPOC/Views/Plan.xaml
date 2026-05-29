@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="WorldolioMauiPOC.Views.Plan"
-             Title="Plan">
+             Title="Time Planner">
     <VerticalStackLayout>
         <Label 
             Text="Planning View"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+
+        <Label>
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="Time: " TextColor="Gray" />
+                    <Span Text="{Binding CurrentHour}" FontAttributes="Bold" />
+                    <Span Text=":" />
+                    <Span Text="{Binding CurrentMinute}" FontAttributes="Bold" />
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+
+        <Slider
+            Minimum="0"
+            Maximum="95"
+            ValueChanged="Slider_ValueChanged" />
+        
     </VerticalStackLayout>
 </ContentPage>
