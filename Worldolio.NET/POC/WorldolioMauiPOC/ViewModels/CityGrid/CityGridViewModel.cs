@@ -157,7 +157,7 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
         {
             _logger.Debug(() => $"CityGridViewModel InitAsync");
 
-            long[] cityIds = [458, 252, 324, 477, 79, 320, 279, 180, 351, 429, 382];
+            long[] cityIds = [458, 429, 382, 252, 477, 324, 79, 320, 279, 180, 351];
             var temp = await _citiesRepository.GetByIdsAsync(cityIds);
             var home = temp.FirstOrDefault();
 
