@@ -108,6 +108,9 @@
 	  <MauiXaml Update="Views\Moon.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Partial\TabBar.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Plan.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

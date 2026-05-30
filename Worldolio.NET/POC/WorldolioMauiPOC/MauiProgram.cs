@@ -15,6 +15,8 @@ namespace WorldolioMauiPOC
 {
     public static class MauiProgram
     {
+        public static IServiceProvider Services { get; private set; } = null!;
+
         private static Worldolio.Data.Logging.ILogger _logger = null!;
         private static Worldolio.Data.DependencyInjection.IContainer _container = null!;
 
@@ -83,7 +85,10 @@ namespace WorldolioMauiPOC
             // register routes
             Routing.RegisterRoute(nameof(About), typeof(About));
 
-            return builder.Build();
+            var app = builder.Build();
+            MauiProgram.Services = app.Services;
+            return app;
+
         }
 
         #region Exception Handling

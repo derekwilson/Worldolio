@@ -17,6 +17,12 @@ public partial class Plan : ContentPage
 
         _logger = logger;
         _viewModel = viewModel;
+
+        TabBarButtons.ShowSettings = true;
+        foreach (var item in TabBarButtons.ToolbarItems)
+        {
+            this.ToolbarItems.Add(item);
+        }
     }
 
     // The value we want the slider to increment each time it updates
