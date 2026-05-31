@@ -1,3 +1,4 @@
+using Microsoft.Maui;
 using Microsoft.Maui.Controls;
 using Worldolio.Data.Logging;
 using WorldolioMauiPOC.Utility;
@@ -50,20 +51,46 @@ public partial class TabBar : ContentView
         ToolbarItems = new List<ToolbarItem>();
         if (showSettings)
         {
-            ToolbarItems.Add(new ToolbarItem
+            var settingsImage = new FontImageSource
+            {
+                FontFamily = "MaterialSymbolsOutlined",
+                Glyph = "\ue8b8",
+                Size = 20,
+            };
+            settingsImage.SetAppTheme<Color>(
+                FontImageSource.ColorProperty,
+                Colors.Black,  // Light Theme Color
+                Colors.White   // Dark Theme Color
+            );
+            var settings = new ToolbarItem
             {
                 Text = "Settings",
-                IconImageSource = "settings.png",
-                Command = new Command(OnSettingsClicked)
-            });
+                IconImageSource = settingsImage,
+                Command = new Command(async () => await _navigationHelper.ExecuteModalNavigationAsync<Views.About>())
+            };
+
+            ToolbarItems.Add(settings);
         }
 
-        ToolbarItems.Add(new ToolbarItem
+        var aboutImage = new FontImageSource
+        {
+            FontFamily = "MaterialSymbolsOutlined",
+            Glyph = "\ue88e",
+            Size = 20,
+        };
+        aboutImage.SetAppTheme<Color>(
+            FontImageSource.ColorProperty,
+            Colors.Black,  // Light Theme Color
+            Colors.White   // Dark Theme Color
+        );
+        var about = new ToolbarItem
         {
             Text = "About",
-            IconImageSource = "info.png",
+            IconImageSource = aboutImage,
             Command = new Command(async () => await _navigationHelper.ExecuteModalNavigationAsync<Views.About>())
-        });
+        };
+
+        ToolbarItems.Add(about);
         _logger.Debug(() => $"AddToolbarItems - complete");
     }
 
