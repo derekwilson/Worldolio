@@ -6,32 +6,79 @@
              x:Class="WorldolioMauiPOC.Views.Plan"
              Title="Time Planner">
 
-    <VerticalStackLayout>
+    <Grid   
+            Padding="5"  
+            ColumnDefinitions="Auto, *, Auto"  
+            RowDefinitions="Auto, Auto, Auto, Auto, Auto">
 
         <partial:TabBar 
             x:Name="TabBarButtons"
         />
 
         <Label 
+            Grid.Column="1"
             Text="Planning View"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
 
-        <Label>
+        <Label
+            Grid.Column="1"
+            Grid.Row="1"
+            >
             <Label.FormattedText>
                 <FormattedString>
                     <Span Text="Time: " TextColor="Gray" />
-                    <Span Text="{Binding CurrentHour}" FontAttributes="Bold" />
-                    <Span Text=":" />
-                    <Span Text="{Binding CurrentMinute}" FontAttributes="Bold" />
+                    <Span Text="{Binding CurrentTime}" FontAttributes="Bold" />
                 </FormattedString>
             </Label.FormattedText>
         </Label>
 
+        <ImageButton 
+            Grid.Row="2" 
+            HorizontalOptions="Center" 
+            VerticalOptions="Center" 
+            HeightRequest="40" 
+            WidthRequest="40"
+            Clicked="Left_Clicked"
+            >
+            <ImageButton.Source>
+                <FontImageSource  
+                    Glyph="&#xe5c4;"
+                    FontFamily="MaterialSymbolsOutlined" 
+                    Color="{AppThemeBinding Light={StaticResource OffBlack},
+                                            Dark={StaticResource White}}"
+                    Size="20"/>
+            </ImageButton.Source>
+        </ImageButton>
+
         <Slider
+            Grid.Column="1"
+            Grid.Row="2"
+            x:Name="TimeSlider"
+            VerticalOptions="Center" 
             Minimum="0"
             Maximum="95"
             ValueChanged="Slider_ValueChanged" />
-        
-    </VerticalStackLayout>
+
+        <ImageButton 
+            Grid.Column="2"
+            Grid.Row="2" 
+            HorizontalOptions="Center" 
+            VerticalOptions="Center" 
+            HeightRequest="40" 
+            WidthRequest="40"
+            Clicked="Right_Clicked"
+            >
+            <ImageButton.Source>
+                <FontImageSource  
+                    Glyph="&#xe5c8;"
+                    FontFamily="MaterialSymbolsOutlined" 
+                    Color="{AppThemeBinding Light={StaticResource OffBlack},
+                                            Dark={StaticResource White}}"
+                    Size="20"/>
+            </ImageButton.Source>
+        </ImageButton>
+
+    </Grid>
+
 </ContentPage>

@@ -33,8 +33,26 @@ public partial class Plan : ContentPage
 
     private void Slider_ValueChanged(object sender, ValueChangedEventArgs e)
     {
-        _logger.Debug(() => $"Slider_ValueChanged: {e.OldValue} -> {e.NewValue}");
         sliderCorrectValue = (int)(e.NewValue / sliderIncrement) * sliderIncrement;
+        _logger.Debug(() => $"Slider_ValueChanged: {e.OldValue} -> {e.NewValue}, {sliderCorrectValue}");
         _viewModel.UpdateTimeFromSlider(sliderCorrectValue);
+    }
+
+    private void Left_Clicked(object sender, EventArgs e)
+    {
+        _logger.Debug(() => $"Left_Clicked");
+        if (TimeSlider.Value > TimeSlider.Minimum)
+        {
+            TimeSlider.Value = TimeSlider.Value - 1;
+        }
+    }
+
+    private void Right_Clicked(object sender, EventArgs e)
+    {
+        _logger.Debug(() => $"Left_Clicked");
+        if (TimeSlider.Value < TimeSlider.Maximum)
+        {
+            TimeSlider.Value = TimeSlider.Value + 1;
+        }
     }
 }

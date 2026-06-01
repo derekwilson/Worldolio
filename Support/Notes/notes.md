@@ -213,6 +213,7 @@ plan == ebcc
 moon == ef44
 
 back == e5c4
+forward == e5c8
 close == e5cd
 
 toolbar
