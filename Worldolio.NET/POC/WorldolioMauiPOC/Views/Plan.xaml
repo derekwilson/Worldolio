@@ -15,9 +15,11 @@
             x:Name="TabBarButtons"
         />
 
-        <Label 
+        <DatePicker 
             Grid.Column="1"
-            Text="Planning View"
+            Date="{Binding SelectedDate, Mode=TwoWay}"
+            Format="dd/MMM/yyyy"
+            FontAttributes="Bold"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
 

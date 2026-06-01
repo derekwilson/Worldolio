@@ -16,6 +16,22 @@ namespace WorldolioMauiPOC.ViewModels.Plan
             }
         }
 
+        private DateTime _selectedDate = DateTime.Today;
+
+        public DateTime SelectedDate
+        {
+            get => _selectedDate;
+            set
+            {
+                if (_selectedDate != value)
+                {
+                    _selectedDate = value;
+                    OnPropertyChanged("SelectedDate");
+                }
+            }
+        }
+
+
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged(string name) =>
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
