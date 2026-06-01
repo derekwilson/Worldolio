@@ -23,6 +23,8 @@ public partial class Plan : ContentPage
         {
             this.ToolbarItems.Add(item);
         }
+
+        _viewModel.UpdateTimeFromSlider((int) TimeSlider.Value);
     }
 
     // The value we want the slider to increment each time it updates

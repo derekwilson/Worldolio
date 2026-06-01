@@ -24,6 +24,8 @@
         <Label
             Grid.Column="1"
             Grid.Row="1"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
             >
             <Label.FormattedText>
                 <FormattedString>
@@ -58,6 +60,7 @@
             VerticalOptions="Center" 
             Minimum="0"
             Maximum="95"
+            Value="48"
             ValueChanged="Slider_ValueChanged" />
 
         <ImageButton 
