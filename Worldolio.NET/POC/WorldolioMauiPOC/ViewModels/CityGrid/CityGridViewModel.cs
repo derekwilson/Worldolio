@@ -7,75 +7,12 @@ using Worldolio.Data.Logging;
 using Worldolio.Data.Model;
 using Worldolio.Data.Repository;
 using Worldolio.Data.Utility;
+using WorldolioMauiPOC.Settings;
 using WorldolioMauiPOC.Utility;
 using static Worldolio.Data.Model.TimeZone;
 
 namespace WorldolioMauiPOC.ViewModels.CityGrid
 {
-    public class CityViewModel : INotifyPropertyChanged
-    {
-        public string CityName => _city.DisplayName;
-
-        public string CountryName => _city.Country.DisplayName;
-
-        public string CurrentTime => _city.TimeZone.GetFormattedLocalTime(_now, _inDayTimeFormat);
-        public string CurrentDay => _city.TimeZone.GetFormattedLocalTime(_now, TimeFormat.DAY_SHORT);
-
-        public string OffsetToHome
-        {
-            get
-            {
-                if (_homeCity == null)
-                {
-                    return "";
-                }
-                else
-                {
-                    return _city.TimeZone.GetFormattedOffset(_homeCity.TimeZone);
-                }
-            }
-        }
-
-        public string DSTDates => _city.TimeZone.GetDSTDatesForDisplay();
-
-        public string Sunrise => _city.GetSunrise(_now, _inDayTimeFormat);
-        public string Sunset => _city.GetSunset(_now, _inDayTimeFormat);
-        public string Moonrise => _city.GetMoonrise(_now, _withDayTimeFormat);
-        public string Moonset => _city.GetMoonset(_now, _withDayTimeFormat);
-
-        private Instant _now;
-        private TimeFormat _inDayTimeFormat;
-        private TimeFormat _withDayTimeFormat;
-        private City _city;
-        private City? _homeCity;
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged(string name) =>
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-
-        public CityViewModel(City city, City? homeCity, Instant now, TimeFormat inDayTimeFormat, TimeFormat withDayTimeFormat)
-        {
-            _city = city;
-            _homeCity = homeCity;
-            _now = now;
-            _inDayTimeFormat = inDayTimeFormat;
-            _withDayTimeFormat = withDayTimeFormat;
-        }
-
-        public void Update(Instant now, TimeFormat inDayTimeFormat, TimeFormat withDayTimeFormat)
-        {
-            _now = now;
-            _inDayTimeFormat = inDayTimeFormat;
-            _withDayTimeFormat = withDayTimeFormat;
-            OnPropertyChanged(nameof(CurrentTime));
-            OnPropertyChanged(nameof(CurrentDay));
-            // TODO - actually these only need to be done when the day changes
-            OnPropertyChanged(nameof(Sunrise));
-            OnPropertyChanged(nameof(Sunset));
-            OnPropertyChanged(nameof(Moonrise));
-            OnPropertyChanged(nameof(Moonset));
-        }
-    }
 
     public partial class CityGridViewModel : INotifyPropertyChanged
     {
@@ -96,12 +33,13 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
         private ICityRepository _citiesRepository;
         private INavigationHelper _navigationHelper;
         private ISystemTimeProvider _systemTimeProvider;
+        private IUserSettings _userSettings;
 
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged(string name) =>
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-        public CityGridViewModel(ICityRepository citiesRepository, ILogger logger, INavigationHelper navigationHelper, ISystemTimeProvider systemTimeProvider)
+        public CityGridViewModel(ICityRepository citiesRepository, ILogger logger, INavigationHelper navigationHelper, ISystemTimeProvider systemTimeProvider, IUserSettings userSettings)
         {
             logger.Debug(() => $"CityGridViewModel init");
 
@@ -109,6 +47,7 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
             _citiesRepository = citiesRepository;
             _navigationHelper = navigationHelper;
             _systemTimeProvider = systemTimeProvider;
+            _userSettings = userSettings;
 
             //NavigateToAboutPage = new Command(async () => await _navigationHelper.ExecuteNavigationAsync(nameof(About)));
             NavigateToAboutPage = new Command(async () => await _navigationHelper.ExecuteModalNavigationAsync<Views.About>());
@@ -157,8 +96,7 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
         {
             _logger.Debug(() => $"CityGridViewModel InitAsync");
 
-            long[] cityIds = [458, 429, 382, 252, 477, 324, 79, 320, 279, 180, 351];
-            var temp = await _citiesRepository.GetByIdsAsync(cityIds);
+            var temp = await _citiesRepository.GetByIdsAsync(_userSettings.Cities);
             var home = temp.FirstOrDefault();
 
             Cities.Clear();

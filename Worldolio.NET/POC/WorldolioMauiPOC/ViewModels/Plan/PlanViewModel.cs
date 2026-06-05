@@ -1,5 +1,13 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using NodaTime;
 using Worldolio.Data.Logging;
+using Worldolio.Data.Model;
+using Worldolio.Data.Repository;
+using WorldolioMauiPOC.Settings;
+using WorldolioMauiPOC.ViewModels.CityGrid;
+using static Worldolio.Data.Model.TimeZone;
 
 namespace WorldolioMauiPOC.ViewModels.Plan
 {
@@ -27,20 +35,29 @@ namespace WorldolioMauiPOC.ViewModels.Plan
                 {
                     _selectedDate = value;
                     OnPropertyChanged("SelectedDate");
+                    UpdateTime();
                 }
             }
         }
 
+        public ObservableCollection<CityViewModel> Cities { get; set; } = new ObservableCollection<CityViewModel>();
 
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged(string name) =>
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-        private ILogger _logger;
+        private TimeFormat _currentInDayTimeFormat = TimeFormat.TIME_SHORT_AMPM;            // TODO - read from settings
+        private TimeFormat _currentWithDayTimeFormat = TimeFormat.DAY_TIME_SHORT_AMPM;      // TODO - read from settings
 
-        public PlanViewModel(ILogger logger)
+        private ILogger _logger;
+        private ICityRepository _citiesRepository;
+        private IUserSettings _userSettings;
+
+        public PlanViewModel(ILogger logger, ICityRepository citiesRepository, IUserSettings userSettings)
         {
             _logger = logger;
+            _citiesRepository = citiesRepository;
+            _userSettings = userSettings;
         }
 
         public void UpdateTimeFromSlider(int value)
@@ -60,6 +77,49 @@ namespace WorldolioMauiPOC.ViewModels.Plan
             OnPropertyChanged("CurrentHour");
             OnPropertyChanged("CurrentMinute");
             OnPropertyChanged("CurrentTime");
+            UpdateTime();
+        }
+
+        private Instant GetNow()
+        {
+            if (Cities.Count < 1)
+            {
+                //throw new InvalidOperationException("no home city");
+            }
+            var localNow = new LocalDateTime(_selectedDate.Year, _selectedDate.Month, _selectedDate.Day, CurrentHour, CurrentMinute);
+
+            // maybe we should be using the home city?
+            DateTimeZone tz = DateTimeZoneProviders.Tzdb.GetSystemDefault();
+
+            Instant instant = tz.AtLeniently(localNow).ToInstant();
+
+            return instant;
+        }
+
+        private void UpdateTime()
+        {
+            _logger.Debug(() => $"PlanViewModel UpdateTime");
+            foreach (CityViewModel cityView in Cities)
+            {
+                cityView.Update(GetNow(), _currentInDayTimeFormat, _currentWithDayTimeFormat);
+            }
+        }
+
+        [RelayCommand]
+        private async Task InitAsync()
+        {
+            _logger.Debug(() => $"PlanViewModel InitAsync");
+
+            var temp = await _citiesRepository.GetByIdsAsync(_userSettings.Cities);
+            var home = temp.FirstOrDefault();
+
+            Cities.Clear();
+            foreach (City city in temp)
+            {
+                Cities.Add(new CityViewModel(city, home, GetNow(), _currentInDayTimeFormat, _currentWithDayTimeFormat));
+            }
+
+            _logger.Debug(() => $"PlanViewModel cities = {Cities.Count}");
         }
     }
 }

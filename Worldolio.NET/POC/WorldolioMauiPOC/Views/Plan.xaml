@@ -6,10 +6,14 @@
              x:Class="WorldolioMauiPOC.Views.Plan"
              Title="Time Planner">
 
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Loaded" Command="{Binding InitCommand}" />
+    </ContentPage.Behaviors>
+
     <Grid   
             Padding="5"  
             ColumnDefinitions="Auto, *, Auto"  
-            RowDefinitions="Auto, Auto, Auto, Auto, Auto">
+            RowDefinitions="Auto, Auto, Auto, *">
 
         <partial:TabBar 
             x:Name="TabBarButtons"
@@ -83,6 +87,54 @@
                     Size="20"/>
             </ImageButton.Source>
         </ImageButton>
+
+        <CollectionView 
+                x:Name="citiesCollection"
+                Grid.Row="3"
+                Grid.ColumnSpan="3"
+                ItemsSource="{Binding Cities}"
+                Margin="5"
+                SelectionMode="Single"
+                >
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame 
+                        Style="{StaticResource Frame.DataTemplate}"
+                        >
+                        <Grid   
+                            Padding="5"  
+                            ColumnDefinitions="Auto, *"  
+                            RowDefinitions="Auto, Auto">
+
+                            <Label  
+                                Style="{StaticResource Label.BigGridItem}"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding CurrentDayAndTime}" />
+
+                            <Label
+                                Grid.Row="1"
+                                Grid.ColumnSpan="2"
+                                Style="{StaticResource Label.LittleGridItem}"
+                                >
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding CityName}" FontAttributes="Bold" />
+                                        <Span Text=", "/>
+                                        <Span Text="{Binding CountryName}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
 
     </Grid>
 

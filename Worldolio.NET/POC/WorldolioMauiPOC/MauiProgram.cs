@@ -5,6 +5,7 @@ using Worldolio.Data.DependencyInjection;
 using Worldolio.Data.Utility;
 using WorldolioMauiPOC.Data;
 using WorldolioMauiPOC.Logging;
+using WorldolioMauiPOC.Settings;
 using WorldolioMauiPOC.Utility;
 using WorldolioMauiPOC.ViewModels.About;
 using WorldolioMauiPOC.ViewModels.CityGrid;
@@ -66,6 +67,7 @@ namespace WorldolioMauiPOC
             // MAUI objects
             builder.Services.AddSingleton<IEnvironmentInformationProvider, EnvironmentInformationProvider>();
             builder.Services.AddSingleton<INavigationHelper, NavigationHelper>();
+            builder.Services.AddSingleton<IUserSettings, UserSettings>();
 
             // MAUI viewmodels
             builder.Services.AddSingleton<CityGridViewModel>();
