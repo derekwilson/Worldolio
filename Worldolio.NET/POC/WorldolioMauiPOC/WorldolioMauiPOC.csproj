@@ -22,8 +22,10 @@
 		<ApplicationId Condition="'$(Configuration)' == 'Debug'">net.derekwilson.worldoliomauipoc.debug</ApplicationId>
 		
 		<!-- Versions -->
-		<ApplicationDisplayVersion>0.0.20</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion>0.0.21</ApplicationDisplayVersion>
 		<ApplicationVersion>3</ApplicationVersion>
+
+	    <RuntimeIdentifiers Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">android-arm;android-arm64;android-x86;android-x64</RuntimeIdentifiers>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
