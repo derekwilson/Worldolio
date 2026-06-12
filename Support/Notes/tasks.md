@@ -22,11 +22,28 @@ The plan
 
 ## UI - using MAUI
 
+Done
+
+1. Get logging to work using NLog
+1. Get Dependency Injection to work
+1. Get exception handling and logging to work
+1. Deploy sqlite DB and access it
+1. different package names for debug and release
+1. Navigate to a n about screen and back
+1. Get tabs to work
+1. Display a city grid
+1. Implement time to update times in the grid
+1. Implement date and time picker for plan tab
+
+Todo
+
 1. use TabbedPage with embedded ContentPage and On<Microsoft.Maui.Controls.PlatformConfiguration.Android>.SetIsSwipePagingEnabled(true)
 1. enable FontImageSource to be bound to a global static class
 1. rework tabbar partial view to be pure code as the XAML does not really do anything
 1. get ripple to work on ImageButton on android
 1. auto size font when window changes size
+1. get crash reporting to work
+1. get analytics to work
 1. custom selection lists
 1. persistent settings
 1. display build type debug/release and build time or git id on about form
