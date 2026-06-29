@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Worldolio.Data.Model;
+﻿using Worldolio.Data.Model;
 using Worldolio.Data.Repository;
 using static Worldolio.Data.Model.TimeZone;
 
@@ -11,8 +6,14 @@ namespace WorldolioCLI
 {
     internal class CityHelper
     {
-        public static async Task DisplayCityGrid(ICityRepository citiesRepository, long homeId, long[] ids, bool showNearby)
+        public static async Task DisplayCityGrid(ICityRepository citiesRepository, long[] ids, bool showNearby)
         {
+            if (ids.Length < 1)
+            {
+                Console.WriteLine($"no cities in the list");
+                return;
+            }
+            var homeId = ids[0];
             Console.WriteLine($"City Grid = {homeId}, [{string.Join(',', ids)}]");
 
             var home = await citiesRepository.GetByIdAsync(homeId);

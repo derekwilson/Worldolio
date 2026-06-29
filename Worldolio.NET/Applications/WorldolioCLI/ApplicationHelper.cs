@@ -75,5 +75,25 @@ namespace WorldolioCLI
         {
             return arg.Split(',');
         }
+
+        public static long[] GetLongList(string arg)
+        {
+            var strings = GetStringList(arg);
+            var longs = new long[strings.Length];
+            int index = 0;
+            foreach ( var s in strings )
+            {
+                if (long.TryParse(s, out long result))
+                {
+                    longs[index] = result;
+                }
+                else
+                {
+                    longs[index] = 0;
+                }
+                index++;
+            }
+            return longs;
+        }
     }
 }
