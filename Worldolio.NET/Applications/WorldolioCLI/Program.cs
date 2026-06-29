@@ -39,7 +39,7 @@ namespace WorldolioCLI
                 }
                 case ApplicationHelper.Command.CityList:
                 {
-                    //long[] cityIds = [458, 252, 324, 313, 477, 79, 320, 279, 180, 351];
+                    //long[] cityIds = [429, 458, 252, 477, 324, 79, 320, 279, 382, 180, 351];
                     long[] cityIds = ApplicationHelper.GetLongList(args[1]);
                     await CityHelper.DisplayCityGrid(_citiesRepository, cityIds, false);
                     break;
