@@ -185,6 +185,12 @@ Javascript
 http://hinch.me.uk/riset.html
 
 
+### CLI
+
+WorldolioCLI.exe find man
+
+WorldolioCLI.exe citylist 429,458,252,477
+
 
 ## MAUI
 

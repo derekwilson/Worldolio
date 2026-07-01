@@ -44,6 +44,11 @@ namespace WorldolioCLI
                     await CityHelper.DisplayCityGrid(_citiesRepository, cityIds, false);
                     break;
                 }
+                case ApplicationHelper.Command.Find:
+                {
+                    await CityHelper.FindCities(_citiesRepository, args[1]);
+                    break;
+                }
             }
         }
 

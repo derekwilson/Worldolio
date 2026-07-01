@@ -11,6 +11,8 @@ namespace Worldolio.Data.Repository
 
         Task<ICollection<City>> GetByIdsAsync(long[] ids);
 
+        Task<ICollection<City>> FindByNameAsync(string nameSearch);
+
         Task<ICollection<City>> GetAllAsync();
 
         Task<ICollection<City>> GetNearbyCitiesAsync(City c, Distance dist);
@@ -26,12 +28,14 @@ namespace Worldolio.Data.Repository
                     ";
         private const string SQL_WHERE_ID_SUFFIX = " WHERE cty.cty_id = @ID ";
         private const string SQL_WHERE_ID_IN_SUFFIX = " WHERE cty.cty_id IN @IDS ";
+        private const string SQL_WHERE_NAME_SUFFIX = " WHERE cty.cty_displayname LIKE @SEARCH ";
 
         private const string SQL_ORDER_BY_SUFFIX = " ORDER BY cty.cty_displayname";
 
         private const string SQL_SELECT_ALL = SQL_SELECT + SQL_ORDER_BY_SUFFIX;
         private const string SQL_SELECT_BY_ID = SQL_SELECT + SQL_WHERE_ID_SUFFIX + SQL_ORDER_BY_SUFFIX;
         private const string SQL_SELECT_BY_IDS = SQL_SELECT + SQL_WHERE_ID_IN_SUFFIX + SQL_ORDER_BY_SUFFIX;
+        private const string SQL_SELECT_BY_NAME = SQL_SELECT + SQL_WHERE_NAME_SUFFIX + SQL_ORDER_BY_SUFFIX;
 
         private IConnectionFactory _connectionFactory;
         private ITimeZoneFactory _timeZoneFactory;
@@ -109,6 +113,21 @@ namespace Worldolio.Data.Repository
             itemsList.RemoveAll(i => i.Id == c.Id);
             // order them by how far away they are
             return itemsList.OrderBy(i => i.GetDistance(c.Position).Kilometers).ToList();
+        }
+
+        public async Task<ICollection<City>> FindByNameAsync(string nameSearch)
+        {
+            using (IDbConnection connection = _connectionFactory.GetOpenConnection())
+            {
+                var wildcardSearch = $"%{nameSearch}%";
+                var items = await connection.QueryAsync<City, Country, DriveSide, City>(
+                            SQL_SELECT_BY_NAME,
+                            MAP,
+                            new { SEARCH = wildcardSearch },
+                            splitOn: "cty_id, cnt_iso2name, dsi_id"
+                        );
+                return items.ToList();
+            }
         }
     }
 }

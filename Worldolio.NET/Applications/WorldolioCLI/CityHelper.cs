@@ -45,5 +45,19 @@ namespace WorldolioCLI
             var invalidCount = cities.Count(c => !c.TimeZone.IsValid);
             Console.WriteLine($"Cities count = {cities.Count}, invalid TZ = {invalidCount}");
         }
+
+        internal static async Task FindCities(ICityRepository citiesRepository, string searchName)
+        {
+            Console.WriteLine($"Find Cities = {searchName}");
+            ICollection<City> cities = await citiesRepository.FindByNameAsync(searchName);
+
+            foreach (City city in cities)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"City {city.Id}, {city.DisplayName}, {city.Country.DisplayName}, Pos {city.Position.ToString(true)} Drives {city.Country.DriveSide.Description}");
+                Console.ResetColor();
+            }
+            Console.WriteLine($"Cities count = {cities.Count}");
+        }
     }
 }
