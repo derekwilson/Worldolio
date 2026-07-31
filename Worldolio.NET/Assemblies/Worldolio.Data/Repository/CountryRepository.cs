@@ -14,6 +14,8 @@ namespace Worldolio.Data.Repository
         Task<Country?> GetByIdWithCitiesAsync(string iso2);
 
         Task<ICollection<Country>> GetAllWithCitiesAsync();
+
+        Task<ICollection<Country>> FindByNameAsync(string nameSearch);
     }
 
     public class CountryRepository : ICountryRepository
@@ -30,6 +32,7 @@ namespace Worldolio.Data.Repository
                     INNER JOIN cty_city cty ON cnt.cnt_iso2name = cty.cty_cnt_iso2name                    
                     ";
         private const string SQL_WHERE_ID_SUFFIX = " WHERE cnt.cnt_iso2name = @ID ";
+        private const string SQL_WHERE_NAME_SUFFIX = " WHERE cnt.cnt_displayname LIKE @SEARCH ";
 
         private const string SQL_ORDER_BY_SUFFIX = " ORDER BY cnt.cnt_displayname";
         private const string SQL_ORDER_BY_WITH_CITIES_SUFFIX = " ORDER BY cnt.cnt_displayname, cty.cty_displayname";
@@ -39,6 +42,8 @@ namespace Worldolio.Data.Repository
 
         private const string SQL_SELECT_ALL_WITH_CITIES = SQL_SELECT_WITH_CITIES + SQL_ORDER_BY_WITH_CITIES_SUFFIX;
         private const string SQL_SELECT_BY_ID_WITH_CITIES = SQL_SELECT_WITH_CITIES + SQL_WHERE_ID_SUFFIX + SQL_ORDER_BY_WITH_CITIES_SUFFIX;
+
+        private const string SQL_SELECT_BY_NAME = SQL_SELECT_WITH_CITIES + SQL_WHERE_NAME_SUFFIX + SQL_ORDER_BY_WITH_CITIES_SUFFIX;
 
         private IConnectionFactory _connectionFactory;
 
@@ -126,6 +131,31 @@ namespace Worldolio.Data.Repository
                         );
                 ICollection<Country> resultList = lookup.Values;
                 return resultList.FirstOrDefault();
+            }
+        }
+
+        public async Task<ICollection<Country>> FindByNameAsync(string nameSearch)
+        {
+            using (IDbConnection connection = _connectionFactory.GetOpenConnection())
+            {
+                var wildcardSearch = $"%{nameSearch}%";
+                var lookup = new Dictionary<string, Country>();
+                var results = await connection.QueryAsync<Country, DriveSide, City, Country>(
+                            SQL_SELECT_BY_NAME,
+                            (cnt, dsi, cty) => {
+                                cnt.DriveSide = dsi;
+                                Country? country;
+                                if (!lookup.TryGetValue(cnt.Iso2Name, out country))
+                                    lookup.Add(cnt.Iso2Name, country = cnt);
+                                cty.Country = country;
+                                country.Cities.Add(cty);
+                                return country;
+                            },
+                            new { SEARCH = wildcardSearch },
+                            splitOn: "cnt_iso2name, dsi_id, cty_id"
+                        );
+                ICollection<Country> resultList = lookup.Values;
+                return resultList;
             }
         }
     }

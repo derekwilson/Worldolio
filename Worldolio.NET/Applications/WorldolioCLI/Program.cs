@@ -10,6 +10,7 @@ namespace WorldolioCLI
         private static IContainer _container = null!;
         private static ILogger _logger = null!;
         private static ICityRepository _citiesRepository = null!;
+        private static ICountryRepository _countriesRepository = null!;
         private static ISchemaRevisionAuditRepository _sraRepository = null!;
 
         private static async Task Main(string[] args)
@@ -46,7 +47,7 @@ namespace WorldolioCLI
                 }
                 case ApplicationHelper.Command.Find:
                 {
-                    await CityHelper.FindCities(_citiesRepository, args[1]);
+                    await CityHelper.FindCities(_countriesRepository, _citiesRepository, args[1]);
                     break;
                 }
             }
@@ -68,6 +69,7 @@ namespace WorldolioCLI
             //diLogger.Info(() => $"DI init OK");
 
             _citiesRepository = _container.Resolve<ICityRepository>();
+            _countriesRepository = _container.Resolve<ICountryRepository>();
             _sraRepository = _container.Resolve<ISchemaRevisionAuditRepository>();
         }
 

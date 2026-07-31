@@ -46,18 +46,44 @@ namespace WorldolioCLI
             Console.WriteLine($"Cities count = {cities.Count}, invalid TZ = {invalidCount}");
         }
 
-        internal static async Task FindCities(ICityRepository citiesRepository, string searchName)
+        internal static async Task FindCities(ICountryRepository countriesRepository, ICityRepository citiesRepository, string searchName)
         {
-            Console.WriteLine($"Find Cities = {searchName}");
+            Console.WriteLine($"Find = {searchName}");
             ICollection<City> cities = await citiesRepository.FindByNameAsync(searchName);
 
-            foreach (City city in cities)
+            if (cities != null && cities.Count > 0)
             {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"City {city.Id}, {city.DisplayName}, {city.Country.DisplayName}, Pos {city.Position.ToString(true)} Drives {city.Country.DriveSide.Description}");
-                Console.ResetColor();
+                Console.WriteLine($"Cities = {cities.Count}");
+                foreach (City city in cities)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write($"{city.DisplayName}, {city.Country.DisplayName}, ");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine($"ID {city.Id}");
+                    Console.ResetColor();
+                }
             }
-            Console.WriteLine($"Cities count = {cities.Count}");
+
+            ICollection<Country> countries = await countriesRepository.FindByNameAsync(searchName);
+            if (countries != null && countries.Count > 0)
+            {
+                Console.WriteLine($"Countries = {countries.Count}");
+                foreach (Country country in countries)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"{country.Iso2Name}, {country.Iso3Name}, {country.DisplayName}");
+                    foreach (City countryCity in country.Cities)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.Write($"  {countryCity.DisplayName}, ");
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine($"  ID {countryCity.Id}");
+                    }
+                    Console.ResetColor();
+                }
+            }
+
+            Console.WriteLine($"Hit count = {cities.Count + countries.Count}");
         }
     }
 }
