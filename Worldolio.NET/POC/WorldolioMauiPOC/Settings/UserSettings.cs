@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WorldolioMauiPOC.Settings
+﻿namespace WorldolioMauiPOC.Settings
 {
     public interface IUserSettings
     {
@@ -12,7 +6,7 @@ namespace WorldolioMauiPOC.Settings
     }
     public class UserSettings : IUserSettings
     {
-        private long[] _cities = [429, 458, 252, 477, 324, 79, 320, 279, 382, 180, 351];
+        private long[] _cities = [458, 252, 477, 324, 79, 320, 279, 429, 180, 351];
 
         public long[] Cities
         {

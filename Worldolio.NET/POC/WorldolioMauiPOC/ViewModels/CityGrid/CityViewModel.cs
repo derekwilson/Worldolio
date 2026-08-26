@@ -33,6 +33,7 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
         public string DSTDates => _city.TimeZone.GetDSTDatesForDisplay();
 
         public string Sunrise => _city.GetSunrise(_now, _inDayTimeFormat);
+        public string Noon => _city.GetNoon(_now, _inDayTimeFormat);
         public string Sunset => _city.GetSunset(_now, _inDayTimeFormat);
         public string Moonrise => _city.GetMoonrise(_now, _withDayTimeFormat);
         public string Moonset => _city.GetMoonset(_now, _withDayTimeFormat);

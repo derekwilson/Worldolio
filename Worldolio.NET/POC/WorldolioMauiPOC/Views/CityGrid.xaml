@@ -125,6 +125,8 @@
                                     <FormattedString>
                                         <Span Text="Sun Rise: "/>
                                         <Span Text="{Binding Sunrise}" FontAttributes="Bold" />
+                                        <Span Text=", Noon: "/>
+                                        <Span Text="{Binding Noon}" FontAttributes="Bold" />
                                         <Span Text=", Set: "/>
                                         <Span Text="{Binding Sunset}" FontAttributes="Bold" />
                                     </FormattedString>
