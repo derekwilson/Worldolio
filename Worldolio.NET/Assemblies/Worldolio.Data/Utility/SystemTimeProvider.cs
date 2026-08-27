@@ -1,32 +1,24 @@
-﻿using NodaTime;
-
-namespace Worldolio.Data.Utility
+﻿namespace Worldolio.Data.Utility
 {
     public interface ISystemTimeProvider
     {
-        Instant Now { get; }
-        Instant GetUtcInstant(int year, int month, int day, int  hour, int minute, int second);
-        ZonedDateTime GetUtcNow();
+        DateTime Now { get; }
+        DateTime GetUtcNow();
     }
 
     public class SystemTimeProvider : ISystemTimeProvider
     {
-        public Instant Now
+        public DateTime Now
         {
             get
             {
-                return SystemClock.Instance.GetCurrentInstant();
+                return DateTime.Now;
             }
         }
 
-        public Instant GetUtcInstant(int year, int month, int day, int hour, int minute, int second)
+        public DateTime GetUtcNow()
         {
-            return Instant.FromUtc(year, month, day, hour, minute, second);
-        }
-
-        public ZonedDateTime GetUtcNow()
-        {
-            return Now.InUtc();
+            return DateTime.UtcNow;
         }
     }
 }

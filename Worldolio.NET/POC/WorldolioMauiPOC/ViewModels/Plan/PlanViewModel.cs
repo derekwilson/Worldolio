@@ -1,7 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using CommunityToolkit.Mvvm.Input;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using NodaTime;
 using Worldolio.Data.Logging;
 using Worldolio.Data.Model;
 using Worldolio.Data.Repository;
@@ -80,20 +79,15 @@ namespace WorldolioMauiPOC.ViewModels.Plan
             UpdateTime();
         }
 
-        private Instant GetNow()
+        private DateTime GetNow()
         {
             if (Cities.Count < 1)
             {
                 //throw new InvalidOperationException("no home city");
             }
-            var localNow = new LocalDateTime(_selectedDate.Year, _selectedDate.Month, _selectedDate.Day, CurrentHour, CurrentMinute);
-
-            // maybe we should be using the home city?
-            DateTimeZone tz = DateTimeZoneProviders.Tzdb.GetSystemDefault();
-
-            Instant instant = tz.AtLeniently(localNow).ToInstant();
-
-            return instant;
+            DateTime dt = new DateTime(_selectedDate.Year, _selectedDate.Month, _selectedDate.Day, CurrentHour, CurrentMinute, 0);
+            DateTime dtUtc = DateTime.SpecifyKind(dt, DateTimeKind.Utc);
+            return dtUtc;
         }
 
         private void UpdateTime()

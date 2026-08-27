@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using NodaTime;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
@@ -26,7 +25,7 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
 
         private TimeFormat _currentInDayTimeFormat = TimeFormat.TIME_SHORT_AMPM;            // TODO - read from settings
         private TimeFormat _currentWithDayTimeFormat = TimeFormat.DAY_TIME_SHORT_AMPM;      // TODO - read from settings
-        private Instant _currentInstant;
+        private DateTime _currentNow;
         private Timer _timer;
 
         private ILogger _logger;
@@ -73,22 +72,21 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
 
         private void UpdateTime()
         {
-            _currentInstant = _systemTimeProvider.Now;
-            // maybe we should be using the home city?
-            DateTimeZone tz = DateTimeZoneProviders.Tzdb.GetSystemDefault();
-            ZonedDateTime zdt = _currentInstant.InZone(tz);
-            CurrentTime = Worldolio.Data.Model.TimeZone.FormatTime(_currentInDayTimeFormat, zdt.LocalDateTime);
-            MoonPhase = GeoCalculator.GetFormattedIlluminatedFractionOfMoon(_currentInstant);
-
-            _logger.Debug(() => $"CityGridViewModel UpdateTime: {CurrentTime}");
-            OnPropertyChanged(nameof(CurrentTime));
+            _currentNow = _systemTimeProvider.Now;
+            MoonPhase = GeoCalculator.GetFormattedIlluminatedFractionOfMoon(_currentNow);
             // TODO - actually these only need to be done when the day changes
             OnPropertyChanged(nameof(MoonPhase));
 
             foreach (CityViewModel cityView in Cities)
             {
-                cityView.Update(_currentInstant, _currentInDayTimeFormat, _currentWithDayTimeFormat);
+                cityView.Update(_currentNow, _currentInDayTimeFormat, _currentWithDayTimeFormat);
             }
+            if (Cities.Count > 0 && Cities[0] != null)
+            {
+                CurrentTime = Cities[0].CurrentTime;
+            }
+            _logger.Debug(() => $"CityGridViewModel UpdateTime: {CurrentTime}");
+            OnPropertyChanged(nameof(CurrentTime));
         }
 
         [RelayCommand]
@@ -102,11 +100,13 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
             Cities.Clear();
             foreach (City city in temp)
             {
-                Cities.Add(new CityViewModel(city, home, _currentInstant, _currentInDayTimeFormat, _currentWithDayTimeFormat));
+                Cities.Add(new CityViewModel(city, home, _currentNow, _currentInDayTimeFormat, _currentWithDayTimeFormat));
             }
 
             NumberOfCities = Cities.Count.ToString();
             OnPropertyChanged(nameof(NumberOfCities));
+
+            UpdateTime();
 
             _logger.Debug(() => $"CityGridViewModel cities = {Cities.Count}");
         }

@@ -3,8 +3,6 @@ using System.Reflection;
 using TimeZoneConverter;
 using Worldolio.Data.DependencyInjection;
 using Worldolio.Data.Logging;
-using Worldolio.Data.Model;
-using Worldolio.Data.MSSQLite;
 using Worldolio.Data.Repository;
 using Worldolio.Data.Utility;
 

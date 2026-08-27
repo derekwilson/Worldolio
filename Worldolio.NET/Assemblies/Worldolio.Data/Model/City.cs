@@ -1,5 +1,4 @@
-﻿using NodaTime;
-using Worldolio.Data.Utility;
+﻿using Worldolio.Data.Utility;
 
 namespace Worldolio.Data.Model
 {
@@ -45,60 +44,60 @@ namespace Worldolio.Data.Model
 
         public string GetSunrise(TimeZone.TimeFormat format)
         {
-            return GetSunrise(TimeZone.GetNow(), format);
+            return GetSunrise(TimeZone.GetUtcNow(), format);
         }
 
-        public string GetSunrise(Instant today, TimeZone.TimeFormat format)
+        public string GetSunrise(DateTime today, TimeZone.TimeFormat format)
         {
-            var sunriseUtc = GeoCalculator.GetSunriseInUtc(TimeZone.GetLocalTime(today), Position);
+            var sunriseUtc = GeoCalculator.GetSunriseInUtc(today, Position);
             return TimeZone.ToLocalTimeFormatted(sunriseUtc, format);
         }
 
         public string GetSunset(TimeZone.TimeFormat format)
         {
-            return GetSunset(TimeZone.GetNow(), format);
+            return GetSunset(TimeZone.GetUtcNow(), format);
         }
 
-        public string GetSunset(Instant today, TimeZone.TimeFormat format)
+        public string GetSunset(DateTime today, TimeZone.TimeFormat format)
         {
-            var sunsetUtc = GeoCalculator.GetSunsetInUtc(TimeZone.GetLocalTime(today), Position);
+            var sunsetUtc = GeoCalculator.GetSunsetInUtc(today, Position);
             return TimeZone.ToLocalTimeFormatted(sunsetUtc, format);
         }
 
         public string GetNoon(TimeZone.TimeFormat format)
         {
-            return GetNoon(TimeZone.GetNow(), format);
+            return GetNoon(TimeZone.GetUtcNow(), format);
         }
 
-        public string GetNoon(Instant today, TimeZone.TimeFormat format)
+        public string GetNoon(DateTime today, TimeZone.TimeFormat format)
         {
-            var noonUtc = GeoCalculator.GetSolarNoonInUtc(TimeZone.GetLocalTime(today), Position.Longitude);
+            var noonUtc = GeoCalculator.GetSolarNoonInUtc(today, Position.Longitude);
             return TimeZone.ToLocalTimeFormatted(noonUtc, format);
         }
 
         public string GetMoonrise(TimeZone.TimeFormat format)
         {
-            return GetMoonrise(TimeZone.GetNow(), format);
+            return GetMoonrise(TimeZone.GetUtcNow(), format);
         }
 
-        public string GetMoonrise(Instant today, TimeZone.TimeFormat format)
+        public string GetMoonrise(DateTime today, TimeZone.TimeFormat format)
         {
-            (ZonedDateTime? rise, ZonedDateTime? set, bool alwaysUp, bool alwaysDown) = GeoCalculator.GetMoonRiseAndSetInUtc(TimeZone.GetLocalTime(today), Position);
+            (DateTime? rise, DateTime? set, bool alwaysUp, bool alwaysDown) = GeoCalculator.GetMoonRiseAndSetInUtc(today, Position);
             return FormatMoonState(rise, alwaysUp, alwaysDown, format);
         }
 
         public string GetMoonset(TimeZone.TimeFormat format)
         {
-            return GetMoonset(TimeZone.GetNow(), format);
+            return GetMoonset(TimeZone.GetUtcNow(), format);
         }
 
-        public string GetMoonset(Instant today, TimeZone.TimeFormat format)
+        public string GetMoonset(DateTime today, TimeZone.TimeFormat format)
         {
-            (ZonedDateTime? rise, ZonedDateTime? set, bool alwaysUp, bool alwaysDown) = GeoCalculator.GetMoonRiseAndSetInUtc(TimeZone.GetLocalTime(today), Position);
+            (DateTime? rise, DateTime? set, bool alwaysUp, bool alwaysDown) = GeoCalculator.GetMoonRiseAndSetInUtc(today, Position);
             return FormatMoonState(set, alwaysUp, alwaysDown, format);
         }
 
-        private string FormatMoonState(ZonedDateTime? eventUtc, bool alwaysUp, bool alwaysDown, TimeZone.TimeFormat format)
+        private string FormatMoonState(DateTime? eventUtc, bool alwaysUp, bool alwaysDown, TimeZone.TimeFormat format)
         {
             if (eventUtc != null)
             {

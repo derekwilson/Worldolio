@@ -34,6 +34,7 @@ Done
 1. Display a city grid
 1. Implement time to update times in the grid
 1. Implement date and time picker for plan tab
+1. Stop leaking NodaTime data types from Worldolio.Data, it should only be used internally
 
 Todo
 

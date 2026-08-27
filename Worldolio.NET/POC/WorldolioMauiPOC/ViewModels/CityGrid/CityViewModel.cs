@@ -1,5 +1,4 @@
-﻿using NodaTime;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Worldolio.Data.Model;
 using static Worldolio.Data.Model.TimeZone;
 
@@ -38,7 +37,7 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
         public string Moonrise => _city.GetMoonrise(_now, _withDayTimeFormat);
         public string Moonset => _city.GetMoonset(_now, _withDayTimeFormat);
 
-        private Instant _now;
+        private DateTime _now;
         private TimeFormat _inDayTimeFormat;
         private TimeFormat _withDayTimeFormat;
         private City _city;
@@ -48,7 +47,7 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
         protected void OnPropertyChanged(string name) =>
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-        public CityViewModel(City city, City? homeCity, Instant now, TimeFormat inDayTimeFormat, TimeFormat withDayTimeFormat)
+        public CityViewModel(City city, City? homeCity, DateTime now, TimeFormat inDayTimeFormat, TimeFormat withDayTimeFormat)
         {
             _city = city;
             _homeCity = homeCity;
@@ -57,7 +56,7 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
             _withDayTimeFormat = withDayTimeFormat;
         }
 
-        public void Update(Instant now, TimeFormat inDayTimeFormat, TimeFormat withDayTimeFormat)
+        public void Update(DateTime now, TimeFormat inDayTimeFormat, TimeFormat withDayTimeFormat)
         {
             _now = now;
             _inDayTimeFormat = inDayTimeFormat;

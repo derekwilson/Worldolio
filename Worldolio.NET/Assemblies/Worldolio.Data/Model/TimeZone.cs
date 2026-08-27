@@ -5,6 +5,8 @@ using Worldolio.Data.Utility;
 
 namespace Worldolio.Data.Model
 {
+    // try and not let Noda types leak thru public methods
+
     public class TimeZone
     {
         public enum TimeFormat
@@ -59,31 +61,47 @@ namespace Worldolio.Data.Model
             }
             return _zone.ToString();
         }
-        public ZonedDateTime GetUtcNow()
-        {
-            return _systemTimeProvider.GetUtcNow();
-        }
-
-        public Instant GetNow()
+        public DateTime GetNow()
         {
             return _systemTimeProvider.Now;
         }
 
-        public Offset GetUtcOffset(Instant instant)
+        public DateTime GetUtcNow()
         {
+            return _systemTimeProvider.GetUtcNow();
+        }
+
+        private Instant GetInstant(DateTime localDateTime)
+        {
+            LocalDateTime nodaLocal = LocalDateTime.FromDateTime(localDateTime);
+            DateTimeZone zone = DateTimeZoneProviders.Tzdb.GetSystemDefault();
+            return zone.AtLeniently(nodaLocal).ToInstant();
+        }
+
+        private Instant GetInstant(int year, int month, int day, int hour, int minute, int second)
+        {
+            DateTime dt = new DateTime(year, month, day, hour, minute, second);
+            DateTime dtUtc = DateTime.SpecifyKind(dt, DateTimeKind.Utc);
+            return Instant.FromDateTimeUtc(dtUtc);
+        }
+
+        public int GetUtcOffsetSeconds(DateTime localDateTime)
+        {
+            var instant = GetInstant(localDateTime);
             if (_zone == null)
             {
                 throw new InvalidOperationException("Invalid timezone");
             }
-            return _zone.GetUtcOffset(instant);
+            return _zone.GetUtcOffset(instant).Seconds;
         }
 
-        public ZonedDateTime GetLocalTime()
+        private ZonedDateTime GetLocalTime()
         {
-            return GetLocalTime(_systemTimeProvider.Now);
+            var instant = GetInstant(_systemTimeProvider.Now);
+            return GetLocalTime(instant);
         }
 
-        public ZonedDateTime GetLocalTime(Instant instant)
+        private ZonedDateTime GetLocalTime(Instant instant)
         {
             if (_zone == null)
             {
@@ -101,8 +119,9 @@ namespace Worldolio.Data.Model
             return FormatTime(format, GetLocalTime().LocalDateTime);
         }
 
-        public string GetFormattedLocalTime(Instant instant, TimeFormat format)
+        public string GetFormattedLocalTime(DateTime localTime, TimeFormat format)
         {
+            var instant = GetInstant(localTime);
             if (_zone == null)
             {
                 return "Unknown";
@@ -110,22 +129,23 @@ namespace Worldolio.Data.Model
             return FormatTime(format, GetLocalTime(instant).LocalDateTime);
         }
 
-        public Duration GetOffset(TimeZone otherTz)
+        public double GetOffsetSeconds(TimeZone otherTz)
         {
-            return GetOffset(_systemTimeProvider.Now, otherTz);
+            return GetOffsetSeconds(_systemTimeProvider.Now, otherTz);
         }
 
-        public Duration GetOffset(Instant instant, TimeZone otherTz)
+        public double GetOffsetSeconds(DateTime localDateTime, TimeZone otherTz)
         {
+            var instant = GetInstant(localDateTime);
             if (_zone == null || !otherTz.IsValid)
             {
                 throw new InvalidOperationException("Invalid timezone");
             }
             Duration myOffset = Duration.FromSeconds(_zone.GetUtcOffset(instant).Seconds);
-            Duration otherOffset = Duration.FromSeconds(otherTz.GetUtcOffset(instant).Seconds);
+            Duration otherOffset = Duration.FromSeconds(otherTz.GetUtcOffsetSeconds(localDateTime));
 
             // we need a Duration as the combined offset may be bigger than 18 Hours which is the maximum allowed in an Offset
-            return myOffset.Minus(otherOffset);
+            return myOffset.Minus(otherOffset).TotalSeconds;
         }
 
         public string GetFormattedOffset(TimeZone otherTz)
@@ -133,21 +153,22 @@ namespace Worldolio.Data.Model
             return GetFormattedOffset(_systemTimeProvider.Now, otherTz);
         }
 
-        public string GetFormattedOffset(Instant instant, TimeZone otherTz)
+        public string GetFormattedOffset(DateTime localTime, TimeZone otherTz)
         {
+            var instant = GetInstant(localTime);
             if (_zone == null || !otherTz.IsValid)
             {
                 return "Unknown";
             }
 
-            Duration difference = GetOffset(instant, otherTz);
-            if (difference.TotalSeconds == 0)
+            double seconds = GetOffsetSeconds(localTime, otherTz);
+            if (seconds == 0)
             {
                 return "No offset";
             }
 
-            var offsetStr = difference.ToString("H:mm", CultureInfo.CurrentCulture);
-            var offsetSuffix = difference.TotalSeconds > 0 ? "ahead" : "behind";
+            var offsetStr = $"{(int) (seconds / 3600)}:{(int)(seconds % 3600)}";
+            var offsetSuffix = seconds > 0 ? "ahead" : "behind";
             return $"{offsetStr} {offsetSuffix}";
         }
 
@@ -156,8 +177,9 @@ namespace Worldolio.Data.Model
             return GetDSTDatesForDisplay(_systemTimeProvider.Now);
         }
 
-        public string GetDSTDatesForDisplay(Instant start)
+        public string GetDSTDatesForDisplay(DateTime localTime)
         {
+            var start = GetInstant(localTime);
             if (_zone == null)
             {
                 return "Unknown";
@@ -196,7 +218,7 @@ namespace Worldolio.Data.Model
             return targetInstant >= start && targetInstant < end;
         }
 
-        public static string FormatTime(TimeFormat format, LocalDateTime time)
+        private static string FormatTime(TimeFormat format, LocalDateTime time)
         {
             string strTimeFormat = "h:mm tt";
             switch (format)
@@ -227,13 +249,14 @@ namespace Worldolio.Data.Model
             return time.ToString(strTimeFormat, CultureInfo.CurrentCulture);
         }
 
-        public string ToLocalTimeFormatted(ZonedDateTime time, TimeFormat format)
+        public string ToLocalTimeFormatted(DateTime utctime, TimeFormat format)
         {
             if (_zone == null)
             {
                 return "Unknown";
             }
-            var localtime = time.ToInstant().InZone(_zone);
+            Instant instant = Instant.FromDateTimeUtc(utctime);
+            var localtime = instant.InZone(_zone);
             return FormatTime(format, localtime.LocalDateTime);
         }
     }

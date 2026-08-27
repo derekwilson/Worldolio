@@ -1,7 +1,5 @@
-﻿using NodaTime;
-using System.Threading;
+﻿using System;
 using Worldolio.Data.Repository;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Worldolio.Data.Model
 {
@@ -88,7 +86,7 @@ namespace Worldolio.Data.Model
         /// <param name="utcNow">utc time to calc the shadow for</param>
         /// <param name="bShadowNorth">true if the shadow is north of the line else south</param>
         /// <returns>array of lat/long points for the edge of the shadow</returns>
-        public static Position[] CalcDayNightShadowEdge(ZonedDateTime utcNow, ref bool bShadowNorth)
+        public static Position[] CalcDayNightShadowEdge(DateTime utcNow, ref bool bShadowNorth)
         {
             int x0 = 180;
 
@@ -132,7 +130,7 @@ namespace Worldolio.Data.Model
 
         #region Sunrise and Sunset
 
-        private static int CalcJulianDay(ZonedDateTime dt)
+        private static int CalcJulianDay(DateTime dt)
         {
             return dt.DayOfYear;
         }
@@ -252,7 +250,7 @@ namespace Worldolio.Data.Model
         }
 
         // please note that the logitude for this calc is east = -ve, west =+ve
-        private static double findRecentSunrise(ZonedDateTime today, double latitude, double longitude)
+        private static double findRecentSunrise(DateTime today, double latitude, double longitude)
         {
             int jday = today.DayOfYear;
             double dTime = calcSunriseUTC(jday, latitude, longitude);
@@ -268,7 +266,7 @@ namespace Worldolio.Data.Model
         }
 
         // please note that the logitude for this calc is east = -ve, west =+ve
-        private static double findRecentSunset(ZonedDateTime today, double latitude, double longitude)
+        private static double findRecentSunset(DateTime today, double latitude, double longitude)
         {
             int jday = today.DayOfYear;
             double dTime = calcSunsetUTC(jday, latitude, longitude);
@@ -284,7 +282,7 @@ namespace Worldolio.Data.Model
         }
 
         // please note that the logitude for this calc is east = -ve, west =+ve
-        private static double findNextSunrise(ZonedDateTime today, double latitude, double longitude)
+        private static double findNextSunrise(DateTime today, double latitude, double longitude)
         {
             int jday = today.DayOfYear;
             double dTime = calcSunriseUTC(jday, latitude, longitude);
@@ -300,7 +298,7 @@ namespace Worldolio.Data.Model
         }
 
         // please note that the logitude for this calc is east = -ve, west =+ve
-        private static double findNextSunset(ZonedDateTime today, double latitude, double longitude)
+        private static double findNextSunset(DateTime today, double latitude, double longitude)
         {
             int jday = today.DayOfYear;
             double dTime = calcSunsetUTC(jday, latitude, longitude);
@@ -315,7 +313,7 @@ namespace Worldolio.Data.Model
             return dTime;
         }
 
-        private static ZonedDateTime ConvertUTCMinutesToZonedDateTime(ZonedDateTime today, double timeUTC)
+        private static DateTime ConvertUTCMinutesToDateTime(DateTime today, double timeUTC)
         {
             // trap any wrapping of the day eg. Tonga
             if (timeUTC < 0)
@@ -330,9 +328,9 @@ namespace Worldolio.Data.Model
             double dSecond = 60 * (dMinute - iMinute);
             int iSecond = (int)dSecond;
 
-            LocalDateTime local = new LocalDateTime(today.Year, today.Month, today.Day, iHour, iMinute, iSecond);
-            // no duplicate times in UTC so strictly will work
-            return local.InZoneStrictly(DateTimeZone.Utc);
+            DateTime dt = new DateTime(today.Year, today.Month, today.Day, iHour, iMinute, iSecond);
+            DateTime dtUtc = DateTime.SpecifyKind(dt, DateTimeKind.Utc);
+            return dtUtc;
         }
 
         /// <summary>
@@ -341,7 +339,7 @@ namespace Worldolio.Data.Model
         /// <param name="today">the day to calc the sunrise for, time is ignored</param>
         /// <param name="pos">place to calculate for</param>
         /// <returns>the local time of sunrise</returns>
-        public static ZonedDateTime GetSunriseInUtc(ZonedDateTime today, Position pos)
+        public static DateTime GetSunriseInUtc(DateTime today, Position pos)
         {
             // the rest of the app uses +ve to mean east this calc uses +ve to mean west
             double longitude = -pos.Longitude;
@@ -361,7 +359,7 @@ namespace Worldolio.Data.Model
             else if ((pos.Latitude < -66.4) && (iJulianDay > 79) && (iJulianDay < 267))
                 timeUTC = findNextSunrise(today, pos.Latitude, longitude);
 
-            return ConvertUTCMinutesToZonedDateTime(today, timeUTC);
+            return ConvertUTCMinutesToDateTime(today, timeUTC);
         }
 
         /// <summary>
@@ -371,7 +369,7 @@ namespace Worldolio.Data.Model
         /// <param name="pos">place to calculate for</param>
         /// <param name="timeZone">the timezone that applies for this place</param>
         /// <returns>the local time of sunset</returns>
-        public static ZonedDateTime GetSunsetInUtc(ZonedDateTime today, Position pos)
+        public static DateTime GetSunsetInUtc(DateTime today, Position pos)
         {
             // the rest of the app uses +ve to mean east this calc uses +ve to mean west
             double longitude = -pos.Longitude;
@@ -391,7 +389,7 @@ namespace Worldolio.Data.Model
             else if ((pos.Latitude < -66.4) && (iJulianDay > 79) && (iJulianDay < 267))
                 timeUTC = findNextSunset(today, pos.Latitude, longitude);
 
-            return ConvertUTCMinutesToZonedDateTime(today, timeUTC);
+            return ConvertUTCMinutesToDateTime(today, timeUTC);
         }
 
         /// <summary>
@@ -401,14 +399,14 @@ namespace Worldolio.Data.Model
         /// <param name="longitude">logitude of place, west = -ve, east = +ve</param>
         /// <param name="timeZone">the timezone that applies for this place</param>
         /// <returns>the local time of noon</returns>
-        public static ZonedDateTime GetSolarNoonInUtc(ZonedDateTime today, double longitude)
+        public static DateTime GetSolarNoonInUtc(DateTime today, double longitude)
         {
             // the rest of the app uses +ve to mean east this calc uses +ve to mean west
             longitude = -longitude;
 
             int jday = today.DayOfYear;
             double timeUTC = calcSolNoonUTC(jday, longitude);
-            return ConvertUTCMinutesToZonedDateTime(today, timeUTC);
+            return ConvertUTCMinutesToDateTime(today, timeUTC);
         }
 
         #endregion
@@ -460,15 +458,16 @@ namespace Worldolio.Data.Model
             return k;
         }
 
-        public static double GetIlluminatedFractionOfMoon(Instant today)
+        public static double GetIlluminatedFractionOfMoon(DateTime today)
         {
-            var jd = JulianDateFromUnixTime(today.ToUnixTimeMilliseconds());
+            long unixTimestampMs = ((DateTimeOffset)today).ToUnixTimeMilliseconds();
+            var jd = JulianDateFromUnixTime(unixTimestampMs);
             return GetIlluminatedFractionOfMoon(jd);
         }
 
-        public static string GetFormattedIlluminatedFractionOfMoon(Instant todayUtc)
+        public static string GetFormattedIlluminatedFractionOfMoon(DateTime todayUtc)
         {
-            var tomorrow = todayUtc.Plus(Duration.FromDays(1));
+            var tomorrow = todayUtc.AddDays(1);
             var todayFraction = GetIlluminatedFractionOfMoon(todayUtc);
             var todayFractionFormatted = todayFraction.ToString("P");
             var tomorrowFraction = GetIlluminatedFractionOfMoon(tomorrow);
@@ -570,7 +569,7 @@ namespace Worldolio.Data.Model
         // rise / set
         //
 
-        public static Tuple<ZonedDateTime?, ZonedDateTime?, bool, bool> GetMoonRiseAndSetInUtc(ZonedDateTime today, Position pos)
+        public static Tuple<DateTime?, DateTime?, bool, bool> GetMoonRiseAndSetInUtc(DateTime today, Position pos)
         {
             // Decimal degrees west longitudes must be negative
             double longitude = pos.Longitude;
@@ -802,7 +801,7 @@ namespace Worldolio.Data.Model
             return quadout;
         }
 
-        private static ZonedDateTime hrsminInUtc(ZonedDateTime today, double hours)
+        private static DateTime hrsminInUtc(DateTime today, double hours)
         {
             //
             //	takes decimal hours and returns a string in hhmm format
@@ -810,10 +809,10 @@ namespace Worldolio.Data.Model
             var hrs = Math.Floor(hours * 60 + 0.5) / 60.0;
             var h = (int) Math.Floor(hrs);
             var m = (int) Math.Floor(60 * (hrs - h) + 0.5);
-            return ConvertUTCMinutesToZonedDateTime(today, h * 60 + m);
+            return ConvertUTCMinutesToDateTime(today, h * 60 + m);
         }
 
-        private static Tuple<ZonedDateTime?, ZonedDateTime?, bool, bool> find_moonrise_set_utc(ZonedDateTime today, double mjd, int tz, double glong, double glat)
+        private static Tuple<DateTime?, DateTime?, bool, bool> find_moonrise_set_utc(DateTime today, double mjd, int tz, double glong, double glat)
         {
             //
             //	Im using a separate function for moonrise/set to allow for different tabulations
@@ -821,8 +820,8 @@ namespace Worldolio.Data.Model
             //  the function is identical to find_sun_and_twi_events_for_date()
             //
             var rads = 0.0174532925;
-            ZonedDateTime? moonRise = null;
-            ZonedDateTime? moonSet = null;
+            DateTime? moonRise = null;
+            DateTime? moonSet = null;
             bool alwaysUp = false;
             bool alwaysDown = false;
 

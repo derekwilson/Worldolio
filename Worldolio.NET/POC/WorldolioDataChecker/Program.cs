@@ -1,11 +1,8 @@
-﻿using NodaTime;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Reflection;
-using System.Threading.Tasks;
 using Worldolio.Data.DependencyInjection;
 using Worldolio.Data.Logging;
 using Worldolio.Data.Model;
-using Worldolio.Data.MSSQLite;
 using Worldolio.Data.Repository;
 using Worldolio.Data.Utility;
 using static Worldolio.Data.Model.TimeZone;
