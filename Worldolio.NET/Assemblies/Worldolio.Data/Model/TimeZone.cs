@@ -78,13 +78,6 @@ namespace Worldolio.Data.Model
             return zone.AtLeniently(nodaLocal).ToInstant();
         }
 
-        private Instant GetInstant(int year, int month, int day, int hour, int minute, int second)
-        {
-            DateTime dt = new DateTime(year, month, day, hour, minute, second);
-            DateTime dtUtc = DateTime.SpecifyKind(dt, DateTimeKind.Utc);
-            return Instant.FromDateTimeUtc(dtUtc);
-        }
-
         public int GetUtcOffsetSeconds(DateTime localDateTime)
         {
             var instant = GetInstant(localDateTime);
@@ -166,8 +159,8 @@ namespace Worldolio.Data.Model
             {
                 return "No offset";
             }
-
-            var offsetStr = $"{(int) (seconds / 3600)}:{(int)(seconds % 3600)}";
+            int absSeconds = (int) Math.Abs(seconds);
+            var offsetStr = $"{absSeconds / 3600}:{(absSeconds % 3600) / 60:D2}";
             var offsetSuffix = seconds > 0 ? "ahead" : "behind";
             return $"{offsetStr} {offsetSuffix}";
         }
