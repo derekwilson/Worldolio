@@ -23,11 +23,6 @@ public partial class CityGrid : ContentPage
         _logger.Debug(() => $"CityGrid citiesCollection_SelectionChanged");
     }
 
-    private void Toolbar_Settings(object sender, EventArgs e)
-    {
-        _logger.Debug(() => $"CityGrid Toolbar_Settings");
-    }
-
     private void DetailsBtn_Clicked(object sender, EventArgs e)
     {
         _logger.Debug(() => $"CityGrid DetailsBtn_Clicked");

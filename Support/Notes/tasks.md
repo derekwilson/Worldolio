@@ -20,6 +20,14 @@ The plan
 1. write DB repository
 1. add in geocalculator
 
+## UI - CLI
+
+1. Implement help and usage text
+1. Setup logging and DI
+1. Implement find for cities and countries
+1. Implement clitylist for current time
+1. Allow date and time to be specified for clitylist
+
 ## UI - using MAUI
 
 Done
@@ -29,7 +37,7 @@ Done
 1. Get exception handling and logging to work
 1. Deploy sqlite DB and access it
 1. different package names for debug and release
-1. Navigate to a n about screen and back
+1. Navigate to an about screen and back
 1. Get tabs to work
 1. Display a city grid
 1. Implement time to update times in the grid

@@ -13,7 +13,7 @@
         <ToolbarItem Text="Settings"
                      Order="Primary"
                      Priority="1"
-                     Clicked="Toolbar_Settings"
+                     Command="{Binding NavigateToSettingsPage}" 
                      >
             <ToolbarItem.IconImageSource>
                 <FontImageSource

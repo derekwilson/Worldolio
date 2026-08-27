@@ -6,7 +6,7 @@ using Worldolio.Data.Logging;
 using Worldolio.Data.Model;
 using Worldolio.Data.Repository;
 using Worldolio.Data.Utility;
-using WorldolioMauiPOC.Settings;
+using WorldolioMauiPOC.AppSettings;
 using WorldolioMauiPOC.Utility;
 using static Worldolio.Data.Model.TimeZone;
 
@@ -16,6 +16,7 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
     public partial class CityGridViewModel : INotifyPropertyChanged
     {
         public ICommand NavigateToAboutPage { get; }
+        public ICommand NavigateToSettingsPage { get; }
 
         public ObservableCollection<CityViewModel> Cities { get; set; } = new ObservableCollection<CityViewModel>();
         public string CurrentTime { get; set; } = "not set";
@@ -50,6 +51,7 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
 
             //NavigateToAboutPage = new Command(async () => await _navigationHelper.ExecuteNavigationAsync(nameof(About)));
             NavigateToAboutPage = new Command(async () => await _navigationHelper.ExecuteModalNavigationAsync<Views.About>());
+            NavigateToSettingsPage = new Command(async () => await _navigationHelper.ExecuteModalNavigationAsync<Views.Settings>());
 
             // Initialize timer to fire immediately, then tick every 1 second
             _timer = new Timer(TimerCallback, null, TimeSpan.Zero, TimeSpan.FromSeconds(60));

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="WorldolioMauiPOC.Views.Settings"
+             Title="Settings">
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Loaded" Command="{Binding InitCommand}" />
+    </ContentPage.Behaviors>
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior 
+            Command="{Binding NavigateBack}"
+        />
+    </Shell.BackButtonBehavior>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Done"
+                     Order="Primary"
+                     Priority="1"
+                     Command="{Binding NavigateBack}" 
+                     >
+            <ToolbarItem.IconImageSource>
+                <FontImageSource
+                    FontFamily="MaterialSymbolsOutlined"
+                    Glyph="&#xe5cd;"
+                    Color="{AppThemeBinding Light={StaticResource OffBlack},
+                                                 Dark={StaticResource White}}"
+                    Size="20"/>
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <ScrollView>
+        <VerticalStackLayout>
+
+            <Entry x:Name="entry"
+                Placeholder="City IDs comma separated"
+                />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

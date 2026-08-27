@@ -5,11 +5,12 @@ using Worldolio.Data.DependencyInjection;
 using Worldolio.Data.Utility;
 using WorldolioMauiPOC.Data;
 using WorldolioMauiPOC.Logging;
-using WorldolioMauiPOC.Settings;
+using WorldolioMauiPOC.AppSettings;
 using WorldolioMauiPOC.Utility;
 using WorldolioMauiPOC.ViewModels.About;
 using WorldolioMauiPOC.ViewModels.CityGrid;
 using WorldolioMauiPOC.ViewModels.Plan;
+using WorldolioMauiPOC.ViewModels.Settings;
 using WorldolioMauiPOC.Views;
 
 namespace WorldolioMauiPOC
@@ -74,11 +75,13 @@ namespace WorldolioMauiPOC
             builder.Services.AddSingleton<CityGrid>();
             builder.Services.AddSingleton<PlanViewModel>();
             builder.Services.AddSingleton<Plan>();
-//            builder.Services.AddSingleton<MoonViewModel>();
-//            builder.Services.AddSingleton<Moon>();
+            //            builder.Services.AddSingleton<MoonViewModel>();
+            //            builder.Services.AddSingleton<Moon>();
 
             builder.Services.AddTransient<AboutViewModel>();
             builder.Services.AddTransient<About>();
+            builder.Services.AddTransient<SettingsViewModel>();
+            builder.Services.AddTransient<Settings>();
 
             // database init
             DapperExtensions.AttachMappers();
@@ -86,6 +89,7 @@ namespace WorldolioMauiPOC
 
             // register routes
             Routing.RegisterRoute(nameof(About), typeof(About));
+            Routing.RegisterRoute(nameof(Settings), typeof(Settings));
 
             var app = builder.Build();
             MauiProgram.Services = app.Services;

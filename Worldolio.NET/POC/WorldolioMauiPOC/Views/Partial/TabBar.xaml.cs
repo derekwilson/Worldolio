@@ -66,7 +66,7 @@ public partial class TabBar : ContentView
             {
                 Text = "Settings",
                 IconImageSource = settingsImage,
-                Command = new Command(async () => await _navigationHelper.ExecuteModalNavigationAsync<Views.About>())
+                Command = new Command(async () => await _navigationHelper.ExecuteModalNavigationAsync<Views.Settings>())
             };
 
             ToolbarItems.Add(settings);

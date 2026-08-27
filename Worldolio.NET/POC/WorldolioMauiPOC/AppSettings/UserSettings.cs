@@ -1,4 +1,4 @@
-﻿namespace WorldolioMauiPOC.Settings
+﻿namespace WorldolioMauiPOC.AppSettings
 {
     public interface IUserSettings
     {

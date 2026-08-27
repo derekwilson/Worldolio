@@ -4,7 +4,7 @@ using System.ComponentModel;
 using Worldolio.Data.Logging;
 using Worldolio.Data.Model;
 using Worldolio.Data.Repository;
-using WorldolioMauiPOC.Settings;
+using WorldolioMauiPOC.AppSettings;
 using WorldolioMauiPOC.ViewModels.CityGrid;
 using static Worldolio.Data.Model.TimeZone;
 
