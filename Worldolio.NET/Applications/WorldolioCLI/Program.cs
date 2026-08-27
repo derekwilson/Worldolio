@@ -12,6 +12,7 @@ namespace WorldolioCLI
         private static ICityRepository _citiesRepository = null!;
         private static ICountryRepository _countriesRepository = null!;
         private static ISchemaRevisionAuditRepository _sraRepository = null!;
+        private static ISystemTimeProvider _systemTimeProvider = null!;
 
         private static async Task Main(string[] args)
         {
@@ -22,6 +23,11 @@ namespace WorldolioCLI
 
             var dbVersion = await DatabaseHelper.GetDatabaseVersion(_sraRepository);
             ApplicationHelper.OutputToConsole($"Database: {dbVersion}");
+
+            // args 0 == command
+            // args 1 == citylist | searchstring
+            // args 2 (optional) == date
+            // args 3 (optional) == time
 
             if (args.Length < 2)
             {
@@ -42,7 +48,13 @@ namespace WorldolioCLI
                 {
                     //long[] cityIds = [429, 458, 252, 477, 324, 79, 320, 279, 382, 180, 351];
                     long[] cityIds = ApplicationHelper.GetLongList(args[1]);
-                    await CityHelper.DisplayCityGrid(_citiesRepository, cityIds, false);
+                    // default to the machine time
+                    DateTime now = _systemTimeProvider.Now;
+                    if (args.Length > 2)
+                    {
+                        now = ApplicationHelper.ProcessDateTimeArgs(_logger, args[2], (args.Length > 3) ? args[3] : null, now);
+                    }
+                    await CityHelper.DisplayCityGrid(_citiesRepository, cityIds, false, now);
                     break;
                 }
                 case ApplicationHelper.Command.Find:
@@ -71,6 +83,7 @@ namespace WorldolioCLI
             _citiesRepository = _container.Resolve<ICityRepository>();
             _countriesRepository = _container.Resolve<ICountryRepository>();
             _sraRepository = _container.Resolve<ISchemaRevisionAuditRepository>();
+            _systemTimeProvider = _container.Resolve<ISystemTimeProvider>();
         }
 
         #region Exception Handling
