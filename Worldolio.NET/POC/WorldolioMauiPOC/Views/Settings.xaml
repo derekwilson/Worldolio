@@ -32,12 +32,38 @@
     </ContentPage.ToolbarItems>
 
     <ScrollView>
-        <VerticalStackLayout>
 
-            <Entry x:Name="entry"
+        <Grid   
+            Padding="5"  
+            ColumnDefinitions="Auto, *, Auto"  
+            RowDefinitions="Auto, Auto, Auto, *">
+
+            <Label 
+                Text="City IDs"
+                Margin="0,0,20,0"
+                VerticalOptions="Center"
+                FontSize="Default" />
+
+            <Entry 
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                Text="{Binding CurrentSettingsCityIds}"
                 Placeholder="City IDs comma separated"
                 />
 
-        </VerticalStackLayout>
+            <Button 
+                Grid.Row="1"
+                Margin="0,10,0,0"
+                Text="Reset" 
+                Command="{Binding ResetIds}" />
+
+            <Button 
+                Grid.Row="1"
+                Grid.Column="2"
+                Margin="0,10,0,0"
+                Text="Update" 
+                Command="{Binding UpdateIds}" />
+        </Grid>
+        
     </ScrollView>
 </ContentPage>
