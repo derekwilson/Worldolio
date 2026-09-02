@@ -20,7 +20,7 @@ namespace WorldolioMauiPOC.Utility
     {
         public string GetAppVersion()
         {
-            return $"{AppInfo.Current.Version.Major}.{AppInfo.Current.Version.Minor}.{AppInfo.Current.Version.Build} ({GetVersionCode()}) ({GetBuildType()})";
+            return $"{AppInfo.Current.Version.Major}.{AppInfo.Current.Version.Minor}.{AppInfo.Current.Version.Build} ({GetVersionCode()}) ({GetBuildType()}) - {GetGitHash()}";
         }
 
         private string GetVersionCode()
@@ -47,6 +47,12 @@ namespace WorldolioMauiPOC.Utility
 #else
             return "Release";
 #endif
+        }
+
+        private string GetGitHash()
+        {
+            //return "UNKNOWN";
+            return GitInfo.Hash;
         }
 
         public string GetDatabasePath()

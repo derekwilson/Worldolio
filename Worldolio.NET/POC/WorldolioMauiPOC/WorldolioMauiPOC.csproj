@@ -129,4 +129,26 @@
 	  </MauiXaml>
 	</ItemGroup>
 
+	<!-- get the current git hash for use in code -->
+	<Target Name="GetGitHash" BeforeTargets="BeforeBuild">
+		<Exec Command="git rev-parse --short HEAD" ConsoleToMSBuild="true" StandardOutputImportance="Low">
+			<Output TaskParameter="ConsoleOutput" PropertyName="GitCommitHash" />
+		</Exec>
+
+		<!-- Fallback if git is not available -->
+		<PropertyGroup>
+			<GitCommitHash Condition="'$(GitCommitHash)' == ''">UNKNOWN</GitCommitHash>
+		</PropertyGroup>
+
+		<!-- Write the hash into a temporary C# file compiled with the app -->
+		<WriteLinesToFile
+			File="$(IntermediateOutputPath)GitInfo.g.cs"
+			Lines="namespace WorldolioMauiPOC { public static class GitInfo { public const string Hash = &quot;$(GitCommitHash)&quot; %3b}}"
+			Overwrite="true"
+			Encoding="UTF-8" />
+
+		<ItemGroup>
+			<Compile Include="$(IntermediateOutputPath)GitInfo.g.cs" />
+		</ItemGroup>
+	</Target>
 </Project>
