@@ -20,7 +20,7 @@ namespace WorldolioMauiPOC.Utility
     {
         public string GetAppVersion()
         {
-            return $"{AppInfo.Current.Version.Major}.{AppInfo.Current.Version.Minor}.{AppInfo.Current.Version.Build} ({GetVersionCode()})";
+            return $"{AppInfo.Current.Version.Major}.{AppInfo.Current.Version.Minor}.{AppInfo.Current.Version.Build} ({GetVersionCode()}) ({GetBuildType()})";
         }
 
         private string GetVersionCode()
@@ -37,6 +37,15 @@ namespace WorldolioMauiPOC.Utility
             return longVersionCode.ToString();
 #else
             return AppInfo.Current.Version.Revision.ToString();
+#endif
+        }
+
+        private string GetBuildType()
+        {
+#if DEBUG
+            return "Debug";
+#else
+            return "Release";
 #endif
         }
 

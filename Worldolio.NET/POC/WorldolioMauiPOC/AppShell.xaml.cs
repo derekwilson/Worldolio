@@ -5,6 +5,10 @@
         public AppShell()
         {
             InitializeComponent();
+
+#if DEBUG
+            this.Title = this.Title + " (Debug)";
+#endif
         }
     }
 }

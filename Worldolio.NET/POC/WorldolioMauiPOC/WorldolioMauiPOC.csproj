@@ -13,16 +13,8 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 
-		<!-- Display name -->
-		<ApplicationTitle>WorldolioMauiPOC</ApplicationTitle>
-
-		<!-- App Identifier -->
-		<ApplicationId>net.derekwilson.worldoliomauipoc</ApplicationId>
-		<!-- Debug App Identifier -->
-		<ApplicationId Condition="'$(Configuration)' == 'Debug'">net.derekwilson.worldoliomauipoc.debug</ApplicationId>
-		
 		<!-- Versions -->
-		<ApplicationDisplayVersion>0.0.22</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion>0.0.24</ApplicationDisplayVersion>
 		<ApplicationVersion>3</ApplicationVersion>
 
 	    <RuntimeIdentifiers Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">android-arm;android-arm64;android-x86;android-x64</RuntimeIdentifiers>
@@ -32,6 +24,19 @@
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 		<WindowsPackageType>None</WindowsPackageType>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
+		<!-- App Identifier -->
+		<ApplicationId>net.derekwilson.worldoliomauipoc.debug</ApplicationId>
+		<!-- Display name -->
+		<ApplicationTitle>Dbg WorldolioMauiPOC</ApplicationTitle>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<!-- App Identifier -->
+		<ApplicationId>net.derekwilson.worldoliomauipoc</ApplicationId>
+		<!-- Display name -->
+		<ApplicationTitle>WorldolioMauiPOC</ApplicationTitle>
 	</PropertyGroup>
 
 	<ItemGroup>
