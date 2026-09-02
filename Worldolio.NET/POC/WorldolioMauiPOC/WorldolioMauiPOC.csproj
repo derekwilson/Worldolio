@@ -14,7 +14,7 @@
 		<Nullable>enable</Nullable>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>0.0.25</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion>0.0.26</ApplicationDisplayVersion>
 		<ApplicationVersion>3</ApplicationVersion>
 
 	    <RuntimeIdentifiers Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">android-arm;android-arm64;android-x86;android-x64</RuntimeIdentifiers>
@@ -23,7 +23,7 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
-		<WindowsPackageType>None</WindowsPackageType>
+		<WindowsPackageType Condition="'$(Configuration)'=='Debug'">None</WindowsPackageType>
 	</PropertyGroup>
 	
 	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -38,7 +38,9 @@
 		<!-- Display name -->
 		<ApplicationTitle>WorldolioMauiPOC</ApplicationTitle>
 	</PropertyGroup>
+
 	<Import Project="$(ProjectDir)..\..\..\LocalOnly\keystoreproperties.xml" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'" />
+	<Import Project="$(ProjectDir)..\..\..\LocalOnly\windowscertproperties.xml" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' and '$(Configuration)' == 'Release'" />
 
 	<ItemGroup>
 		<!-- App Icon -->
