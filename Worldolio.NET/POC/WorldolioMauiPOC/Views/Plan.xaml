@@ -7,7 +7,7 @@
              Title="Time Planner">
 
     <ContentPage.Behaviors>
-        <toolkit:EventToCommandBehavior EventName="Loaded" Command="{Binding InitCommand}" />
+        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding InitCommand}" />
     </ContentPage.Behaviors>
 
     <Grid   
