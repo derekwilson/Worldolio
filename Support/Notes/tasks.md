@@ -40,12 +40,14 @@ Done
 1. Navigate to an about screen and back
 1. Get tabs to work
 1. Display a city grid
-1. Implement time to update times in the grid
+1. Implement timer to update times in the grid
 1. Implement date and time picker for plan tab
 1. Stop leaking NodaTime data types from Worldolio.Data, it should only be used internally
 1. persistent settings
 1. build a release app for windows
 1. build a release app for android
+1. display build type debug/release and build time or git id on about form
+1. refresh the city list/grid/plan when returning from about/settings
 
 Todo
 
@@ -57,9 +59,7 @@ Todo
 1. get crash reporting to work
 1. get analytics to work
 1. custom selection lists
-1. display build type debug/release and build time or git id on about form
 1. show when an item is in daylight
 1. select an item in a CollectionView and launch a details view
-1. refresh the page when returning from a view
 
 
