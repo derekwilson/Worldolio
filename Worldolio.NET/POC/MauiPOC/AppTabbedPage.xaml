@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:local="clr-namespace:MauiPOC"
+            xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
+            android:TabbedPage.IsSwipePagingEnabled="True"
+            android:TabbedPage.ToolbarPlacement="Top"
+            x:Class="MauiPOC.AppTabbedPage">
+
+    <NavigationPage Title="Home">
+        <NavigationPage.IconImageSource>
+            <FontImageSource 
+                        FontFamily="MaterialSymbolsOutlined"
+                        Glyph="&#xe64c;"
+                        Color="{AppThemeBinding Light={StaticResource OffBlack},
+                                                     Dark={StaticResource White}}"
+                        />
+        </NavigationPage.IconImageSource>
+        <x:Arguments>
+            <local:Views.HomePage/>
+        </x:Arguments>
+    </NavigationPage>
+    <NavigationPage Title="Plan">
+        <NavigationPage.IconImageSource>
+            <FontImageSource 
+                        FontFamily="MaterialSymbolsOutlined"
+                        Glyph="&#xebcc;"
+                        Color="{AppThemeBinding Light={StaticResource OffBlack},
+                                                     Dark={StaticResource White}}"
+                        />
+        </NavigationPage.IconImageSource>
+        <x:Arguments>
+            <local:Views.PlanPage/>
+        </x:Arguments>
+    </NavigationPage>
+    <NavigationPage Title="Moon">
+        <NavigationPage.IconImageSource>
+            <FontImageSource 
+                        FontFamily="MaterialSymbolsOutlined"
+                        Glyph="&#xef44;"
+                        Color="{AppThemeBinding Light={StaticResource OffBlack},
+                                                     Dark={StaticResource White}}"
+                        />
+        </NavigationPage.IconImageSource>
+        <x:Arguments>
+            <local:Views.MoonPage/>
+        </x:Arguments>
+    </NavigationPage>
+</TabbedPage>

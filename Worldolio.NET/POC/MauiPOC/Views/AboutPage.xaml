@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiPOC.Views.AboutPage"
+             Title="About Worldolio">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Done"
+                     Order="Primary"
+                     Priority="1"
+                     Clicked="ToolbarItem_Clicked"
+                     >
+            <ToolbarItem.IconImageSource>
+                <FontImageSource
+                    FontFamily="MaterialSymbolsOutlined"
+                    Glyph="&#xe5cd;"
+                    Color="{AppThemeBinding Light={StaticResource OffBlack},
+                                                 Dark={StaticResource White}}"
+                    Size="20"/>
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <VerticalStackLayout>
+
+        <ScrollView>
+            <VerticalStackLayout>
+
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="App Version: " TextColor="Gray" />
+                            <Span x:Name="TxtAppVersion" Text="" FontAttributes="Bold" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text=".NET Version: " TextColor="Gray" />
+                            <Span x:Name="TxtNetVersion" Text="" FontAttributes="Bold" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="MAUI Version: " TextColor="Gray" />
+                            <Span x:Name="TxtMauiVersion" Text="" FontAttributes="Bold" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Package: " TextColor="Gray" />
+                            <Span x:Name="TxtPackage" Text="" FontAttributes="Bold" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+    </VerticalStackLayout>
+</ContentPage>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiPOC.Views.HomePage"
+             >
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Settings"
+                     Order="Primary"
+                     Priority="1"
+                     >
+            <ToolbarItem.IconImageSource>
+                <FontImageSource
+                    FontFamily="MaterialSymbolsOutlined"
+                    Glyph="&#xe8b8;"
+                    Color="{AppThemeBinding Light={StaticResource OffBlack},
+                                                 Dark={StaticResource White}}"
+                    Size="20"/>
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+        <ToolbarItem Text="About"
+                     Order="Primary"
+                     Priority="2"
+                     Clicked="ToolbarItem_Clicked"
+                     >
+            <ToolbarItem.IconImageSource>
+                <FontImageSource
+                    FontFamily="MaterialSymbolsOutlined"
+                    Glyph="&#xe88e;"
+                    Color="{AppThemeBinding Light={StaticResource OffBlack},
+                                                 Dark={StaticResource White}}"
+                    Size="20"/>
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <VerticalStackLayout>
+        <Label 
+            Text="Home"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+    </VerticalStackLayout>
+</ContentPage>
