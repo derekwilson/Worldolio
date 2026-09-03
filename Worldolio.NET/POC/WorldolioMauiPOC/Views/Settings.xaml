@@ -5,7 +5,7 @@
              x:Class="WorldolioMauiPOC.Views.Settings"
              Title="Settings">
     <ContentPage.Behaviors>
-        <toolkit:EventToCommandBehavior EventName="Loaded" Command="{Binding InitCommand}" />
+        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding InitCommand}" />
     </ContentPage.Behaviors>
 
     <Shell.BackButtonBehavior>
@@ -47,6 +47,7 @@
             <Entry 
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
+                x:Name="SettingIdsEntry"
                 Text="{Binding CurrentSettingsCityIds}"
                 Placeholder="City IDs comma separated"
                 />
