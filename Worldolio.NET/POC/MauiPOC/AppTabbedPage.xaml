@@ -5,6 +5,7 @@
             xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
             android:TabbedPage.IsSwipePagingEnabled="True"
             android:TabbedPage.ToolbarPlacement="Top"
+            BarBackgroundColor="{StaticResource White}"            
             x:Class="MauiPOC.AppTabbedPage">
 
     <NavigationPage Title="Home">
