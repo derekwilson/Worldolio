@@ -16,6 +16,9 @@ public partial class MoonPage : ContentPage
         Title = "Worldolio";
 #endif
 
+#if WINDOWS
         this.Window.Title = "Worldolio - Moon";
+        Title = "";
+#endif
     }
 }

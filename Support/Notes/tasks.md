@@ -51,6 +51,7 @@ Done
 
 Todo
 
+1. Update to .NET 10 / VS 2026
 1. use TabbedPage with embedded ContentPage and On<Microsoft.Maui.Controls.PlatformConfiguration.Android>.SetIsSwipePagingEnabled(true)
 1. sort out the render colours for the navigation area
 1. debounce the Toolbar buttons that navigate to modal pages - on Android

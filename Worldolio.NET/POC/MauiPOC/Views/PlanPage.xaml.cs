@@ -16,6 +16,9 @@ public partial class PlanPage : ContentPage
         Title = "Worldolio";
 #endif
 
+#if WINDOWS
         this.Window.Title = "Worldolio - Time Planner";
+        Title = "";
+#endif
     }
 }

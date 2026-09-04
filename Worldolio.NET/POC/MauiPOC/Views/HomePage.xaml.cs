@@ -18,7 +18,10 @@ public partial class HomePage : ContentPage
         Title = "Worldolio";
 #endif
 
+#if WINDOWS
         this.Window.Title = "Worldolio - Home";
+        Title = "";
+#endif
     }
 
     private async void ToolbarItem_Clicked(object sender, EventArgs e)
