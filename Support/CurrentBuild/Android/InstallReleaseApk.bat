@@ -1,0 +1,1 @@
+adb install -r net.derekwilson.worldoliomauipoc-Signed.apk
