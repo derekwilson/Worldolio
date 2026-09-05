@@ -1,3 +1,5 @@
+using MauiPOC.Views.Helpers;
+
 namespace MauiPOC.Views;
 
 public partial class MoonPage : ContentPage
@@ -5,7 +7,13 @@ public partial class MoonPage : ContentPage
 	public MoonPage()
 	{
 		InitializeComponent();
-	}
+
+        var toolbarHelper = new ToolbarHelper();
+        foreach (var item in toolbarHelper.CreateToolbarItems(false))
+        {
+            this.ToolbarItems.Add(item);
+        }
+    }
 
     protected override void OnAppearing()
     {

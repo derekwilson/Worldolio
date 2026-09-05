@@ -1,3 +1,5 @@
+using MauiPOC.Views.Helpers;
+
 namespace MauiPOC.Views;
 
 public partial class PlanPage : ContentPage
@@ -5,7 +7,13 @@ public partial class PlanPage : ContentPage
 	public PlanPage()
 	{
 		InitializeComponent();
-	}
+
+        var toolbarHelper = new ToolbarHelper();
+        foreach (var item in toolbarHelper.CreateToolbarItems(true))
+        {
+            this.ToolbarItems.Add(item);
+        }
+    }
 
     protected override void OnAppearing()
     {
