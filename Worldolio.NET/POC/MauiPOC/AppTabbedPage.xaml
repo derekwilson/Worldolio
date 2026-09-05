@@ -5,7 +5,10 @@
             xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
             android:TabbedPage.IsSwipePagingEnabled="True"
             android:TabbedPage.ToolbarPlacement="Top"
-            BarBackgroundColor="{StaticResource White}"            
+            BarBackgroundColor="{StaticResource White}"   
+            SelectedTabColor="{StaticResource Primary}"
+            UnselectedTabColor="{AppThemeBinding Light={StaticResource OffBlack},
+                                                     Dark={StaticResource White}}"
             x:Class="MauiPOC.AppTabbedPage">
 
     <NavigationPage Title="Home">
@@ -13,8 +16,6 @@
             <FontImageSource 
                         FontFamily="MaterialSymbolsOutlined"
                         Glyph="&#xe64c;"
-                        Color="{AppThemeBinding Light={StaticResource OffBlack},
-                                                     Dark={StaticResource White}}"
                         />
         </NavigationPage.IconImageSource>
         <x:Arguments>
@@ -26,8 +27,6 @@
             <FontImageSource 
                         FontFamily="MaterialSymbolsOutlined"
                         Glyph="&#xebcc;"
-                        Color="{AppThemeBinding Light={StaticResource OffBlack},
-                                                     Dark={StaticResource White}}"
                         />
         </NavigationPage.IconImageSource>
         <x:Arguments>
@@ -39,8 +38,6 @@
             <FontImageSource 
                         FontFamily="MaterialSymbolsOutlined"
                         Glyph="&#xef44;"
-                        Color="{AppThemeBinding Light={StaticResource OffBlack},
-                                                     Dark={StaticResource White}}"
                         />
         </NavigationPage.IconImageSource>
         <x:Arguments>
