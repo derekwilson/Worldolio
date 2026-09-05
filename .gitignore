@@ -1,5 +1,13 @@
+# Stuff I have added
+
 # Never check in the build keys
 **/LocalOnly/
+
+# Dont check in build artifacts (overridden in the Releases folder)
+*.msix
+*.apk
+
+# End of stuff I have added
 
 Configuration/
 
