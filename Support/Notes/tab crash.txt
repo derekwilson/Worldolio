@@ -1,0 +1,239 @@
+this is the Error
+
+https://github.com/dotnet/maui/issues/32824
+
+seems to be fixed in Maui 10
+
+https://github.com/dotnet/maui/pull/33363
+
+
+
+clicking tabs fast
+
+
+2026-09-06 09:44:18.7868|DEBUG|WorldolioMauiPOC.Logging.NLogMauiLoggerFactory|PlanViewModel InitAsync
+2026-09-06 09:44:18.8458|DEBUG|WorldolioMauiPOC.Logging.NLogMauiLoggerFactory|PlanViewModel cities = 7
+2026-09-06 09:44:20.0805|DEBUG|WorldolioMauiPOC.Logging.NLogMauiLoggerFactory|PlanViewModel InitAsync
+2026-09-06 09:44:20.1326|DEBUG|WorldolioMauiPOC.Logging.NLogMauiLoggerFactory|PlanViewModel cities = 7
+2026-09-06 09:44:20.6032|DEBUG|WorldolioMauiPOC.Logging.NLogMauiLoggerFactory|CityGrid OnAppearing
+2026-09-06 09:44:20.6032|DEBUG|WorldolioMauiPOC.Logging.NLogMauiLoggerFactory|CityGridViewModel InitAsync
+2026-09-06 09:44:20.7165|DEBUG|WorldolioMauiPOC.Logging.NLogMauiLoggerFactory|CityGridViewModel UpdateTime: 9:44 AM
+2026-09-06 09:44:20.7165|DEBUG|WorldolioMauiPOC.Logging.NLogMauiLoggerFactory|CityGridViewModel cities = 7
+2026-09-06 09:44:21.2362|DEBUG|WorldolioMauiPOC.Logging.NLogMauiLoggerFactory|PlanViewModel InitAsync
+2026-09-06 09:44:21.3010|DEBUG|WorldolioMauiPOC.Logging.NLogMauiLoggerFactory|PlanViewModel cities = 7
+2026-09-06 09:44:22.8740|ERROR|WorldolioMauiPOC.Logging.NLogMauiLoggerFactory|Ui_Current_UnhandledException => |System.Runtime.InteropServices.COMException (0x8000FFFF)
+2026-09-06 09:44:22.8951|ERROR|WorldolioMauiPOC.Logging.NLogMauiLoggerFactory|Ui_Current_UnhandledException => |System.Runtime.InteropServices.COMException (0x80004005)
+   at WinRT.ExceptionHelpers.<ThrowExceptionForHR>g__Throw|38_0(Int32 hr)
+   at ABI.Microsoft.UI.Xaml.Controls.IContentPresenterMethods.set_Content(IObjectReference _obj, Object value)
+   at Microsoft.Maui.Platform.StackNavigationManager.OnNavigated(Object sender, NavigationEventArgs e)
+   at ABI.Microsoft.UI.Xaml.Navigation.NavigatedEventHandler.Do_Abi_Invoke(IntPtr thisPtr, IntPtr sender, IntPtr e)
+--- End of stack trace from previous location ---
+   at WinRT.ExceptionHelpers.<ThrowExceptionForHR>g__Throw|38_0(Int32 hr)
+   at ABI.Microsoft.UI.Xaml.Controls.IFrameMethods.Navigate(IObjectReference _obj, Type sourcePageType, Object parameter, NavigationTransitionInfo infoOverride)
+   at Microsoft.Maui.Platform.StackNavigationManager.NavigateTo(NavigationRequest args)
+   at Microsoft.Maui.CommandMapper.InvokeCore(String key, IElementHandler viewHandler, IElement virtualView, Object args)
+   at Microsoft.Maui.Controls.Handlers.ShellSectionHandler.SyncNavigationStack(Boolean animated, NavigationRequestedEventArgs e)
+   at Microsoft.Maui.PropertyMapper.UpdateProperties(IElementHandler viewHandler, IElement virtualView)
+   at Microsoft.Maui.Handlers.ElementHandler.SetVirtualView(IElement view)
+   at Microsoft.Maui.Controls.Handlers.ShellSectionHandler.SetVirtualView(IElement view)
+   at Microsoft.Maui.Controls.Handlers.ShellItemHandler.UpdateCurrentItem()
+   at Microsoft.Maui.PropertyMapper.UpdateProperty(IElementHandler viewHandler, IElement virtualView, String property)
+   at Microsoft.Maui.Handlers.ElementHandler.UpdateValue(String property)
+   at Microsoft.Maui.Controls.Element.OnPropertyChanged(String propertyName)
+   at Microsoft.Maui.Controls.BaseShellItem.OnPropertyChanged(String propertyName)
+   at Microsoft.Maui.Controls.BindableObject.SetValueActual(BindableProperty property, BindablePropertyContext context, Object value, Boolean currentlyApplying, SetValueFlags attributes, SetterSpecificity specificity, Boolean silent)
+   at Microsoft.Maui.Controls.BindableObject.SetValueCore(BindableProperty property, Object value, SetValueFlags attributes, SetValuePrivateFlags privateAttributes, SetterSpecificity specificity)
+   at Microsoft.Maui.Controls.BindableObject.SetValue(BindableProperty property, Object value)
+   at Microsoft.Maui.Controls.ShellItem.CreateFromShellSection(ShellSection shellSection)
+   at Microsoft.Maui.Controls.Handlers.ShellItemHandler.OnNavigationTabChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+   at ABI.Windows.Foundation.TypedEventHandler`2.Do_Abi_Invoke[TSenderAbi,TResultAbi](Void* thisPtr, TSenderAbi sender, TResultAbi args)
+
+
+
+Using App Shell
+
+Log Name:      Application
+Source:        Application Error
+Date:          06/09/2026 09:44:23
+Event ID:      1000
+Task Category: Application Crashing Events
+Level:         Error
+Keywords:      
+User:          SNAZZ\derek
+Computer:      SNAZZ
+Description:
+Faulting application name: WorldolioMauiPOC.exe, version: 0.0.27.0, time stamp: 0x6a5a0000
+Faulting module name: Microsoft.ui.xaml.dll, version: 3.1.5.0, time stamp: 0xcd7cc268
+Exception code: 0xc000027b
+Fault offset: 0x00000000004051c5
+Faulting process id: 0x73C4
+Faulting application start time: 0x1DD3D7F51C9E52B
+Faulting application path: D:\Data\Code\Worldolio\Worldolio.NET\POC\WorldolioMauiPOC\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\WorldolioMauiPOC.exe
+Faulting module path: D:\Data\Code\Worldolio\Worldolio.NET\POC\WorldolioMauiPOC\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Microsoft.ui.xaml.dll
+Report Id: f83652ce-1957-41bd-9c63-c3ec9c7fee50
+Faulting package full name: 
+Faulting package-relative application ID: 
+Event Xml:
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Application Error" Guid="{a0e9b465-b939-57d7-b27d-95d8e925ff57}" />
+    <EventID>1000</EventID>
+    <Version>0</Version>
+    <Level>2</Level>
+    <Task>100</Task>
+    <Opcode>0</Opcode>
+    <Keywords>0x8000000000000000</Keywords>
+    <TimeCreated SystemTime="2026-09-05T21:44:23.4550032Z" />
+    <EventRecordID>86404</EventRecordID>
+    <Correlation />
+    <Execution ProcessID="2996" ThreadID="460" />
+    <Channel>Application</Channel>
+    <Computer>SNAZZ</Computer>
+    <Security UserID="S-1-5-21-2840979394-3721804020-1362059765-1001" />
+  </System>
+  <EventData>
+    <Data Name="AppName">WorldolioMauiPOC.exe</Data>
+    <Data Name="AppVersion">0.0.27.0</Data>
+    <Data Name="AppTimeStamp">6a5a0000</Data>
+    <Data Name="ModuleName">Microsoft.ui.xaml.dll</Data>
+    <Data Name="ModuleVersion">3.1.5.0</Data>
+    <Data Name="ModuleTimeStamp">cd7cc268</Data>
+    <Data Name="ExceptionCode">c000027b</Data>
+    <Data Name="FaultingOffset">00000000004051c5</Data>
+    <Data Name="ProcessId">0x73c4</Data>
+    <Data Name="ProcessCreationTime">0x1dd3d7f51c9e52b</Data>
+    <Data Name="AppPath">D:\Data\Code\Worldolio\Worldolio.NET\POC\WorldolioMauiPOC\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\WorldolioMauiPOC.exe</Data>
+    <Data Name="ModulePath">D:\Data\Code\Worldolio\Worldolio.NET\POC\WorldolioMauiPOC\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Microsoft.ui.xaml.dll</Data>
+    <Data Name="IntegratorReportId">f83652ce-1957-41bd-9c63-c3ec9c7fee50</Data>
+    <Data Name="PackageFullName">
+    </Data>
+    <Data Name="PackageRelativeAppId">
+    </Data>
+  </EventData>
+</Event>
+
+
+
+Using TabbedPage
+
+Log Name:      Application
+Source:        Application Error
+Date:          06/09/2026 09:40:07
+Event ID:      1000
+Task Category: Application Crashing Events
+Level:         Error
+Keywords:      
+User:          SNAZZ\derek
+Computer:      SNAZZ
+Description:
+Faulting application name: MauiPOC.exe, version: 0.0.3.0, time stamp: 0x6a5a0000
+Faulting module name: Microsoft.UI.Xaml.dll, version: 3.1.7.0, time stamp: 0x810b4cf6
+Exception code: 0xc000027b
+Fault offset: 0x000000000039cde5
+Faulting process id: 0x3838
+Faulting application start time: 0x1DD3D7F0D8A14C0
+Faulting application path: D:\Data\Code\Worldolio\Worldolio.NET\POC\MauiPOC\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\MauiPOC.exe
+Faulting module path: D:\Data\Code\Worldolio\Worldolio.NET\POC\MauiPOC\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\Microsoft.UI.Xaml.dll
+Report Id: ff033264-ab0d-4458-b24a-824d05fb4614
+Faulting package full name: 
+Faulting package-relative application ID: 
+Event Xml:
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Application Error" Guid="{a0e9b465-b939-57d7-b27d-95d8e925ff57}" />
+    <EventID>1000</EventID>
+    <Version>0</Version>
+    <Level>2</Level>
+    <Task>100</Task>
+    <Opcode>0</Opcode>
+    <Keywords>0x8000000000000000</Keywords>
+    <TimeCreated SystemTime="2026-09-05T21:40:07.0609009Z" />
+    <EventRecordID>86402</EventRecordID>
+    <Correlation />
+    <Execution ProcessID="19496" ThreadID="22684" />
+    <Channel>Application</Channel>
+    <Computer>SNAZZ</Computer>
+    <Security UserID="S-1-5-21-2840979394-3721804020-1362059765-1001" />
+  </System>
+  <EventData>
+    <Data Name="AppName">MauiPOC.exe</Data>
+    <Data Name="AppVersion">0.0.3.0</Data>
+    <Data Name="AppTimeStamp">6a5a0000</Data>
+    <Data Name="ModuleName">Microsoft.UI.Xaml.dll</Data>
+    <Data Name="ModuleVersion">3.1.7.0</Data>
+    <Data Name="ModuleTimeStamp">810b4cf6</Data>
+    <Data Name="ExceptionCode">c000027b</Data>
+    <Data Name="FaultingOffset">000000000039cde5</Data>
+    <Data Name="ProcessId">0x3838</Data>
+    <Data Name="ProcessCreationTime">0x1dd3d7f0d8a14c0</Data>
+    <Data Name="AppPath">D:\Data\Code\Worldolio\Worldolio.NET\POC\MauiPOC\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\MauiPOC.exe</Data>
+    <Data Name="ModulePath">D:\Data\Code\Worldolio\Worldolio.NET\POC\MauiPOC\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\Microsoft.UI.Xaml.dll</Data>
+    <Data Name="IntegratorReportId">ff033264-ab0d-4458-b24a-824d05fb4614</Data>
+    <Data Name="PackageFullName">
+    </Data>
+    <Data Name="PackageRelativeAppId">
+    </Data>
+  </EventData>
+</Event>
+
+
+Log Name:      Application
+Source:        Application Error
+Date:          08/09/2026 11:10:07
+Event ID:      1000
+Task Category: Application Crashing Events
+Level:         Error
+Keywords:      
+User:          SNAZZ\derek
+Computer:      SNAZZ
+Description:
+Faulting application name: TabbedPage.exe, version: 1.0.0.0, time stamp: 0x6a5a0000
+Faulting module name: Microsoft.ui.xaml.dll, version: 3.1.5.0, time stamp: 0xcd7cc268
+Exception code: 0xc000027b
+Fault offset: 0x00000000004051c5
+Faulting process id: 0x6CD4
+Faulting application start time: 0x1DD3F1DE9896DA5
+Faulting application path: D:\xfer\code\maui-samples\8.0\Navigation\TabbedPage\TabbedPage\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\TabbedPage.exe
+Faulting module path: D:\xfer\code\maui-samples\8.0\Navigation\TabbedPage\TabbedPage\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Microsoft.ui.xaml.dll
+Report Id: 75cf849f-35dc-4f56-9429-1d5b8460f66c
+Faulting package full name: 
+Faulting package-relative application ID: 
+Event Xml:
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Application Error" Guid="{a0e9b465-b939-57d7-b27d-95d8e925ff57}" />
+    <EventID>1000</EventID>
+    <Version>0</Version>
+    <Level>2</Level>
+    <Task>100</Task>
+    <Opcode>0</Opcode>
+    <Keywords>0x8000000000000000</Keywords>
+    <TimeCreated SystemTime="2026-09-07T23:10:07.1642903Z" />
+    <EventRecordID>86816</EventRecordID>
+    <Correlation />
+    <Execution ProcessID="4884" ThreadID="9412" />
+    <Channel>Application</Channel>
+    <Computer>SNAZZ</Computer>
+    <Security UserID="S-1-5-21-2840979394-3721804020-1362059765-1001" />
+  </System>
+  <EventData>
+    <Data Name="AppName">TabbedPage.exe</Data>
+    <Data Name="AppVersion">1.0.0.0</Data>
+    <Data Name="AppTimeStamp">6a5a0000</Data>
+    <Data Name="ModuleName">Microsoft.ui.xaml.dll</Data>
+    <Data Name="ModuleVersion">3.1.5.0</Data>
+    <Data Name="ModuleTimeStamp">cd7cc268</Data>
+    <Data Name="ExceptionCode">c000027b</Data>
+    <Data Name="FaultingOffset">00000000004051c5</Data>
+    <Data Name="ProcessId">0x6cd4</Data>
+    <Data Name="ProcessCreationTime">0x1dd3f1de9896da5</Data>
+    <Data Name="AppPath">D:\xfer\code\maui-samples\8.0\Navigation\TabbedPage\TabbedPage\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\TabbedPage.exe</Data>
+    <Data Name="ModulePath">D:\xfer\code\maui-samples\8.0\Navigation\TabbedPage\TabbedPage\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Microsoft.ui.xaml.dll</Data>
+    <Data Name="IntegratorReportId">75cf849f-35dc-4f56-9429-1d5b8460f66c</Data>
+    <Data Name="PackageFullName">
+    </Data>
+    <Data Name="PackageRelativeAppId">
+    </Data>
+  </EventData>
+</Event>
+
