@@ -15,10 +15,6 @@
             ColumnDefinitions="Auto, *, Auto"  
             RowDefinitions="Auto, Auto, Auto, *">
 
-        <partial:TabBar 
-            x:Name="TabBarButtons"
-        />
-
         <DatePicker 
             Grid.Column="1"
             Date="{Binding SelectedDate, Mode=TwoWay}"

@@ -12,6 +12,7 @@ using WorldolioMauiPOC.ViewModels.CityGrid;
 using WorldolioMauiPOC.ViewModels.Plan;
 using WorldolioMauiPOC.ViewModels.Settings;
 using WorldolioMauiPOC.Views;
+using WorldolioMauiPOC.ViewModels.Moon;
 
 namespace WorldolioMauiPOC
 {
@@ -70,6 +71,7 @@ namespace WorldolioMauiPOC
             builder.Services.AddSingleton<AppTabbedPage>();
             builder.Services.AddSingleton<IEnvironmentInformationProvider, EnvironmentInformationProvider>();
             builder.Services.AddSingleton<INavigationHelper, NavigationHelper>();
+            builder.Services.AddSingleton<IToolbarHelper, ToolbarHelper>();
             builder.Services.AddSingleton<IUserSettings, UserSettings>();
 
             // MAUI viewmodels
@@ -77,7 +79,7 @@ namespace WorldolioMauiPOC
             builder.Services.AddSingleton<CityGrid>();
             builder.Services.AddSingleton<PlanViewModel>();
             builder.Services.AddSingleton<Plan>();
-            //builder.Services.AddSingleton<MoonViewModel>();
+            builder.Services.AddSingleton<MoonViewModel>();
             builder.Services.AddSingleton<Moon>();
 
             builder.Services.AddTransient<AboutViewModel>();

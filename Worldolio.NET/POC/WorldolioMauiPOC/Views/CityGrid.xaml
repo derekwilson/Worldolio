@@ -9,37 +9,6 @@
         <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding InitCommand}" />
     </ContentPage.Behaviors>
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Settings"
-                     Order="Primary"
-                     Priority="1"
-                     Command="{Binding NavigateToSettingsPage}" 
-                     >
-            <ToolbarItem.IconImageSource>
-                <FontImageSource
-                    FontFamily="MaterialSymbolsOutlined"
-                    Glyph="&#xe8b8;"
-                    Color="{AppThemeBinding Light={StaticResource OffBlack},
-                                                 Dark={StaticResource White}}"
-                    Size="20"/>
-            </ToolbarItem.IconImageSource>
-        </ToolbarItem>
-        <ToolbarItem Text="About"
-                     Order="Primary"
-                     Priority="2"
-                     Command="{Binding NavigateToAboutPage}" 
-                     >
-            <ToolbarItem.IconImageSource>
-                <FontImageSource
-                    FontFamily="MaterialSymbolsOutlined"
-                    Glyph="&#xe88e;"
-                    Color="{AppThemeBinding Light={StaticResource OffBlack},
-                                                 Dark={StaticResource White}}"
-                    Size="20"/>
-            </ToolbarItem.IconImageSource>
-        </ToolbarItem>
-    </ContentPage.ToolbarItems>
-    
     <Grid RowDefinitions="auto,*">
         <Label
             Padding="5"  

@@ -1,4 +1,5 @@
 using Worldolio.Data.Logging;
+using WorldolioMauiPOC.Utility;
 using WorldolioMauiPOC.ViewModels.CityGrid;
 
 namespace WorldolioMauiPOC.Views;
@@ -6,8 +7,9 @@ namespace WorldolioMauiPOC.Views;
 public partial class CityGrid : ContentPage
 {
     private ILogger _logger;
+    private IToolbarHelper _toolbarHelper;
 
-    public CityGrid(CityGridViewModel viewModel, ILogger logger)
+    public CityGrid(CityGridViewModel viewModel, ILogger logger, IToolbarHelper toolbarHelper)
     {
         logger.Debug(() => $"CityGrid init");
 
@@ -16,6 +18,12 @@ public partial class CityGrid : ContentPage
         BindingContext = viewModel;
 
         _logger = logger;
+        _toolbarHelper = toolbarHelper;
+
+        foreach (var item in _toolbarHelper.CreateToolbarItems(true))
+        {
+            this.ToolbarItems.Add(item);
+        }
     }
 
     protected override void OnAppearing()

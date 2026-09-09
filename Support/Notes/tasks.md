@@ -48,16 +48,17 @@ Done
 1. build a release app for android
 1. display build type debug/release and build time or git id on about form
 1. refresh the city list/grid/plan when returning from about/settings
-
-Todo
-
 1. Update to .NET 10 / VS 2026
 1. use TabbedPage with embedded ContentPage and On<Microsoft.Maui.Controls.PlatformConfiguration.Android>.SetIsSwipePagingEnabled(true)
 1. sort out the render colours for the navigation area
+1. rework tabbar partial view to be pure code as the XAML does not really do anything
+
+Todo
+
 1. debounce the Toolbar buttons that navigate to modal pages - on Android
 1. enable FontImageSource to be bound to a global static class
-1. rework tabbar partial view to be pure code as the XAML does not really do anything
 1. get ripple to work on ImageButton on android
+1. get edge to edge to work properly
 1. auto size font when window changes size
 1. get crash reporting to work
 1. get analytics to work
