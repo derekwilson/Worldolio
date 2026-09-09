@@ -40,7 +40,7 @@ namespace WorldolioMauiPOC.Utility
                 {
                     Text = "Settings",
                     IconImageSource = settingsImage,
-                    Command = new Command(async () => await _navigationHelper.ExecuteModalNavigationAsync<Views.Settings>())
+                    Command = new Command(async () => await _navigationHelper.ExecuteModalNavigationWithDebounceAsync<Views.Settings>(false))
                 };
 
                 toolbarItems.Add(settings);
@@ -61,7 +61,7 @@ namespace WorldolioMauiPOC.Utility
             {
                 Text = "About",
                 IconImageSource = aboutImage,
-                Command = new Command(async () => await _navigationHelper.ExecuteModalNavigationAsync<Views.About>())
+                Command = new Command(async () => await _navigationHelper.ExecuteModalNavigationWithDebounceAsync<Views.About>(false))
             };
             toolbarItems.Add(about);
             _logger.Debug(() => $"AddToolbarItems - complete");

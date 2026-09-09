@@ -15,14 +15,10 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
 
     public partial class CityGridViewModel : INotifyPropertyChanged
     {
-        public ICommand NavigateToAboutPage { get; }
-        public ICommand NavigateToSettingsPage { get; }
-
         public ObservableCollection<CityViewModel> Cities { get; set; } = new ObservableCollection<CityViewModel>();
         public string CurrentTime { get; set; } = "not set";
         public string MoonPhase { get; set; } = "not set";
         public string NumberOfCities { get; set; } = "not set";
-
 
         private TimeFormat _currentInDayTimeFormat = TimeFormat.TIME_SHORT_AMPM;            // TODO - read from settings
         private TimeFormat _currentWithDayTimeFormat = TimeFormat.DAY_TIME_SHORT_AMPM;      // TODO - read from settings
@@ -50,10 +46,6 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
             _navigationHelper = navigationHelper;
             _systemTimeProvider = systemTimeProvider;
             _userSettings = userSettings;
-
-            //NavigateToAboutPage = new Command(async () => await _navigationHelper.ExecuteNavigationAsync(nameof(About)));
-            NavigateToAboutPage = new Command(async () => await _navigationHelper.ExecuteModalNavigationAsync<Views.About>());
-            NavigateToSettingsPage = new Command(async () => await _navigationHelper.ExecuteModalNavigationAsync<Views.Settings>());
 
             // Initialize timer to fire immediately, then tick every 1 second
             _timer = new Timer(TimerCallback, null, TimeSpan.Zero, TimeSpan.FromSeconds(60));

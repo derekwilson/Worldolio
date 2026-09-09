@@ -52,12 +52,14 @@ Done
 1. use TabbedPage with embedded ContentPage and On<Microsoft.Maui.Controls.PlatformConfiguration.Android>.SetIsSwipePagingEnabled(true)
 1. sort out the render colours for the navigation area
 1. rework tabbar partial view to be pure code as the XAML does not really do anything
+1. only reload UI when the settings change, make swipe smoother on Android
+1. debounce the Toolbar buttons that navigate to modal pages - on Android
 
 Todo
 
-1. debounce the Toolbar buttons that navigate to modal pages - on Android
 1. enable FontImageSource to be bound to a global static class
 1. get ripple to work on ImageButton on android
+1. get dark theme to work
 1. get edge to edge to work properly
 1. auto size font when window changes size
 1. get crash reporting to work

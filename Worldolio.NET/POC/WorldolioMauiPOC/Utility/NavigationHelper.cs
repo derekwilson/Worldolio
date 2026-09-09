@@ -1,11 +1,14 @@
 ﻿using Worldolio.Data.Logging;
+using Worldolio.Data.Utility;
 
 namespace WorldolioMauiPOC.Utility
 {
     public interface INavigationHelper
     {
         Task ExecuteNavigationAsync(string route);
-        Task ExecuteModalNavigationAsync<PAGE>()
+        Task ExecuteModalNavigationAsync<PAGE>(bool animated)
+            where PAGE : ContentPage;
+        Task ExecuteModalNavigationWithDebounceAsync<PAGE>(bool animated)
             where PAGE : ContentPage;
         Task ExecuteModalNavigationBackAsync();
     }
@@ -14,11 +17,13 @@ namespace WorldolioMauiPOC.Utility
     {
         private ILogger _logger;
         private readonly IServiceProvider _serviceProvider;
+        private ISystemTimeProvider _systemTimeProvider;
 
-        public NavigationHelper(ILogger logger, IServiceProvider serviceProvider)
+        public NavigationHelper(ILogger logger, IServiceProvider serviceProvider, ISystemTimeProvider systemTimeProvider)
         {
             _logger = logger;
             _serviceProvider = serviceProvider;
+            _systemTimeProvider = systemTimeProvider;
         }
 
         public async Task ExecuteNavigationAsync(string route)
@@ -35,12 +40,12 @@ namespace WorldolioMauiPOC.Utility
             }
         }
 
-        public async Task ExecuteModalNavigationAsync<PAGE>()
+        public async Task ExecuteModalNavigationAsync<PAGE>(bool animated)
             where PAGE : ContentPage
         {
             try
             {
-                _logger.Debug(() => $"NavigationHelper ExecuteModalNavigationAsync {typeof(PAGE).FullName}");
+                _logger.Debug(() => $"NavigationHelper ExecuteModalNavigationAsync ({animated}) {typeof(PAGE).FullName}");
                 // dont forget to register them in the MauiProgram like this
                 // builder.Services.AddTransient<About>();
                 var modalPage = _serviceProvider.GetRequiredService<PAGE>();
@@ -48,7 +53,7 @@ namespace WorldolioMauiPOC.Utility
                 var navigator = App.Current?.Windows[0].Page?.Navigation;
                 if (navigator != null)
                 {
-                    await navigator.PushModalAsync(new NavigationPage(modalPage), true);
+                    await navigator.PushModalAsync(new NavigationPage(modalPage), animated);
                 } 
                 else
                 {
@@ -61,8 +66,37 @@ namespace WorldolioMauiPOC.Utility
             }
         }
 
+        private DateTime _lastClick = DateTime.MinValue;
+
+        private bool IsDoubleTap(int thresholdMs = 1000)
+        {
+            var now = _systemTimeProvider.GetUtcNow();
+            if ((now - _lastClick).TotalMilliseconds < thresholdMs)
+            {
+                return true;
+            }
+            _lastClick = now;
+            return false;
+        }
+
+        public async Task ExecuteModalNavigationWithDebounceAsync<PAGE>(bool animated)
+            where PAGE : ContentPage
+        {
+            _logger.Debug(() => $"ExecuteModalNavigationWithDebounceAsync {typeof(PAGE).FullName}");
+            if (IsDoubleTap())
+            {
+                _logger.Debug(() => $"ExecuteModalNavigationWithDebounceAsync {typeof(PAGE).FullName} - busy - supressed");
+                return;
+            }
+            else
+            {
+                await ExecuteModalNavigationAsync<PAGE>(animated);
+            }
+        }
+
         public async Task ExecuteModalNavigationBackAsync()
         {
+            _logger.Debug(() => $"NavigationHelper ExecuteModalNavigationBackAsync");
             var navigator = App.Current?.Windows[0].Page?.Navigation;
             if (navigator != null)
             {
