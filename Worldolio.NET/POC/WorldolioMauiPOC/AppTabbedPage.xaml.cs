@@ -21,42 +21,40 @@ public partial class AppTabbedPage : TabbedPage
     private void InitTabs()
     {
         _logger.Debug(() => $"AppTabbedPage InitTabs");
-        var homeImage = new FontImageSource
+
+        var homeTab = new NavigationPage(_serviceProvider.GetRequiredService<CityGrid>())
         {
-            FontFamily = "MaterialSymbolsOutlined",
-            Glyph = "\ue64c",
+            Title = "Home",
+            IconImageSource = new FontImageSource
+            {
+                FontFamily = "MaterialSymbolsOutlined",
+                Glyph = "\ue64c",
+            }
         };
 
-        var homePage = _serviceProvider.GetRequiredService<CityGrid>();
-        var tab1 = new NavigationPage(homePage);
-        tab1.Title = "Home";
-        tab1.IconImageSource = homeImage;
-
-        var planImage = new FontImageSource
+        var planTab = new NavigationPage(_serviceProvider.GetRequiredService<Plan>())
         {
-            FontFamily = "MaterialSymbolsOutlined",
-            Glyph = "\uebcc",
+            Title = "Plan",
+            IconImageSource = new FontImageSource
+            {
+                FontFamily = "MaterialSymbolsOutlined",
+                Glyph = "\uebcc",
+            }
         };
 
-        var planPage = _serviceProvider.GetRequiredService<Plan>();
-        var tab2 = new NavigationPage(planPage);
-        tab2.Title = "Plan";
-        tab2.IconImageSource = planImage;
-
-        var moonImage = new FontImageSource
+        var moonTab = new NavigationPage(_serviceProvider.GetRequiredService<Moon>())
         {
-            FontFamily = "MaterialSymbolsOutlined",
-            Glyph = "\uef44",
+            Title = "Moon",
+            IconImageSource = new FontImageSource
+            {
+                FontFamily = "MaterialSymbolsOutlined",
+                Glyph = "\uef44",
+            }
         };
 
-        var moonPage = _serviceProvider.GetRequiredService<Moon>();
-        var tab3 = new NavigationPage(moonPage);
-        tab3.Title = "Moon";
-        tab3.IconImageSource = moonImage;
-
-        this.Children.Add(tab1);
-        this.Children.Add(tab2);
-        this.Children.Add(tab3);
+        this.Children.Add(homeTab);
+        this.Children.Add(planTab);
+        this.Children.Add(moonTab);
         _logger.Debug(() => $"AppTabbedPage InitTabs - done");
     }
 }

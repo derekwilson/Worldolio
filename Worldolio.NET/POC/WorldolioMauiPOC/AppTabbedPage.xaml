@@ -11,7 +11,7 @@
                                                      Dark={StaticResource White}}"
             x:Class="WorldolioMauiPOC.AppTabbedPage">
 
-<!--
+<!-- we would like to do the following, but I cannot work out how to do DI for the page views
     <NavigationPage Title="Home">
         <NavigationPage.IconImageSource>
             <FontImageSource 
