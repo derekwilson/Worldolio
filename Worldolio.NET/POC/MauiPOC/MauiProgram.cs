@@ -51,7 +51,7 @@ namespace MauiPOC
 #if ANDROID
         private static void AndroidEnvironment_UnhandledExceptionRaiser(object? sender, Android.Runtime.RaiseThrowableEventArgs e)
         {
-            Console.WriteLine(e.ToString());
+            System.Diagnostics.Debug.WriteLine(e.ToString());
             //_logger?.LogException(() => "AndroidEnvironment_UnhandledExceptionRaiser", e.Exception);
         }
 #endif
@@ -59,21 +59,21 @@ namespace MauiPOC
 #if WINDOWS
         private static void Ui_Current_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
         {
-            Console.WriteLine(e.ToString());
+            System.Diagnostics.Debug.WriteLine(e.ToString());
             //_logger?.LogException(() => "Ui_Current_UnhandledException", e.Exception);
         }
 #endif
 
         private static void TaskSchedulerOnUnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
         {
-            Console.WriteLine(e.ToString());
+            System.Diagnostics.Debug.WriteLine(e.ToString());
             //_logger?.LogException(() => "TaskSchedulerOnUnobservedTaskException", e.Exception);
         }
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             var ex = e.ExceptionObject as Exception ?? new Exception("EXCEPTION NOT PROVIDED");
-            Console.WriteLine(ex.ToString());
+            System.Diagnostics.Debug.WriteLine(ex.ToString());
             //_logger?.LogException(() => "CurrentDomain_UnhandledException", ex);
         }
 
