@@ -14,7 +14,7 @@
 		<Nullable>enable</Nullable>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>0.0.30</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion>0.0.35</ApplicationDisplayVersion>
 		<ApplicationVersion>3</ApplicationVersion>
 
 	    <RuntimeIdentifiers Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">android-arm;android-arm64;android-x86;android-x64</RuntimeIdentifiers>
@@ -106,6 +106,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="AppTabbedPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\About.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -141,11 +144,7 @@
 		</PropertyGroup>
 
 		<!-- Write the hash into a temporary C# file compiled with the app -->
-		<WriteLinesToFile
-			File="$(IntermediateOutputPath)GitInfo.g.cs"
-			Lines="namespace WorldolioMauiPOC { public static class GitInfo { public const string Hash = &quot;$(GitCommitHash)&quot; %3b}}"
-			Overwrite="true"
-			Encoding="UTF-8" />
+		<WriteLinesToFile File="$(IntermediateOutputPath)GitInfo.g.cs" Lines="namespace WorldolioMauiPOC { public static class GitInfo { public const string Hash = &quot;$(GitCommitHash)&quot; %3b}}" Overwrite="true" Encoding="UTF-8" />
 
 		<ItemGroup>
 			<Compile Include="$(IntermediateOutputPath)GitInfo.g.cs" />

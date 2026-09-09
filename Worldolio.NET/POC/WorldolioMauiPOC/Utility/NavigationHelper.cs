@@ -7,6 +7,7 @@ namespace WorldolioMauiPOC.Utility
         Task ExecuteNavigationAsync(string route);
         Task ExecuteModalNavigationAsync<PAGE>()
             where PAGE : ContentPage;
+        Task ExecuteModalNavigationBackAsync();
     }
 
     public class NavigationHelper : INavigationHelper
@@ -44,11 +45,32 @@ namespace WorldolioMauiPOC.Utility
                 // builder.Services.AddTransient<About>();
                 var modalPage = _serviceProvider.GetRequiredService<PAGE>();
                 // Perform your asynchronous call
-                await Shell.Current.Navigation.PushModalAsync(new NavigationPage(modalPage));
+                var navigator = App.Current?.Windows[0].Page?.Navigation;
+                if (navigator != null)
+                {
+                    await navigator.PushModalAsync(new NavigationPage(modalPage), true);
+                } 
+                else
+                {
+                    _logger.Warning(() => $"NavigationHelper ExecuteModalNavigationAsync - NULL navigator {typeof(PAGE).FullName}");
+                }
             }
             catch (Exception ex)
             {
                 _logger.LogException(() => "ExecuteModalNavigationAsync", ex);
+            }
+        }
+
+        public async Task ExecuteModalNavigationBackAsync()
+        {
+            var navigator = App.Current?.Windows[0].Page?.Navigation;
+            if (navigator != null)
+            {
+                await navigator.PopModalAsync(true);
+            }
+            else
+            {
+                _logger.Warning(() => $"NavigationHelper ExecuteModalNavigationBackAsync - NULL navigator");
             }
         }
     }

@@ -9,6 +9,14 @@
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <!-- set the toolbar -->
+            <Style TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="{AppThemeBinding Light={StaticResource White},
+                                                 Dark={StaticResource OffBlack}}" />
+                <Setter Property="BarTextColor" Value="{AppThemeBinding Light={StaticResource OffBlack},
+                                                 Dark={StaticResource White}}" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

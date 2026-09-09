@@ -12,7 +12,22 @@ namespace WorldolioMauiPOC
 
             _logger = logger;
             _logger.Debug(() => $"App Started");
-            MainPage = new AppShell(_logger);
         }
+
+#if WINDOWS
+        protected override Window CreateWindow(IActivationState? activationState)
+        {
+            _logger.Debug(() => $"App Create App Shell");
+            return new Window(new AppShell(_logger));
+        }
+#endif
+
+#if ANDROID
+        protected override Window CreateWindow(IActivationState? activationState)
+        {
+            _logger.Debug(() => $"App Create Tabbed Page");
+            return new Window(new AppTabbedPage(_logger, MauiProgram.Services));
+        }
+#endif
     }
 }

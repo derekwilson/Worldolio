@@ -40,7 +40,7 @@ namespace WorldolioMauiPOC.ViewModels.About
             _sraRepository = sraRepository;
             _navigationHelper = navigationHelper;
 
-            NavigateBack = new Command(async () => await _navigationHelper.ExecuteNavigationAsync(".."));
+            NavigateBack = new Command(async () => await _navigationHelper.ExecuteModalNavigationBackAsync());
         }
 
         [RelayCommand]

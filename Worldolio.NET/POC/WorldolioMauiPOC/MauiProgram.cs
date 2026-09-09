@@ -67,6 +67,7 @@ namespace WorldolioMauiPOC
 
             // MAUI objects
             builder.Services.AddSingleton<AppShell>();
+            builder.Services.AddSingleton<AppTabbedPage>();
             builder.Services.AddSingleton<IEnvironmentInformationProvider, EnvironmentInformationProvider>();
             builder.Services.AddSingleton<INavigationHelper, NavigationHelper>();
             builder.Services.AddSingleton<IUserSettings, UserSettings>();
@@ -76,13 +77,14 @@ namespace WorldolioMauiPOC
             builder.Services.AddSingleton<CityGrid>();
             builder.Services.AddSingleton<PlanViewModel>();
             builder.Services.AddSingleton<Plan>();
-            //            builder.Services.AddSingleton<MoonViewModel>();
-            //            builder.Services.AddSingleton<Moon>();
+            //builder.Services.AddSingleton<MoonViewModel>();
+            builder.Services.AddSingleton<Moon>();
 
             builder.Services.AddTransient<AboutViewModel>();
             builder.Services.AddTransient<About>();
             builder.Services.AddTransient<SettingsViewModel>();
             builder.Services.AddTransient<Settings>();
+
 
             // database init
             DapperExtensions.AttachMappers();

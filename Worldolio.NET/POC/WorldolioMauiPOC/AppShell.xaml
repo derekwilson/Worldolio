@@ -5,6 +5,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:WorldolioMauiPOC"
     Shell.FlyoutBehavior="Disabled"
+    
+    Shell.TabBarBackgroundColor="{StaticResource White}"   
+    Shell.TabBarForegroundColor="{StaticResource Primary}"
+    Shell.TabBarTitleColor="{StaticResource Primary}"
+    Shell.TabBarUnselectedColor="{AppThemeBinding Light={StaticResource OffBlack},
+                                        Dark={StaticResource White}}"
+    
     Title="WorldolioMauiPOC">
 
     <TabBar>
@@ -17,8 +24,6 @@
                 <FontImageSource 
                         FontFamily="MaterialSymbolsOutlined"
                         Glyph="&#xe64c;"
-                        Color="{AppThemeBinding Light={StaticResource OffBlack},
-                                                     Dark={StaticResource White}}"
                         />
             </ShellContent.Icon>
         </ShellContent>
@@ -31,8 +36,6 @@
                 <FontImageSource 
                         FontFamily="MaterialSymbolsOutlined"
                         Glyph="&#xebcc;"
-                        Color="{AppThemeBinding Light={StaticResource OffBlack},
-                                                     Dark={StaticResource White}}"
                         />
             </ShellContent.Icon>
         </ShellContent>
@@ -45,8 +48,6 @@
                 <FontImageSource 
                         FontFamily="MaterialSymbolsOutlined"
                         Glyph="&#xef44;"
-                        Color="{AppThemeBinding Light={StaticResource OffBlack},
-                                                     Dark={StaticResource White}}"
                         />
             </ShellContent.Icon>
         </ShellContent>

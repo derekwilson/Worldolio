@@ -33,7 +33,7 @@ namespace WorldolioMauiPOC.ViewModels.Settings
 
             CurrentSettingsCityIds = String.Join(',', _userSettings.Cities);
 
-            NavigateBack = new Command(async () => await _navigationHelper.ExecuteNavigationAsync(".."));
+            NavigateBack = new Command(async () => await _navigationHelper.ExecuteModalNavigationBackAsync());
             ResetIds = new Command(() =>
             {
                 _logger.Debug(() => $"ResetIds");
