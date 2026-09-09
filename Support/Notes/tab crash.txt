@@ -52,6 +52,8 @@ clicking tabs fast
 
 Using App Shell
 
+My POC .NET 8
+
 Log Name:      Application
 Source:        Application Error
 Date:          06/09/2026 09:44:23
@@ -112,9 +114,72 @@ Event Xml:
   </EventData>
 </Event>
 
+My POC .NET 10
+
+Log Name:      Application
+Source:        Application Error
+Date:          09/09/2026 12:23:09
+Event ID:      1000
+Task Category: Application Crashing Events
+Level:         Error
+Keywords:      
+User:          SNAZZ\derek
+Computer:      SNAZZ
+Description:
+Faulting application name: WorldolioMauiPOC.exe, version: 0.0.28.0, time stamp: 0x6a630000
+Faulting module name: Microsoft.ui.xaml.dll, version: 3.1.5.0, time stamp: 0xcd7cc268
+Exception code: 0xc000027b
+Fault offset: 0x00000000004051c5
+Faulting process id: 0x4DB0
+Faulting application start time: 0x1DD3FF14A21C7A4
+Faulting application path: D:\Data\Code\Worldolio\Worldolio.NET\POC\WorldolioMauiPOC\bin\Debug\net10.0-windows10.0.19041.0\win-x64\WorldolioMauiPOC.exe
+Faulting module path: D:\Data\Code\Worldolio\Worldolio.NET\POC\WorldolioMauiPOC\bin\Debug\net10.0-windows10.0.19041.0\win-x64\Microsoft.ui.xaml.dll
+Report Id: 8d7b980a-de72-48c0-a3ac-1fb820f2140c
+Faulting package full name: 
+Faulting package-relative application ID: 
+Event Xml:
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Application Error" Guid="{a0e9b465-b939-57d7-b27d-95d8e925ff57}" />
+    <EventID>1000</EventID>
+    <Version>0</Version>
+    <Level>2</Level>
+    <Task>100</Task>
+    <Opcode>0</Opcode>
+    <Keywords>0x8000000000000000</Keywords>
+    <TimeCreated SystemTime="2026-09-09T00:23:09.4291335Z" />
+    <EventRecordID>88244</EventRecordID>
+    <Correlation />
+    <Execution ProcessID="17600" ThreadID="8124" />
+    <Channel>Application</Channel>
+    <Computer>SNAZZ</Computer>
+    <Security UserID="S-1-5-21-2840979394-3721804020-1362059765-1001" />
+  </System>
+  <EventData>
+    <Data Name="AppName">WorldolioMauiPOC.exe</Data>
+    <Data Name="AppVersion">0.0.28.0</Data>
+    <Data Name="AppTimeStamp">6a630000</Data>
+    <Data Name="ModuleName">Microsoft.ui.xaml.dll</Data>
+    <Data Name="ModuleVersion">3.1.5.0</Data>
+    <Data Name="ModuleTimeStamp">cd7cc268</Data>
+    <Data Name="ExceptionCode">c000027b</Data>
+    <Data Name="FaultingOffset">00000000004051c5</Data>
+    <Data Name="ProcessId">0x4db0</Data>
+    <Data Name="ProcessCreationTime">0x1dd3ff14a21c7a4</Data>
+    <Data Name="AppPath">D:\Data\Code\Worldolio\Worldolio.NET\POC\WorldolioMauiPOC\bin\Debug\net10.0-windows10.0.19041.0\win-x64\WorldolioMauiPOC.exe</Data>
+    <Data Name="ModulePath">D:\Data\Code\Worldolio\Worldolio.NET\POC\WorldolioMauiPOC\bin\Debug\net10.0-windows10.0.19041.0\win-x64\Microsoft.ui.xaml.dll</Data>
+    <Data Name="IntegratorReportId">8d7b980a-de72-48c0-a3ac-1fb820f2140c</Data>
+    <Data Name="PackageFullName">
+    </Data>
+    <Data Name="PackageRelativeAppId">
+    </Data>
+  </EventData>
+</Event>
 
 
 Using TabbedPage
+
+My POC .NET 9
 
 Log Name:      Application
 Source:        Application Error
@@ -176,6 +241,132 @@ Event Xml:
   </EventData>
 </Event>
 
+My POC .NET 9 VS 2026
+
+Log Name:      Application
+Source:        Application Error
+Date:          09/09/2026 11:46:57
+Event ID:      1000
+Task Category: Application Crashing Events
+Level:         Error
+Keywords:      
+User:          SNAZZ\derek
+Computer:      SNAZZ
+Description:
+Faulting application name: MauiPOC.exe, version: 0.0.4.0, time stamp: 0x6a5a0000
+Faulting module name: Microsoft.UI.Xaml.dll, version: 3.1.7.0, time stamp: 0x810b4cf6
+Exception code: 0xc000027b
+Fault offset: 0x000000000039cde5
+Faulting process id: 0x5DB0
+Faulting application start time: 0x1DD3FEC393271B8
+Faulting application path: D:\Data\Code\Worldolio\Worldolio.NET\POC\MauiPOC\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\MauiPOC.exe
+Faulting module path: D:\Data\Code\Worldolio\Worldolio.NET\POC\MauiPOC\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\Microsoft.UI.Xaml.dll
+Report Id: 30a2f2e2-d5d0-455e-b136-55d1a13bf528
+Faulting package full name: 
+Faulting package-relative application ID: 
+Event Xml:
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Application Error" Guid="{a0e9b465-b939-57d7-b27d-95d8e925ff57}" />
+    <EventID>1000</EventID>
+    <Version>0</Version>
+    <Level>2</Level>
+    <Task>100</Task>
+    <Opcode>0</Opcode>
+    <Keywords>0x8000000000000000</Keywords>
+    <TimeCreated SystemTime="2026-09-08T23:46:57.1358057Z" />
+    <EventRecordID>88122</EventRecordID>
+    <Correlation />
+    <Execution ProcessID="15460" ThreadID="6204" />
+    <Channel>Application</Channel>
+    <Computer>SNAZZ</Computer>
+    <Security UserID="S-1-5-21-2840979394-3721804020-1362059765-1001" />
+  </System>
+  <EventData>
+    <Data Name="AppName">MauiPOC.exe</Data>
+    <Data Name="AppVersion">0.0.4.0</Data>
+    <Data Name="AppTimeStamp">6a5a0000</Data>
+    <Data Name="ModuleName">Microsoft.UI.Xaml.dll</Data>
+    <Data Name="ModuleVersion">3.1.7.0</Data>
+    <Data Name="ModuleTimeStamp">810b4cf6</Data>
+    <Data Name="ExceptionCode">c000027b</Data>
+    <Data Name="FaultingOffset">000000000039cde5</Data>
+    <Data Name="ProcessId">0x5db0</Data>
+    <Data Name="ProcessCreationTime">0x1dd3fec393271b8</Data>
+    <Data Name="AppPath">D:\Data\Code\Worldolio\Worldolio.NET\POC\MauiPOC\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\MauiPOC.exe</Data>
+    <Data Name="ModulePath">D:\Data\Code\Worldolio\Worldolio.NET\POC\MauiPOC\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\Microsoft.UI.Xaml.dll</Data>
+    <Data Name="IntegratorReportId">30a2f2e2-d5d0-455e-b136-55d1a13bf528</Data>
+    <Data Name="PackageFullName">
+    </Data>
+    <Data Name="PackageRelativeAppId">
+    </Data>
+  </EventData>
+</Event>
+
+My POC .NET 10
+
+Log Name:      Application
+Source:        Application Error
+Date:          09/09/2026 12:04:22
+Event ID:      1000
+Task Category: Application Crashing Events
+Level:         Error
+Keywords:      
+User:          SNAZZ\derek
+Computer:      SNAZZ
+Description:
+Faulting application name: MauiPOC.exe, version: 0.0.5.0, time stamp: 0x6a630000
+Faulting module name: Microsoft.UI.Xaml.dll, version: 3.1.7.0, time stamp: 0x810b4cf6
+Exception code: 0xc000027b
+Fault offset: 0x000000000039cde5
+Faulting process id: 0x4D88
+Faulting application start time: 0x1DD3FEEA37D7B4D
+Faulting application path: D:\Data\Code\Worldolio\Worldolio.NET\POC\MauiPOC\bin\Debug\net10.0-windows10.0.19041.0\win-x64\MauiPOC.exe
+Faulting module path: D:\Data\Code\Worldolio\Worldolio.NET\POC\MauiPOC\bin\Debug\net10.0-windows10.0.19041.0\win-x64\Microsoft.UI.Xaml.dll
+Report Id: b141db24-907b-4396-b699-02d0266a2152
+Faulting package full name: 
+Faulting package-relative application ID: 
+Event Xml:
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Application Error" Guid="{a0e9b465-b939-57d7-b27d-95d8e925ff57}" />
+    <EventID>1000</EventID>
+    <Version>0</Version>
+    <Level>2</Level>
+    <Task>100</Task>
+    <Opcode>0</Opcode>
+    <Keywords>0x8000000000000000</Keywords>
+    <TimeCreated SystemTime="2026-09-09T00:04:22.0737493Z" />
+    <EventRecordID>88237</EventRecordID>
+    <Correlation />
+    <Execution ProcessID="15336" ThreadID="8904" />
+    <Channel>Application</Channel>
+    <Computer>SNAZZ</Computer>
+    <Security UserID="S-1-5-21-2840979394-3721804020-1362059765-1001" />
+  </System>
+  <EventData>
+    <Data Name="AppName">MauiPOC.exe</Data>
+    <Data Name="AppVersion">0.0.5.0</Data>
+    <Data Name="AppTimeStamp">6a630000</Data>
+    <Data Name="ModuleName">Microsoft.UI.Xaml.dll</Data>
+    <Data Name="ModuleVersion">3.1.7.0</Data>
+    <Data Name="ModuleTimeStamp">810b4cf6</Data>
+    <Data Name="ExceptionCode">c000027b</Data>
+    <Data Name="FaultingOffset">000000000039cde5</Data>
+    <Data Name="ProcessId">0x4d88</Data>
+    <Data Name="ProcessCreationTime">0x1dd3feea37d7b4d</Data>
+    <Data Name="AppPath">D:\Data\Code\Worldolio\Worldolio.NET\POC\MauiPOC\bin\Debug\net10.0-windows10.0.19041.0\win-x64\MauiPOC.exe</Data>
+    <Data Name="ModulePath">D:\Data\Code\Worldolio\Worldolio.NET\POC\MauiPOC\bin\Debug\net10.0-windows10.0.19041.0\win-x64\Microsoft.UI.Xaml.dll</Data>
+    <Data Name="IntegratorReportId">b141db24-907b-4396-b699-02d0266a2152</Data>
+    <Data Name="PackageFullName">
+    </Data>
+    <Data Name="PackageRelativeAppId">
+    </Data>
+  </EventData>
+</Event>
+
+
+samples .NET 8
 
 Log Name:      Application
 Source:        Application Error
@@ -236,4 +427,5 @@ Event Xml:
     </Data>
   </EventData>
 </Event>
+
 
