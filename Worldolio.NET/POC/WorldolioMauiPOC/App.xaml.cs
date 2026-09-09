@@ -1,12 +1,18 @@
-﻿namespace WorldolioMauiPOC
+﻿using Worldolio.Data.Logging;
+
+namespace WorldolioMauiPOC
 {
     public partial class App : Application
     {
-        public App()
+        private ILogger _logger = null!;
+
+        public App(ILogger logger)
         {
             InitializeComponent();
 
-            MainPage = new AppShell();
+            _logger = logger;
+            _logger.Debug(() => $"App Started");
+            MainPage = new AppShell(_logger);
         }
     }
 }

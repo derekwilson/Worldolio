@@ -66,6 +66,7 @@ namespace WorldolioMauiPOC
             Registration.RegisterServices(_container, _logger);
 
             // MAUI objects
+            builder.Services.AddSingleton<AppShell>();
             builder.Services.AddSingleton<IEnvironmentInformationProvider, EnvironmentInformationProvider>();
             builder.Services.AddSingleton<INavigationHelper, NavigationHelper>();
             builder.Services.AddSingleton<IUserSettings, UserSettings>();
