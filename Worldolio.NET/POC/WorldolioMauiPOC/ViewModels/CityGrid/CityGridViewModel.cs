@@ -28,6 +28,8 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
         private TimeFormat _currentWithDayTimeFormat = TimeFormat.DAY_TIME_SHORT_AMPM;      // TODO - read from settings
         private DateTime _currentNow;
         private Timer _timer;
+        private DateTime _lastRefreshTime = DateTime.MinValue;
+
 
         private ILogger _logger;
         private ICityRepository _citiesRepository;
@@ -94,22 +96,27 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
         [RelayCommand]
         private async Task InitAsync()
         {
-            _logger.Debug(() => $"CityGridViewModel InitAsync");
+            _logger.Debug(() => $"CityGridViewModel InitAsync, last refresh: {_lastRefreshTime}");
 
-            var temp = await _citiesRepository.GetByIdsAsync(_userSettings.Cities);
-            var home = temp.FirstOrDefault();
-
-            Cities.Clear();
-            foreach (City city in temp)
+            if (_userSettings.HasBeenUpdatedSince(_lastRefreshTime))
             {
-                Cities.Add(new CityViewModel(city, home, _currentNow, _currentInDayTimeFormat, _currentWithDayTimeFormat));
+                _logger.Debug(() => $"CityGridViewModel InitAsync - refresh needed");
+
+                var temp = await _citiesRepository.GetByIdsAsync(_userSettings.Cities);
+                var home = temp.FirstOrDefault();
+
+                Cities.Clear();
+                foreach (City city in temp)
+                {
+                    Cities.Add(new CityViewModel(city, home, _currentNow, _currentInDayTimeFormat, _currentWithDayTimeFormat));
+                }
+
+                NumberOfCities = Cities.Count.ToString();
+                OnPropertyChanged(nameof(NumberOfCities));
+                _lastRefreshTime = _systemTimeProvider.GetUtcNow();
             }
 
-            NumberOfCities = Cities.Count.ToString();
-            OnPropertyChanged(nameof(NumberOfCities));
-
             UpdateTime();
-
             _logger.Debug(() => $"CityGridViewModel cities = {Cities.Count}");
         }
     }

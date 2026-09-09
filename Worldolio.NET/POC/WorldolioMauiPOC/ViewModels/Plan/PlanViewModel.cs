@@ -4,6 +4,7 @@ using System.ComponentModel;
 using Worldolio.Data.Logging;
 using Worldolio.Data.Model;
 using Worldolio.Data.Repository;
+using Worldolio.Data.Utility;
 using WorldolioMauiPOC.AppSettings;
 using WorldolioMauiPOC.ViewModels.CityGrid;
 using static Worldolio.Data.Model.TimeZone;
@@ -47,16 +48,21 @@ namespace WorldolioMauiPOC.ViewModels.Plan
 
         private TimeFormat _currentInDayTimeFormat = TimeFormat.TIME_SHORT_AMPM;            // TODO - read from settings
         private TimeFormat _currentWithDayTimeFormat = TimeFormat.DAY_TIME_SHORT_AMPM;      // TODO - read from settings
+        private DateTime _lastRefreshTime = DateTime.MinValue;
 
         private ILogger _logger;
         private ICityRepository _citiesRepository;
+        private ISystemTimeProvider _systemTimeProvider;
         private IUserSettings _userSettings;
 
-        public PlanViewModel(ILogger logger, ICityRepository citiesRepository, IUserSettings userSettings)
+        public PlanViewModel(ILogger logger, ICityRepository citiesRepository, IUserSettings userSettings, ISystemTimeProvider systemTimeProvider)
         {
             _logger = logger;
             _citiesRepository = citiesRepository;
             _userSettings = userSettings;
+            _systemTimeProvider = systemTimeProvider;
+
+            _selectedDate = _systemTimeProvider.GetToday();
         }
 
         public void UpdateTimeFromSlider(int value)
@@ -102,15 +108,22 @@ namespace WorldolioMauiPOC.ViewModels.Plan
         [RelayCommand]
         private async Task InitAsync()
         {
-            _logger.Debug(() => $"PlanViewModel InitAsync");
+            _logger.Debug(() => $"PlanViewModel InitAsync, last refresh: {_lastRefreshTime}");
 
-            var temp = await _citiesRepository.GetByIdsAsync(_userSettings.Cities);
-            var home = temp.FirstOrDefault();
-
-            Cities.Clear();
-            foreach (City city in temp)
+            if (_userSettings.HasBeenUpdatedSince(_lastRefreshTime))
             {
-                Cities.Add(new CityViewModel(city, home, GetNow(), _currentInDayTimeFormat, _currentWithDayTimeFormat));
+                _logger.Debug(() => $"PlanViewModel InitAsync - refresh needed");
+
+                var temp = await _citiesRepository.GetByIdsAsync(_userSettings.Cities);
+                var home = temp.FirstOrDefault();
+
+                Cities.Clear();
+                foreach (City city in temp)
+                {
+                    Cities.Add(new CityViewModel(city, home, GetNow(), _currentInDayTimeFormat, _currentWithDayTimeFormat));
+                }
+
+                _lastRefreshTime = _systemTimeProvider.GetUtcNow();
             }
 
             _logger.Debug(() => $"PlanViewModel cities = {Cities.Count}");
