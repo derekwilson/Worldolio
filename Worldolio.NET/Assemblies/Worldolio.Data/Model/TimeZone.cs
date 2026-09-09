@@ -202,7 +202,7 @@ namespace Worldolio.Data.Model
             {
                 dates.Add(FormatTime(TimeFormat.DATE_LONG,interval));
             }
-            return string.Join(',',dates);
+            return string.Join(",",dates);
         }
 
         private bool IsBetween(DateTimeZone zone, LocalDateTime time, Instant start, Instant end)
