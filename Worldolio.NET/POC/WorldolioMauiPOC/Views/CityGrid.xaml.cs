@@ -37,8 +37,4 @@ public partial class CityGrid : ContentPage
         _logger.Debug(() => $"CityGrid citiesCollection_SelectionChanged");
     }
 
-    private void DetailsBtn_Clicked(object sender, EventArgs e)
-    {
-        _logger.Debug(() => $"CityGrid DetailsBtn_Clicked");
-    }
 }

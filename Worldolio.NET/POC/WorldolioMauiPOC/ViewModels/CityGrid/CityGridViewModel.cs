@@ -30,6 +30,7 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
         private ILogger _logger;
         private ICityRepository _citiesRepository;
         private INavigationHelper _navigationHelper;
+        private IDialogHelper _dialogHelper;
         private ISystemTimeProvider _systemTimeProvider;
         private IUserSettings _userSettings;
 
@@ -37,12 +38,13 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
         protected void OnPropertyChanged(string name) =>
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-        public CityGridViewModel(ICityRepository citiesRepository, ILogger logger, INavigationHelper navigationHelper, ISystemTimeProvider systemTimeProvider, IUserSettings userSettings)
+        public CityGridViewModel(ICityRepository citiesRepository, ILogger logger, INavigationHelper navigationHelper, ISystemTimeProvider systemTimeProvider, IUserSettings userSettings, IDialogHelper dialogHelper)
         {
             logger.Debug(() => $"CityGridViewModel init");
 
             _logger = logger;
             _citiesRepository = citiesRepository;
+            _dialogHelper = dialogHelper;
             _navigationHelper = navigationHelper;
             _systemTimeProvider = systemTimeProvider;
             _userSettings = userSettings;
@@ -110,6 +112,21 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
 
             UpdateTime();
             _logger.Debug(() => $"CityGridViewModel cities = {Cities.Count}");
+        }
+
+        // The [RelayCommand] automatically creates an 'ItemTappedCommand' for the XAML
+        [RelayCommand]
+        private async Task ItemTappedAsync(CityViewModel selectedItem)
+        {
+            _logger.Debug(() => $"CityGridViewModel ItemTappedAsync");
+            if (selectedItem == null)
+            {
+                _logger.Warning(() => $"CityGridViewModel ItemTappedAsync - NULL selected item");
+                return;
+            }
+
+            _logger.Debug(() => $"CityGridViewModel ItemTappedAsync {selectedItem.CityName}");
+            await _dialogHelper.ShowAlertAsync("Alert", $"City = {selectedItem.CityName}");
         }
     }
 }

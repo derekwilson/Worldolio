@@ -55,10 +55,13 @@ Done
 1. only reload UI when the settings change, make swipe smoother on Android
 1. debounce the Toolbar buttons that navigate to modal pages - on Android
 1. enable FontImageSource to be bound to a global static class
+1. select an item in a CollectionView and launch a details view
 
 Todo
 
 1. get ripple to work on ImageButton on android
+1. fix scrolling on the Plan page
+1. replace Frame with Border
 1. get dark theme to work
 1. get edge to edge to work properly
 1. auto size font when window changes size
@@ -66,7 +69,7 @@ Todo
 1. get analytics to work
 1. custom selection lists
 1. show when an item is in daylight
-1. select an item in a CollectionView and launch a details view
+1. write details page for selected city
 1. revisit if we can do DI into the ContentPage from TabbedPage in XAML
 
 
