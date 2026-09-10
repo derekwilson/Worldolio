@@ -1,4 +1,5 @@
 using Worldolio.Data.Logging;
+using WorldolioMauiPOC.Utility;
 using WorldolioMauiPOC.Views;
 
 namespace WorldolioMauiPOC;
@@ -27,8 +28,8 @@ public partial class AppTabbedPage : TabbedPage
             Title = "Home",
             IconImageSource = new FontImageSource
             {
-                FontFamily = "MaterialSymbolsOutlined",
-                Glyph = "\ue64c",
+                FontFamily = MaterialSymbolsIconFont.FontName,
+                Glyph = MaterialSymbolsIconFont.IconGlobe,
             }
         };
 
@@ -37,8 +38,8 @@ public partial class AppTabbedPage : TabbedPage
             Title = "Plan",
             IconImageSource = new FontImageSource
             {
-                FontFamily = "MaterialSymbolsOutlined",
-                Glyph = "\uebcc",
+                FontFamily = MaterialSymbolsIconFont.FontName,
+                Glyph = MaterialSymbolsIconFont.IconCalendarMonth,
             }
         };
 
@@ -47,8 +48,8 @@ public partial class AppTabbedPage : TabbedPage
             Title = "Moon",
             IconImageSource = new FontImageSource
             {
-                FontFamily = "MaterialSymbolsOutlined",
-                Glyph = "\uef44",
+                FontFamily = MaterialSymbolsIconFont.FontName,
+                Glyph = MaterialSymbolsIconFont.IconBedtime,
             }
         };
 

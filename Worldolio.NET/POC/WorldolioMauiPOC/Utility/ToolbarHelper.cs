@@ -27,8 +27,8 @@ namespace WorldolioMauiPOC.Utility
             {
                 var settingsImage = new FontImageSource
                 {
-                    FontFamily = "MaterialSymbolsOutlined",
-                    Glyph = "\ue8b8",
+                    FontFamily = MaterialSymbolsIconFont.FontName,
+                    Glyph = MaterialSymbolsIconFont.IconSettings,
                     Size = 20,
                 };
                 settingsImage.SetAppTheme<Color>(
@@ -48,8 +48,8 @@ namespace WorldolioMauiPOC.Utility
 
             var aboutImage = new FontImageSource
             {
-                FontFamily = "MaterialSymbolsOutlined",
-                Glyph = "\ue88e",
+                FontFamily = MaterialSymbolsIconFont.FontName,
+                Glyph = MaterialSymbolsIconFont.IconInfo,
                 Size = 20,
             };
             aboutImage.SetAppTheme<Color>(

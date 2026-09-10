@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:WorldolioMauiPOC"
+    xmlns:utility="clr-namespace:WorldolioMauiPOC.Utility"
     Shell.FlyoutBehavior="Disabled"
     
     Shell.TabBarBackgroundColor="{StaticResource White}"   
@@ -22,8 +23,8 @@
             >
             <ShellContent.Icon>
                 <FontImageSource 
-                        FontFamily="MaterialSymbolsOutlined"
-                        Glyph="&#xe64c;"
+                        FontFamily="{x:Static utility:MaterialSymbolsIconFont.FontName}"
+                        Glyph="{x:Static utility:MaterialSymbolsIconFont.IconGlobe}"
                         />
             </ShellContent.Icon>
         </ShellContent>
@@ -34,8 +35,8 @@
             >
             <ShellContent.Icon>
                 <FontImageSource 
-                        FontFamily="MaterialSymbolsOutlined"
-                        Glyph="&#xebcc;"
+                        FontFamily="{x:Static utility:MaterialSymbolsIconFont.FontName}"
+                        Glyph="{x:Static utility:MaterialSymbolsIconFont.IconCalendarMonth}"
                         />
             </ShellContent.Icon>
         </ShellContent>
@@ -46,8 +47,8 @@
             >
             <ShellContent.Icon>
                 <FontImageSource 
-                        FontFamily="MaterialSymbolsOutlined"
-                        Glyph="&#xef44;"
+                        FontFamily="{x:Static utility:MaterialSymbolsIconFont.FontName}"
+                        Glyph="{x:Static utility:MaterialSymbolsIconFont.IconBedtime}"
                         />
             </ShellContent.Icon>
         </ShellContent>

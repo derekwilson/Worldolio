@@ -54,10 +54,10 @@ Done
 1. rework tabbar partial view to be pure code as the XAML does not really do anything
 1. only reload UI when the settings change, make swipe smoother on Android
 1. debounce the Toolbar buttons that navigate to modal pages - on Android
+1. enable FontImageSource to be bound to a global static class
 
 Todo
 
-1. enable FontImageSource to be bound to a global static class
 1. get ripple to work on ImageButton on android
 1. get dark theme to work
 1. get edge to edge to work properly
@@ -67,5 +67,6 @@ Todo
 1. custom selection lists
 1. show when an item is in daylight
 1. select an item in a CollectionView and launch a details view
+1. revisit if we can do DI into the ContentPage from TabbedPage in XAML
 
 
