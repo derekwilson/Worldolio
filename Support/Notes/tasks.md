@@ -59,11 +59,12 @@ Done
 
 Todo
 
-1. get ripple to work on ImageButton on android
-1. fix scrolling on the Plan page
 1. replace Frame with Border
+1. TimePlanner should use the selected time on the top city on the grid
+1. fix scrolling on the Plan page
+1. get ripple to work on ImageButton on android
 1. get dark theme to work
-1. get edge to edge to work properly
+1. get edge to edge to work properly on Android
 1. auto size font when window changes size
 1. get crash reporting to work
 1. get analytics to work

@@ -15,6 +15,7 @@
     <Color x:Key="OldTertiary">#2B0B98</Color>
 
     <Color x:Key="Primary">#00319c</Color>
+    <Color x:Key="PrimaryLight">#C6D9FF</Color>
     <Color x:Key="PrimaryDark">#A3C1FF</Color>
     <Color x:Key="PrimaryDarkText">#242424</Color>
     <Color x:Key="Secondary">#398C31</Color>

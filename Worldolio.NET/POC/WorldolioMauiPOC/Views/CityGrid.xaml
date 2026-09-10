@@ -63,9 +63,8 @@
                             -->
                             <Grid.Behaviors>
                                 <toolkit:TouchBehavior 
-                                    DefaultBackgroundColor="White"
-                                    PressedBackgroundColor="#F0F0F0"
-                                    PressedScale="0.98"
+                                    DefaultBackgroundColor="{StaticResource White}"
+                                    PressedBackgroundColor="{StaticResource PrimaryLight}"
                                     Command="{Binding BindingContext.ItemTappedCommand,Source={x:Reference thisPage}}"
                                     CommandParameter="{Binding .}"
                                 />
