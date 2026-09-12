@@ -31,10 +31,4 @@ public partial class CityGrid : ContentPage
         base.OnAppearing();
         _logger.Debug(() => $"CityGrid OnAppearing");
     }
-
-    private void citiesCollection_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        _logger.Debug(() => $"CityGrid citiesCollection_SelectionChanged");
-    }
-
 }

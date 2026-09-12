@@ -32,8 +32,7 @@
                 Grid.Row="1"
                 ItemsSource="{Binding Cities}"
                 Margin="5"
-                SelectionMode="Single"
-                SelectionChanged="citiesCollection_SelectionChanged"
+                SelectionMode="None"
                 >
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
@@ -50,6 +49,8 @@
                             RowDefinitions="Auto, Auto, Auto, Auto, Auto">
 
                             <!--
+                            leaving this here in case TouchBehavior stops working
+                            also the Command binding was a git to work out
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer 
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:CityGridViewModel}}, Path=ItemTappedCommand}"

@@ -66,7 +66,7 @@ Todo
 1. get dark theme to work
 1. get edge to edge to work properly on Android
 1. auto size font when window changes size
-1. get crash reporting to work
+1. get crash reporting to work - Sentry?
 1. get analytics to work
 1. custom selection lists
 1. show when an item is in daylight
