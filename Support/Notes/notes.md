@@ -245,4 +245,7 @@ slider
 https://stackoverflow.com/questions/73521926/is-there-a-way-to-set-an-interval-or-tick-on-a-slider-in-net-maui
 
 
+controls
+
+https://www.codemag.com/Article/2411041/Exploring-.NET-MAUI-Data-Entry-Controls-and-Data-Binding
 
