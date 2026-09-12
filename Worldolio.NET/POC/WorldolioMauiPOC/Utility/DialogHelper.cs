@@ -25,7 +25,7 @@ namespace WorldolioMauiPOC.Utility
             }
             else
             {
-                await window.DisplayAlert(title, message, "OK");
+                await window.DisplayAlertAsync(title, message, "OK");
             }
         }
     }
