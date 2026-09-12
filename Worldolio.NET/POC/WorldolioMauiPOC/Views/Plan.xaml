@@ -91,7 +91,7 @@
                 Grid.ColumnSpan="3"
                 ItemsSource="{Binding Cities}"
                 Margin="5"
-                SelectionMode="Single"
+                SelectionMode="None"
                 >
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
@@ -99,8 +99,8 @@
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame 
-                        Style="{StaticResource Frame.DataTemplate}"
+                    <Border 
+                        Style="{StaticResource Border.DataTemplate}"
                         >
                         <Grid   
                             Padding="5"  
@@ -127,7 +127,7 @@
                             </Label>
 
                         </Grid>
-                    </Frame>
+                    </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

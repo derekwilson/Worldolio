@@ -40,8 +40,8 @@
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame 
-                        Style="{StaticResource Frame.DataTemplate}"
+                    <Border 
+                        Style="{StaticResource Border.DataTemplate}"
                         >
                         <Grid   
                             Padding="5"  
@@ -142,7 +142,7 @@
                             </Label>
                             
                         </Grid>
-                    </Frame>
+                    </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
