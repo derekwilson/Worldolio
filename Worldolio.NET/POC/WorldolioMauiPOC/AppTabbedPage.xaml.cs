@@ -19,43 +19,28 @@ public partial class AppTabbedPage : TabbedPage
         InitTabs();
     }
 
+    private NavigationPage BuildOneTab<PAGE>(string title, string iconFontFamily, string glyph)
+        where PAGE : ContentPage
+    {
+        return new NavigationPage(_serviceProvider.GetRequiredService<PAGE>())
+        {
+            Title = title,
+            IconImageSource = new FontImageSource
+            {
+                FontFamily = iconFontFamily,
+                Glyph = glyph,
+            }
+        };
+    }
+
     private void InitTabs()
     {
         _logger.Debug(() => $"AppTabbedPage InitTabs");
 
-        var homeTab = new NavigationPage(_serviceProvider.GetRequiredService<CityGrid>())
-        {
-            Title = "Home",
-            IconImageSource = new FontImageSource
-            {
-                FontFamily = MaterialSymbolsIconFont.FontName,
-                Glyph = MaterialSymbolsIconFont.IconGlobe,
-            }
-        };
+        this.Children.Add(BuildOneTab<CityGrid>("Home", MaterialSymbolsIconFont.FontName, MaterialSymbolsIconFont.IconGlobe));
+        this.Children.Add(BuildOneTab<Plan>("Plan", MaterialSymbolsIconFont.FontName, MaterialSymbolsIconFont.IconCalendarMonth));
+        this.Children.Add(BuildOneTab<Moon>("Moon", MaterialSymbolsIconFont.FontName, MaterialSymbolsIconFont.IconBedtime));
 
-        var planTab = new NavigationPage(_serviceProvider.GetRequiredService<Plan>())
-        {
-            Title = "Plan",
-            IconImageSource = new FontImageSource
-            {
-                FontFamily = MaterialSymbolsIconFont.FontName,
-                Glyph = MaterialSymbolsIconFont.IconCalendarMonth,
-            }
-        };
-
-        var moonTab = new NavigationPage(_serviceProvider.GetRequiredService<Moon>())
-        {
-            Title = "Moon",
-            IconImageSource = new FontImageSource
-            {
-                FontFamily = MaterialSymbolsIconFont.FontName,
-                Glyph = MaterialSymbolsIconFont.IconBedtime,
-            }
-        };
-
-        this.Children.Add(homeTab);
-        this.Children.Add(planTab);
-        this.Children.Add(moonTab);
         _logger.Debug(() => $"AppTabbedPage InitTabs - done");
     }
 }
