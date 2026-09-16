@@ -13,9 +13,9 @@ public partial class CityGrid : ContentPage
     {
         logger.Debug(() => $"CityGrid init");
 
-        InitializeComponent();
-
         BindingContext = viewModel;
+
+        InitializeComponent();
 
         _logger = logger;
         _toolbarHelper = toolbarHelper;

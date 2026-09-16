@@ -4,10 +4,14 @@
              xmlns:utility="clr-namespace:WorldolioMauiPOC.Utility"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="WorldolioMauiPOC.Views.About"
+             x:Name="thisPage"
              Title="About Worldolio">
 
     <ContentPage.Behaviors>
-        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding InitCommand}" />
+        <toolkit:EventToCommandBehavior EventName="Appearing" 
+                                        Command="{Binding InitCommand}" 
+                                        BindingContext="{Binding Source={x:Reference thisPage}, Path=BindingContext}"
+                                        />
     </ContentPage.Behaviors>
 
     <Shell.BackButtonBehavior>
