@@ -14,6 +14,7 @@ namespace WorldolioMauiPOC.ViewModels.About
 
         public string AppVersion { get; set; } = "";
         public string DotNetVersion { get; set; } = "";
+        public string MauiVersion { get; set; } = "";
         public string Package { get; set; } = "";
         public string DBVersion { get; set; } = "";
         public string DBPath { get; set; } = "";
@@ -53,8 +54,11 @@ namespace WorldolioMauiPOC.ViewModels.About
                 AppVersion = _environmentInformationProvider.GetAppVersion();
                 OnPropertyChanged(nameof(AppVersion));
 
-                DotNetVersion = Environment.Version.ToString();
+                DotNetVersion = _environmentInformationProvider.GetDotNetVersion();
                 OnPropertyChanged(nameof(DotNetVersion));
+
+                MauiVersion = _environmentInformationProvider.GetMauiVersion();
+                OnPropertyChanged(nameof(MauiVersion));
 
                 Package = _environmentInformationProvider.GetPackageName();
                 OnPropertyChanged(nameof(Package));

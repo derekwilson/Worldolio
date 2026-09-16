@@ -34,7 +34,9 @@
     </ContentPage.ToolbarItems>
 
     <ScrollView>
-        <VerticalStackLayout>
+        <VerticalStackLayout
+                Padding="5"  
+            >
 
             <Label>
                 <Label.FormattedText>
@@ -50,6 +52,15 @@
                     <FormattedString>
                         <Span Text=".NET Version: " TextColor="Gray" />
                         <Span Text="{Binding DotNetVersion}" FontAttributes="Bold" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="MAUI Version: " TextColor="Gray" />
+                        <Span Text="{Binding MauiVersion}" FontAttributes="Bold" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>

@@ -10,6 +10,8 @@ namespace WorldolioMauiPOC.Utility
     public interface IEnvironmentInformationProvider
     {
         string GetAppVersion();
+        string GetDotNetVersion();
+        string GetMauiVersion();
         string GetDatabasePath();
         string GetPackageName();
         string GetLogfileLocation();
@@ -75,6 +77,17 @@ namespace WorldolioMauiPOC.Utility
         public string GetPackageName()
         {
             return $"{AppInfo.Current.PackageName}";
+        }
+
+        public string GetMauiVersion()
+        {
+            // Get the MAUI version
+            return typeof(MauiApp).Assembly.GetName().Version?.ToString() ?? "UNKNOWN";
+        }
+
+        public string GetDotNetVersion()
+        {
+            return Environment.Version.ToString();
         }
     }
 }
