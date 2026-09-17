@@ -1,4 +1,4 @@
-﻿using Worldolio.Data.Utility;
+﻿using Worldolio.Data.Logging;
 
 namespace Worldolio.Data.Model
 {
@@ -9,16 +9,17 @@ namespace Worldolio.Data.Model
 
     public class TimeZoneFactory : ITimeZoneFactory
     {
-        private ISystemTimeProvider _systemTimeProvider;
+        private ILogger _logger;
 
-        public TimeZoneFactory(ISystemTimeProvider systemTimeProvider)
+        public TimeZoneFactory(ILogger logger)
         {
-            _systemTimeProvider = systemTimeProvider;
+            _logger = logger;
         }
 
         public TimeZone GetTimeZoneFromIanaName(string name)
         {
-            return new TimeZone(name, _systemTimeProvider);
+            _logger.Debug(() => $"TimeZoneFactory.GetTimeZoneFromIanaName, {name}");
+            return new TimeZone(name);
         }
     }
 }

@@ -28,7 +28,7 @@ namespace WorldolioCLI
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"City {city.Id}, {city.DisplayName}, {city.Country.DisplayName}, Pos {city.Position.ToString(true)} Drives {city.Country.DriveSide.Description}");
-                Console.WriteLine($"   {city.TimeZone.GetFormattedLocalTime(now, TimeFormat.DAY_SHORT)} {city.TimeZone.GetFormattedLocalTime(now, TimeFormat.TIME_SHORT_AMPM)}");
+                Console.WriteLine($"   {city.TimeZone.GetFormattedLocalTime(now, ITimeZone.TimeFormat.DAY_SHORT)} {city.TimeZone.GetFormattedLocalTime(now, ITimeZone.TimeFormat.TIME_SHORT_AMPM)}");
                 Console.WriteLine($"   {city.TimeZone.GetFormattedOffset(now, home.TimeZone)}, DST {city.TimeZone.GetDSTDatesForDisplay(now)}, TZ {city.IanaTz}");
                 var nearby = await citiesRepository.GetNearbyCitiesAsync(city, new Distance(500, Distance.Units.Miles));
                 if (showNearby)
@@ -39,8 +39,8 @@ namespace WorldolioCLI
                     }
                 }
                 Console.WriteLine($"   Nearby cities count = {nearby.Count}");
-                Console.WriteLine($"   Sunrise: {city.GetSunrise(now, TimeFormat.TIME_SHORT_AMPM)}, Sunset: {city.GetSunset(now, TimeFormat.TIME_SHORT_AMPM)}, Noon: {city.GetNoon(now, TimeFormat.TIME_SHORT_AMPM)}");
-                Console.WriteLine($"   Moonrise: {city.GetMoonrise(now, TimeFormat.DAY_TIME_SHORT_AMPM)}, Moonset: {city.GetMoonset(now, TimeFormat.DAY_TIME_SHORT_AMPM)}");
+                Console.WriteLine($"   Sunrise: {city.GetSunrise(now, ITimeZone.TimeFormat.TIME_SHORT_AMPM)}, Sunset: {city.GetSunset(now, ITimeZone.TimeFormat.TIME_SHORT_AMPM)}, Noon: {city.GetNoon(now, ITimeZone.TimeFormat.TIME_SHORT_AMPM)}");
+                Console.WriteLine($"   Moonrise: {city.GetMoonrise(now, ITimeZone.TimeFormat.DAY_TIME_SHORT_AMPM)}, Moonset: {city.GetMoonset(now, ITimeZone.TimeFormat.DAY_TIME_SHORT_AMPM)}");
                 Console.ResetColor();
             }
             var invalidCount = cities.Count(c => !c.TimeZone.IsValid);

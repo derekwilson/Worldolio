@@ -85,8 +85,8 @@ namespace WorldolioMauiPOC.ViewModels.Plan
         protected void OnPropertyChanged(string name) =>
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-        private TimeFormat _currentInDayTimeFormat = TimeFormat.TIME_SHORT_AMPM;            // TODO - read from settings
-        private TimeFormat _currentWithDayTimeFormat = TimeFormat.DAY_TIME_SHORT_AMPM;      // TODO - read from settings
+        private ITimeZone.TimeFormat _currentInDayTimeFormat = ITimeZone.TimeFormat.TIME_SHORT_AMPM;            // TODO - read from settings
+        private ITimeZone.TimeFormat _currentWithDayTimeFormat = ITimeZone.TimeFormat.DAY_TIME_SHORT_AMPM;      // TODO - read from settings
         private DateTime _lastRefreshTime = DateTime.MinValue;
 
         private ILogger _logger;

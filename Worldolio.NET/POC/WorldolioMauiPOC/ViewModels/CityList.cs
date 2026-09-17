@@ -1,8 +1,10 @@
 ﻿using System.Collections.ObjectModel;
+using Worldolio.Data.Logging;
 using Worldolio.Data.Model;
 using Worldolio.Data.MSSQLite;
 using Worldolio.Data.Repository;
 using Worldolio.Data.Utility;
+using WorldolioMauiPOC.Logging;
 
 namespace WorldolioMauiPOC.ViewModels
 {
@@ -12,12 +14,15 @@ namespace WorldolioMauiPOC.ViewModels
         private IConnectionFactory _connectionFactory;
         private ICityRepository _citiesRepository;
         private ISystemTimeProvider _systemTimeProvider;
+        private ILogger _logger;
 
         public CityList()
         {
             DapperExtensions.AttachMappers();
             _systemTimeProvider = new SystemTimeProvider();
-            var timeZoneFactory = new TimeZoneFactory(_systemTimeProvider);
+            var loggerFactory = new NLogMauiLoggerFactory();        // this will also configure NLog
+            _logger = loggerFactory.Logger;
+            var timeZoneFactory = new TimeZoneFactory(_logger);
 #if WINDOWS
             var dbFilePath = AppDomain.CurrentDomain.BaseDirectory + "\\worldolio.sqlite";
 #elif ANDROID

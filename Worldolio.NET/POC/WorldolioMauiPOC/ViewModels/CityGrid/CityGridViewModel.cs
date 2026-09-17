@@ -20,8 +20,8 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
         public string MoonPhase { get; set; } = "not set";
         public string NumberOfCities { get; set; } = "not set";
 
-        private TimeFormat _currentInDayTimeFormat = TimeFormat.TIME_SHORT_AMPM;            // TODO - read from settings
-        private TimeFormat _currentWithDayTimeFormat = TimeFormat.DAY_TIME_SHORT_AMPM;      // TODO - read from settings
+        private ITimeZone.TimeFormat _currentInDayTimeFormat = ITimeZone.TimeFormat.TIME_SHORT_AMPM;            // TODO - read from settings
+        private ITimeZone.TimeFormat _currentWithDayTimeFormat = ITimeZone.TimeFormat.DAY_TIME_SHORT_AMPM;      // TODO - read from settings
         private DateTime _currentNow;
         private Timer _timer;
         private DateTime _lastRefreshTime = DateTime.MinValue;

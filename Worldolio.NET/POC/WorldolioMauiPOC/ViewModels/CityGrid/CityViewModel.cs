@@ -11,7 +11,7 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
         public string CountryName => _city.Country.DisplayName;
 
         public string CurrentTime => _city.TimeZone.GetFormattedLocalTime(_now, _inDayTimeFormat);
-        public string CurrentDay => _city.TimeZone.GetFormattedLocalTime(_now, TimeFormat.DAY_SHORT);
+        public string CurrentDay => _city.TimeZone.GetFormattedLocalTime(_now, ITimeZone.TimeFormat.DAY_SHORT);
         public string CurrentDayAndTime => $"{CurrentDay} {CurrentTime}";
 
         public string OffsetToHome
@@ -24,12 +24,12 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
                 }
                 else
                 {
-                    return _city.TimeZone.GetFormattedOffset(_homeCity.TimeZone);
+                    return _city.TimeZone.GetFormattedOffset(_now, _homeCity.TimeZone);
                 }
             }
         }
 
-        public string DSTDates => _city.TimeZone.GetDSTDatesForDisplay();
+        public string DSTDates => _city.TimeZone.GetDSTDatesForDisplay(_now);
 
         public string Sunrise => _city.GetSunrise(_now, _inDayTimeFormat);
         public string Noon => _city.GetNoon(_now, _inDayTimeFormat);
@@ -38,8 +38,8 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
         public string Moonset => _city.GetMoonset(_now, _withDayTimeFormat);
 
         private DateTime _now;
-        private TimeFormat _inDayTimeFormat;
-        private TimeFormat _withDayTimeFormat;
+        private ITimeZone.TimeFormat _inDayTimeFormat;
+        private ITimeZone.TimeFormat _withDayTimeFormat;
         private City _city;
         private City? _homeCity;
 
@@ -47,7 +47,7 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
         protected void OnPropertyChanged(string name) =>
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-        public CityViewModel(City city, City? homeCity, DateTime now, TimeFormat inDayTimeFormat, TimeFormat withDayTimeFormat)
+        public CityViewModel(City city, City? homeCity, DateTime now, ITimeZone.TimeFormat inDayTimeFormat, ITimeZone.TimeFormat withDayTimeFormat)
         {
             _city = city;
             _homeCity = homeCity;
@@ -56,7 +56,7 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
             _withDayTimeFormat = withDayTimeFormat;
         }
 
-        public void Update(DateTime now, TimeFormat inDayTimeFormat, TimeFormat withDayTimeFormat)
+        public void Update(DateTime now, ITimeZone.TimeFormat inDayTimeFormat, ITimeZone.TimeFormat withDayTimeFormat)
         {
             _now = now;
             _inDayTimeFormat = inDayTimeFormat;
