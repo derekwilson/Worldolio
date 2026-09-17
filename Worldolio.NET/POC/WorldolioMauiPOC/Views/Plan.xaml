@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:utility="clr-namespace:WorldolioMauiPOC.Utility"
+             xmlns:partial="clr-namespace:WorldolioMauiPOC.Views.Partial"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="WorldolioMauiPOC.Views.Plan"
              x:Name="thisPage"
@@ -44,35 +45,12 @@
                 </Label.FormattedText>
             </Label>
 
-            <Border 
+            <partial:FontIconButton
                 Grid.Row="2" 
-                StrokeShape="RoundRectangle 8"
-                Padding="0"
-                WidthRequest="40"
-                HeightRequest="40"
-                HorizontalOptions="Center"
-                VerticalOptions="Center">
-
-                <Border.Behaviors>
-                    <toolkit:TouchBehavior
-                        DefaultBackgroundColor="{StaticResource White}"
-                        PressedBackgroundColor="{StaticResource PrimaryLight}"
-                        HoveredBackgroundColor="{StaticResource Gray100}"
-                        Command="{Binding BindingContext.LeftClickedCommand, Source={Reference thisPage}}"
-                        CommandParameter="{Binding Source={x:Reference TimeSlider}, Path=Value}"
-                    />
-                </Border.Behaviors>
-
-                <Label 
-                    Text="{x:Static utility:MaterialSymbolsIconFont.IconArrowBack}" 
-                    FontFamily="{x:Static utility:MaterialSymbolsIconFont.FontName}" 
-                    FontSize="30" 
-                    TextColor="{AppThemeBinding Light={StaticResource OffBlack},
-                                                    Dark={StaticResource White}}"
-                    VerticalTextAlignment="Center" 
-                    HorizontalTextAlignment="Center" 
-                />
-            </Border>
+                FontName="{x:Static utility:MaterialSymbolsIconFont.FontName}"
+                IconGlyph="{x:Static utility:MaterialSymbolsIconFont.IconArrowBack}"
+                ClickCommand="{Binding BindingContext.LeftClickedCommand, Source={Reference thisPage}}"
+            />
 
             <Slider
                 Grid.Column="1"
@@ -85,36 +63,13 @@
                 Margin="10,0,10,0"
                 />
 
-            <Border 
+            <partial:FontIconButton
                 Grid.Column="2"
                 Grid.Row="2" 
-                StrokeShape="RoundRectangle 8"
-                Padding="0"
-                WidthRequest="40"
-                HeightRequest="40"
-                HorizontalOptions="Center"
-                VerticalOptions="Center">
-
-                <Border.Behaviors>
-                    <toolkit:TouchBehavior
-                        DefaultBackgroundColor="{StaticResource White}"
-                        PressedBackgroundColor="{StaticResource PrimaryLight}"
-                        HoveredBackgroundColor="{StaticResource Gray100}"
-                        Command="{Binding BindingContext.RightClickedCommand, Source={Reference thisPage}}"
-                        CommandParameter="{Binding Source={x:Reference TimeSlider}, Path=Value}"
-                    />
-                </Border.Behaviors>
-
-                <Label 
-                    Text="{x:Static utility:MaterialSymbolsIconFont.IconArrowForward}" 
-                    FontFamily="{x:Static utility:MaterialSymbolsIconFont.FontName}" 
-                    FontSize="30" 
-                    TextColor="{AppThemeBinding Light={StaticResource OffBlack},
-                                                    Dark={StaticResource White}}"
-                    VerticalTextAlignment="Center" 
-                    HorizontalTextAlignment="Center" 
-                />
-            </Border>
+                FontName="{x:Static utility:MaterialSymbolsIconFont.FontName}"
+                IconGlyph="{x:Static utility:MaterialSymbolsIconFont.IconArrowForward}"
+                ClickCommand="{Binding BindingContext.RightClickedCommand, Source={Reference thisPage}}"
+            />
         </Grid>
 
         <Grid   

@@ -58,6 +58,7 @@ namespace WorldolioMauiPOC.ViewModels.Plan
 
         // The value we want the slider to increment each time it updates
         private readonly int _sliderIncrement = 1;
+        // The hardwired default is 12 noon
         private int _currentSliderValue = 48;
         public double SliderValue
         {
@@ -162,28 +163,29 @@ namespace WorldolioMauiPOC.ViewModels.Plan
                 }
 
                 _lastRefreshTime = _systemTimeProvider.GetUtcNow();
+                UpdateTimeFromSlider(_currentSliderValue);
             }
 
             _logger.Debug(() => $"PlanViewModel cities = {Cities.Count}");
         }
 
         [RelayCommand]
-        public void LeftClicked(double sliderValue)
+        public void LeftClicked()
         {
-            _logger.Debug(() => $"PlanViewModel LeftClicked == {sliderValue}");
-            if (sliderValue > SliderMin)
+            _logger.Debug(() => $"PlanViewModel LeftClicked current = {_currentSliderValue}");
+            if (_currentSliderValue > SliderMin)
             {
-                SliderValue = sliderValue - _sliderIncrement;
+                SliderValue = _currentSliderValue - _sliderIncrement;
             }
         }
 
         [RelayCommand]
-        public void RightClicked(double sliderValue)
+        public void RightClicked()
         {
-            _logger.Debug(() => $"PlanViewModel RightClicked == {sliderValue}");
-            if (sliderValue < SliderMax)
+            _logger.Debug(() => $"PlanViewModel RightClicked current = {_currentSliderValue}");
+            if (_currentSliderValue < SliderMax)
             {
-                SliderValue = sliderValue + _sliderIncrement;
+                SliderValue = _currentSliderValue + _sliderIncrement;
             }
         }
     }

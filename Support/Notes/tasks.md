@@ -58,13 +58,13 @@ Done
 1. select an item in a CollectionView and launch a details view
 1. replace Frame with Border
 1. fix scrolling on the Plan page
-1. get ripple to work on ImageButton on android
+1. get ripple to work on ImageButton on android - actually replace ImageButton with Border/Label as its more flexible
+1. create partial control using bindings on the custom button using font icons FontIconButton
 
 Todo
 
 1. TimePlanner should use the selected time on the top city on the grid
 1. Implement Map page
-1. create partial control using bindings
 1. get dark theme to work
 1. get edge to edge to work properly on Android
 1. auto size font when window changes size
@@ -73,6 +73,8 @@ Todo
 1. custom selection lists
 1. show when an item is in daylight
 1. write details page for selected city
+1. keyboard support on Windows - select item from grid using enter
+1. keyboard support on Android
 1. revisit if we can do DI into the ContentPage from TabbedPage in XAML
 
 
