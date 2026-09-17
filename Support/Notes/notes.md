@@ -249,3 +249,81 @@ controls
 
 https://www.codemag.com/Article/2411041/Exploring-.NET-MAUI-Data-Entry-Controls-and-Data-Binding
 
+
+Command data binding using the community toolkit
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:utility="clr-namespace:WorldolioMauiPOC.Utility"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="WorldolioMauiPOC.Views.Plan"
+             x:Name="thisPage"
+             Title="Time Planner">
+
+....
+
+            <Border 
+                Grid.Row="2" 
+                StrokeShape="RoundRectangle 8"
+                Padding="12"
+                WidthRequest="40"
+                HeightRequest="40"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+
+                <!-- The toolkit handles the background updates perfectly on a Border container -->
+                <Border.Behaviors>
+                    <toolkit:TouchBehavior
+                        DefaultBackgroundColor="{StaticResource White}"
+                        PressedBackgroundColor="{StaticResource PrimaryLight}"
+                        HoveredBackgroundColor="{StaticResource Gray100}"
+                        Command="{Binding BindingContext.LeftClickedCommand, Source={Reference thisPage}}"
+                        CommandParameter="{Binding Source={x:Reference TimeSlider}, Path=Value}"
+                    />
+                </Border.Behaviors>
+
+                <!-- FontImageSource scales perfectly inside a normal Image tag -->
+                <Image VerticalOptions="Center" HorizontalOptions="Center">
+                    <Image.Source>
+                        <FontImageSource 
+                            FontFamily="{x:Static utility:MaterialSymbolsIconFont.FontName}"
+                            Glyph="{x:Static utility:MaterialSymbolsIconFont.IconArrowBack}"
+                            Color="{AppThemeBinding Light={StaticResource OffBlack},
+                                                    Dark={StaticResource White}}"
+                            Size="20"/>
+                    </Image.Source>
+                </Image>
+            </Border>
+
+            <Slider
+                Grid.Column="1"
+                Grid.Row="2"
+                x:Name="TimeSlider"
+                VerticalOptions="Center" 
+                Minimum="0"
+                Maximum="95"
+                Value="48"
+                ValueChanged="Slider_ValueChanged" />
+
+
+
+    public partial class PlanViewModel : INotifyPropertyChanged
+    {
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged(string name) =>
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+        [RelayCommand]
+        public void LeftClicked(double sliderValue)
+        {
+            _logger.Debug(() => $"PlanViewModel LeftClickedCommand == {sliderValue}");
+        }
+
+
+
+
+
+
+
+

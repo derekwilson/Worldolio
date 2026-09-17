@@ -44,53 +44,77 @@
                 </Label.FormattedText>
             </Label>
 
-            <ImageButton 
+            <Border 
                 Grid.Row="2" 
-                HorizontalOptions="Center" 
-                VerticalOptions="Center" 
-                HeightRequest="40" 
+                StrokeShape="RoundRectangle 8"
+                Padding="0"
                 WidthRequest="40"
-                Clicked="Left_Clicked"
-                >
-                <ImageButton.Source>
-                    <FontImageSource  
-                        FontFamily="{x:Static utility:MaterialSymbolsIconFont.FontName}"
-                        Glyph="{x:Static utility:MaterialSymbolsIconFont.IconArrowBack}"
-                        Color="{AppThemeBinding Light={StaticResource OffBlack},
-                                                Dark={StaticResource White}}"
-                        Size="20"/>
-                </ImageButton.Source>
-            </ImageButton>
+                HeightRequest="40"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+
+                <Border.Behaviors>
+                    <toolkit:TouchBehavior
+                        DefaultBackgroundColor="{StaticResource White}"
+                        PressedBackgroundColor="{StaticResource PrimaryLight}"
+                        HoveredBackgroundColor="{StaticResource Gray100}"
+                        Command="{Binding BindingContext.LeftClickedCommand, Source={Reference thisPage}}"
+                        CommandParameter="{Binding Source={x:Reference TimeSlider}, Path=Value}"
+                    />
+                </Border.Behaviors>
+
+                <Label 
+                    Text="{x:Static utility:MaterialSymbolsIconFont.IconArrowBack}" 
+                    FontFamily="{x:Static utility:MaterialSymbolsIconFont.FontName}" 
+                    FontSize="30" 
+                    TextColor="{AppThemeBinding Light={StaticResource OffBlack},
+                                                    Dark={StaticResource White}}"
+                    VerticalTextAlignment="Center" 
+                    HorizontalTextAlignment="Center" 
+                />
+            </Border>
 
             <Slider
                 Grid.Column="1"
                 Grid.Row="2"
                 x:Name="TimeSlider"
                 VerticalOptions="Center" 
-                Minimum="0"
-                Maximum="95"
-                Value="48"
-                ValueChanged="Slider_ValueChanged" />
+                Maximum="{Binding SliderMax}"
+                Minimum="{Binding SliderMin}"
+                Value="{Binding SliderValue}"
+                Margin="10,0,10,0"
+                />
 
-            <ImageButton 
+            <Border 
                 Grid.Column="2"
                 Grid.Row="2" 
-                HorizontalOptions="Center" 
-                VerticalOptions="Center" 
-                HeightRequest="40" 
+                StrokeShape="RoundRectangle 8"
+                Padding="0"
                 WidthRequest="40"
-                Clicked="Right_Clicked"
-                >
-                <ImageButton.Source>
-                    <FontImageSource  
-                        FontFamily="{x:Static utility:MaterialSymbolsIconFont.FontName}"
-                        Glyph="{x:Static utility:MaterialSymbolsIconFont.IconArrowForward}"
-                        Color="{AppThemeBinding Light={StaticResource OffBlack},
-                                                Dark={StaticResource White}}"
-                        Size="20"/>
-                </ImageButton.Source>
-            </ImageButton>
+                HeightRequest="40"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
 
+                <Border.Behaviors>
+                    <toolkit:TouchBehavior
+                        DefaultBackgroundColor="{StaticResource White}"
+                        PressedBackgroundColor="{StaticResource PrimaryLight}"
+                        HoveredBackgroundColor="{StaticResource Gray100}"
+                        Command="{Binding BindingContext.RightClickedCommand, Source={Reference thisPage}}"
+                        CommandParameter="{Binding Source={x:Reference TimeSlider}, Path=Value}"
+                    />
+                </Border.Behaviors>
+
+                <Label 
+                    Text="{x:Static utility:MaterialSymbolsIconFont.IconArrowForward}" 
+                    FontFamily="{x:Static utility:MaterialSymbolsIconFont.FontName}" 
+                    FontSize="30" 
+                    TextColor="{AppThemeBinding Light={StaticResource OffBlack},
+                                                    Dark={StaticResource White}}"
+                    VerticalTextAlignment="Center" 
+                    HorizontalTextAlignment="Center" 
+                />
+            </Border>
         </Grid>
 
         <Grid   

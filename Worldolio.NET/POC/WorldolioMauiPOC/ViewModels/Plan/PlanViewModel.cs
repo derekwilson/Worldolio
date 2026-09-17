@@ -35,7 +35,45 @@ namespace WorldolioMauiPOC.ViewModels.Plan
                 {
                     _selectedDate = value;
                     OnPropertyChanged("SelectedDate");
-                    UpdateTime();
+                    UpdateTimeInGrid();
+                }
+            }
+        }
+
+        public int SliderMin
+        {
+            get
+            {
+                return 0;
+            }
+        }
+
+        public int SliderMax
+        {
+            get
+            {
+                return 95;
+            }
+        }
+
+        // The value we want the slider to increment each time it updates
+        private readonly int _sliderIncrement = 1;
+        private int _currentSliderValue = 48;
+        public double SliderValue
+        {
+            get => _currentSliderValue;
+            set
+            {
+                if (_currentSliderValue != value)
+                {
+                    var sliderCorrectValue = (int)(value / _sliderIncrement) * _sliderIncrement;
+                    _logger.Debug(() => $"SliderValue set: {_currentSliderValue} -> {value}, {sliderCorrectValue}");
+                    if (sliderCorrectValue != _currentSliderValue)
+                    {
+                        _currentSliderValue = sliderCorrectValue;
+                        OnPropertyChanged("SliderValue");
+                        UpdateTimeFromSlider(_currentSliderValue);
+                    }
                 }
             }
         }
@@ -67,8 +105,8 @@ namespace WorldolioMauiPOC.ViewModels.Plan
 
         public void UpdateTimeFromSlider(int value)
         {
-            // value is in the range 0..96 - every quater of an hour in the day
-            if (value < 1 || value > 95)
+            // value is in the range 0..95 - every quater of an hour in the day
+            if (value < 1 || value > SliderMax)
             {
                 CurrentHour = 0;
                 CurrentMinute = 0;
@@ -82,7 +120,7 @@ namespace WorldolioMauiPOC.ViewModels.Plan
             OnPropertyChanged("CurrentHour");
             OnPropertyChanged("CurrentMinute");
             OnPropertyChanged("CurrentTime");
-            UpdateTime();
+            UpdateTimeInGrid();
         }
 
         private DateTime GetNow()
@@ -96,9 +134,9 @@ namespace WorldolioMauiPOC.ViewModels.Plan
             return dtUtc;
         }
 
-        private void UpdateTime()
+        private void UpdateTimeInGrid()
         {
-            _logger.Debug(() => $"PlanViewModel UpdateTime");
+            _logger.Debug(() => $"PlanViewModel UpdateTimeInGrid");
             foreach (CityViewModel cityView in Cities)
             {
                 cityView.Update(GetNow(), _currentInDayTimeFormat, _currentWithDayTimeFormat);
@@ -127,6 +165,26 @@ namespace WorldolioMauiPOC.ViewModels.Plan
             }
 
             _logger.Debug(() => $"PlanViewModel cities = {Cities.Count}");
+        }
+
+        [RelayCommand]
+        public void LeftClicked(double sliderValue)
+        {
+            _logger.Debug(() => $"PlanViewModel LeftClicked == {sliderValue}");
+            if (sliderValue > SliderMin)
+            {
+                SliderValue = sliderValue - _sliderIncrement;
+            }
+        }
+
+        [RelayCommand]
+        public void RightClicked(double sliderValue)
+        {
+            _logger.Debug(() => $"PlanViewModel RightClicked == {sliderValue}");
+            if (sliderValue < SliderMax)
+            {
+                SliderValue = sliderValue + _sliderIncrement;
+            }
         }
     }
 }
