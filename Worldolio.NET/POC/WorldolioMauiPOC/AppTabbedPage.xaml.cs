@@ -37,8 +37,9 @@ public partial class AppTabbedPage : TabbedPage
     {
         _logger.Debug(() => $"AppTabbedPage InitTabs");
 
-        this.Children.Add(BuildOneTab<CityGrid>("Home", MaterialSymbolsIconFont.FontName, MaterialSymbolsIconFont.IconGlobe));
+        this.Children.Add(BuildOneTab<CityGrid>("Home", MaterialSymbolsIconFont.FontName, MaterialSymbolsIconFont.IconHome));
         this.Children.Add(BuildOneTab<Plan>("Plan", MaterialSymbolsIconFont.FontName, MaterialSymbolsIconFont.IconCalendarMonth));
+        this.Children.Add(BuildOneTab<Views.Map>("Map", MaterialSymbolsIconFont.FontName, MaterialSymbolsIconFont.IconGlobe));
         this.Children.Add(BuildOneTab<Moon>("Moon", MaterialSymbolsIconFont.FontName, MaterialSymbolsIconFont.IconBedtime));
 
         _logger.Debug(() => $"AppTabbedPage InitTabs - done");

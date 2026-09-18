@@ -13,6 +13,7 @@ using WorldolioMauiPOC.ViewModels.Plan;
 using WorldolioMauiPOC.ViewModels.Settings;
 using WorldolioMauiPOC.Views;
 using WorldolioMauiPOC.ViewModels.Moon;
+using WorldolioMauiPOC.ViewModels.Map;
 
 namespace WorldolioMauiPOC
 {
@@ -82,6 +83,8 @@ namespace WorldolioMauiPOC
             builder.Services.AddSingleton<Plan>();
             builder.Services.AddSingleton<MoonViewModel>();
             builder.Services.AddSingleton<Moon>();
+            builder.Services.AddSingleton<MapViewModel>();
+            builder.Services.AddSingleton<Views.Map>();
 
             builder.Services.AddTransient<AboutViewModel>();
             builder.Services.AddTransient<About>();

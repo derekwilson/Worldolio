@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel;
 using Worldolio.Data.Logging;
 
-namespace WorldolioMauiPOC.ViewModels.Moon
+namespace WorldolioMauiPOC.ViewModels.Map
 {
-    public partial class MoonViewModel : INotifyPropertyChanged
+    public partial class MapViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged(string name) =>
@@ -11,9 +11,9 @@ namespace WorldolioMauiPOC.ViewModels.Moon
 
         private ILogger _logger;
 
-        public MoonViewModel(ILogger logger)
+        public MapViewModel(ILogger logger)
         {
-            logger.Debug(() => $"MoonViewModel init");
+            logger.Debug(() => $"MapViewModel init");
             _logger = logger;
         }
     }

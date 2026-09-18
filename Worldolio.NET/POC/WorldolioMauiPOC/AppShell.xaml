@@ -24,7 +24,7 @@
             <ShellContent.Icon>
                 <FontImageSource 
                         FontFamily="{x:Static utility:MaterialSymbolsIconFont.FontName}"
-                        Glyph="{x:Static utility:MaterialSymbolsIconFont.IconGlobe}"
+                        Glyph="{x:Static utility:MaterialSymbolsIconFont.IconHome}"
                         />
             </ShellContent.Icon>
         </ShellContent>
@@ -37,6 +37,18 @@
                 <FontImageSource 
                         FontFamily="{x:Static utility:MaterialSymbolsIconFont.FontName}"
                         Glyph="{x:Static utility:MaterialSymbolsIconFont.IconCalendarMonth}"
+                        />
+            </ShellContent.Icon>
+        </ShellContent>
+
+        <ShellContent
+            Title="Map"
+            ContentTemplate="{DataTemplate local:Views.Map}"
+            >
+            <ShellContent.Icon>
+                <FontImageSource 
+                        FontFamily="{x:Static utility:MaterialSymbolsIconFont.FontName}"
+                        Glyph="{x:Static utility:MaterialSymbolsIconFont.IconGlobe}"
                         />
             </ShellContent.Icon>
         </ShellContent>

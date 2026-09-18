@@ -66,6 +66,7 @@ Todo
 
 1. splash screen not working on Android 16
 1. Implement Map page
+1. stop reloading from the DB when the settings need to be refreshed, cache model objects in settings
 1. get dark theme to work
 1. get edge to edge to work properly on Android - colour the top status bar text
 1. auto size font when window changes size

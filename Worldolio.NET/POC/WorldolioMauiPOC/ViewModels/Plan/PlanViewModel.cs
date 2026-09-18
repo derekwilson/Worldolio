@@ -7,7 +7,6 @@ using Worldolio.Data.Repository;
 using Worldolio.Data.Utility;
 using WorldolioMauiPOC.AppSettings;
 using WorldolioMauiPOC.ViewModels.CityGrid;
-using static Worldolio.Data.Model.TimeZone;
 
 namespace WorldolioMauiPOC.ViewModels.Plan
 {
