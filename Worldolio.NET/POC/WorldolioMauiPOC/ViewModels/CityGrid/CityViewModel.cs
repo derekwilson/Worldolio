@@ -1,11 +1,41 @@
 ﻿using System.ComponentModel;
 using Worldolio.Data.Model;
-using static Worldolio.Data.Model.TimeZone;
+using WorldolioMauiPOC.Utility;
 
 namespace WorldolioMauiPOC.ViewModels.CityGrid
 {
     public class CityViewModel : INotifyPropertyChanged
     {
+        private Color _homeColour = Application.Current?.Resources.GetResource<Color>("PrimaryExtraLight", Colors.Red)
+            ?? Colors.Red
+            ;
+
+        public Color ItemBackgroundColor
+        {
+            get
+            {
+                if (_homeCity == null || _homeCity.Id != _city.Id)
+                {
+                    // most rows
+                    if (Application.Current?.RequestedTheme == AppTheme.Dark)
+                    {
+                        return Colors.Black;
+                    }
+                    return Colors.White;
+                }
+                else
+                {
+                    // the home city row
+                    return _homeColour;
+                }
+            }
+        }
+
+        public void OnThemeChanged()
+        {
+            OnPropertyChanged(nameof(ItemBackgroundColor));
+        }
+
         public string CityName => _city.DisplayName;
 
         public string CountryName => _city.Country.DisplayName;

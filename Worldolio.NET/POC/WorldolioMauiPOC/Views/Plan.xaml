@@ -95,7 +95,9 @@
                             <Grid   
                                 Padding="5"  
                                 ColumnDefinitions="Auto, *"  
-                                RowDefinitions="Auto, Auto">
+                                RowDefinitions="Auto, Auto"
+                                BackgroundColor="{Binding ItemBackgroundColor}"
+                                >
 
                                 <Label  
                                     Style="{StaticResource Label.BigGridItem}"

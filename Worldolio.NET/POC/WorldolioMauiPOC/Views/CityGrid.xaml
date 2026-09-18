@@ -50,7 +50,9 @@
                         <Grid   
                             Padding="5"  
                             ColumnDefinitions="Auto, *"  
-                            RowDefinitions="Auto, Auto, Auto, Auto, Auto">
+                            RowDefinitions="Auto, Auto, Auto, Auto, Auto"
+                            BackgroundColor="{Binding ItemBackgroundColor}"
+                            >
 
                             <!--
                             leaving this here in case TouchBehavior stops working
@@ -68,7 +70,6 @@
                             -->
                             <Grid.Behaviors>
                                 <toolkit:TouchBehavior 
-                                    DefaultBackgroundColor="{StaticResource White}"
                                     PressedBackgroundColor="{StaticResource PrimaryLight}"
                                     Command="{Binding Source={x:Reference citiesCollection}, Path=BindingContext.ItemTappedCommand}"
                                     CommandParameter="{Binding Source={x:Reference itemContainer}, Path=BindingContext}"
