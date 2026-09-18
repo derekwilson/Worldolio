@@ -64,9 +64,10 @@ Done
 
 Todo
 
+1. splash screen not working on Android 16
 1. Implement Map page
 1. get dark theme to work
-1. get edge to edge to work properly on Android
+1. get edge to edge to work properly on Android - colour the top status bar text
 1. auto size font when window changes size
 1. get crash reporting to work - Sentry?
 1. get analytics to work

@@ -322,6 +322,13 @@ Command data binding using the community toolkit
 
 
 
+release build warnings
+
+    D:\Data\Code\Worldolio\Worldolio.NET\POC\WorldolioMauiPOC\Utility\ResourceExtensions.cs(5,105): warning CS8601: Possible null reference assignment.
+    D:\Data\Code\Worldolio\Worldolio.NET\POC\WorldolioMauiPOC\Views\About.xaml(12,41): XamlC warning XC0022: Binding could be compiled to improve runtime performance if x:DataType is specified. See https://learn.microsoft.com/dotnet/maui/fundamentals/data-binding/compiled-bindings for more information.
+    D:\Data\Code\Worldolio\Worldolio.NET\POC\WorldolioMauiPOC\Views\About.xaml(13,41): XamlC warning XC0025: Binding was not compiled because it has an explicitly set Source property and compilation of bindings with Source is not enabled. Consider enabling this optimization by setting the <MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation> in your project file and make sure the correct x:DataType is specified for this binding. See https://learn.microsoft.com/dotnet/maui/fundamentals/data-binding/compiled-bindings for more information.
+    D:\Data\Code\Worldolio\Worldolio.NET\POC\WorldolioMauiPOC\Views\About.xaml(19,13): XamlC warning XC0022: Binding could be compiled to improve runtime performance if x:DataType is specified. See https://learn.microsoft.com/dotnet/maui/fundamentals/data-binding/compiled-bindings for more information.
+    D:\Data\Code\Worldolio\Worldolio.NET\POC\WorldolioMauiPOC\Views\About.xaml(27,22): XamlC warning XC0022: Binding could be compiled to improve runtime performance if x:DataType is specified. See https://learn.microsoft.com/dotnet/maui/fundamentals/data-binding/compiled-bindings for more information.
 
 
 
