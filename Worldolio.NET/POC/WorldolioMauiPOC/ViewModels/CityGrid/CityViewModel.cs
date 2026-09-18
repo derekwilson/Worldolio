@@ -10,8 +10,38 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
 
         public string CountryName => _city.Country.DisplayName;
 
-        public string CurrentTime => _city.TimeZone.GetFormattedLocalTime(_now, _inDayTimeFormat);
-        public string CurrentDay => _city.TimeZone.GetFormattedLocalTime(_now, ITimeZone.TimeFormat.DAY_SHORT);
+        public string CurrentTime
+        {
+            get
+            {
+                if (_homeCity == null)
+                {
+                    // maybe revert to the system TZ
+                    return "UNKNOWN";
+                }
+                else
+                {
+                    return _city.TimeZone.ToLocalTimeFormatted(_now, _homeCity.TimeZone, _inDayTimeFormat);
+                }
+            }
+        }
+
+        public string CurrentDay
+        {
+            get
+            {
+                if (_homeCity == null)
+                {
+                    // maybe revert to the system TZ
+                    return "UNKNOWN";
+                }
+                else
+                {
+                    return _city.TimeZone.ToLocalTimeFormatted(_now, _homeCity.TimeZone, ITimeZone.TimeFormat.DAY_SHORT);
+                }
+            }
+        }
+
         public string CurrentDayAndTime => $"{CurrentDay} {CurrentTime}";
 
         public string OffsetToHome

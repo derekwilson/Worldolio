@@ -28,7 +28,7 @@ namespace WorldolioCLI
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"City {city.Id}, {city.DisplayName}, {city.Country.DisplayName}, Pos {city.Position.ToString(true)} Drives {city.Country.DriveSide.Description}");
-                Console.WriteLine($"   {city.TimeZone.GetFormattedLocalTime(now, ITimeZone.TimeFormat.DAY_SHORT)} {city.TimeZone.GetFormattedLocalTime(now, ITimeZone.TimeFormat.TIME_SHORT_AMPM)}");
+                Console.WriteLine($"   {city.TimeZone.ToLocalTimeFormatted(now, home.TimeZone, ITimeZone.TimeFormat.DAY_SHORT)} {city.TimeZone.ToLocalTimeFormatted(now, home.TimeZone, ITimeZone.TimeFormat.TIME_SHORT_AMPM)}");
                 Console.WriteLine($"   {city.TimeZone.GetFormattedOffset(now, home.TimeZone)}, DST {city.TimeZone.GetDSTDatesForDisplay(now)}, TZ {city.IanaTz}");
                 var nearby = await citiesRepository.GetNearbyCitiesAsync(city, new Distance(500, Distance.Units.Miles));
                 if (showNearby)

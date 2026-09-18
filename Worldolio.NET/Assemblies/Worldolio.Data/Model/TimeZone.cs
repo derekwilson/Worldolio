@@ -20,7 +20,8 @@ namespace Worldolio.Data.Model
 
         bool IsValid { get; }
         string ToLocalTimeFromUtcFormatted(DateTime utctime, ITimeZone.TimeFormat format);
-        string GetFormattedLocalTime(DateTime localTime, ITimeZone.TimeFormat format);
+        string ToLocalTimeFormatted(DateTime localTime, ITimeZone tzForLocalTime, ITimeZone.TimeFormat format);
+
         string GetFormattedOffset(DateTime localTime, ITimeZone otherTz);
         string GetDSTDatesForDisplay(DateTime localTime);
         int GetUtcOffsetSeconds(DateTime localDateTime);
@@ -75,9 +76,15 @@ namespace Worldolio.Data.Model
 
         private Instant GetInstant(DateTime localDateTime)
         {
+            if (_zone == null)
+            {
+                throw new InvalidOperationException("Invalid timezone");
+            }
+
             LocalDateTime nodaLocal = LocalDateTime.FromDateTime(localDateTime);
-            DateTimeZone zone = DateTimeZoneProviders.Tzdb.GetSystemDefault();
-            return zone.AtLeniently(nodaLocal).ToInstant();
+            return _zone.AtLeniently(nodaLocal).ToInstant();
+            //DateTimeZone zone = DateTimeZoneProviders.Tzdb.GetSystemDefault();
+            //return zone.AtLeniently(nodaLocal).ToInstant();
         }
 
         public int GetUtcOffsetSeconds(DateTime localDateTime)
@@ -99,16 +106,6 @@ namespace Worldolio.Data.Model
             return instant.InZone(_zone);
         }
 
-        public string GetFormattedLocalTime(DateTime localTime, ITimeZone.TimeFormat format)
-        {
-            var instant = GetInstant(localTime);
-            if (_zone == null)
-            {
-                return "Unknown";
-            }
-            return FormatTime(format, GetLocalTime(instant).LocalDateTime);
-        }
-
         private double GetOffsetSeconds(DateTime localDateTime, ITimeZone otherTz)
         {
             var instant = GetInstant(localDateTime);
@@ -116,10 +113,11 @@ namespace Worldolio.Data.Model
             {
                 throw new InvalidOperationException("Invalid timezone");
             }
+
+            // we need a Duration as the combined offset may be bigger than 18 Hours which is the maximum allowed in an Offset
             Duration myOffset = Duration.FromSeconds(_zone.GetUtcOffset(instant).Seconds);
             Duration otherOffset = Duration.FromSeconds(otherTz.GetUtcOffsetSeconds(localDateTime));
 
-            // we need a Duration as the combined offset may be bigger than 18 Hours which is the maximum allowed in an Offset
             return myOffset.Minus(otherOffset).TotalSeconds;
         }
 
@@ -223,6 +221,19 @@ namespace Worldolio.Data.Model
             Instant instant = Instant.FromDateTimeUtc(utctime);
             var localtime = instant.InZone(_zone);
             return FormatTime(format, localtime.LocalDateTime);
+        }
+
+        private DateTime ToUtcTime(DateTime localTime, ITimeZone tzForLocalTime)
+        {
+            var seconds = tzForLocalTime.GetUtcOffsetSeconds(localTime);
+            // we negate the seconds as we want to move the local time back to UTC
+            return DateTime.SpecifyKind(localTime.AddSeconds(-seconds), DateTimeKind.Utc);
+        }
+
+        public string ToLocalTimeFormatted(DateTime localTime, ITimeZone tzForLocalTime, ITimeZone.TimeFormat format)
+        {
+            var utc = ToUtcTime(localTime, tzForLocalTime);
+            return ToLocalTimeFromUtcFormatted(utc, format);
         }
     }
 }

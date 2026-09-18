@@ -189,7 +189,7 @@ http://hinch.me.uk/riset.html
 
 WorldolioCLI.exe find man
 
-WorldolioCLI.exe citylist 429,458,252,477
+WorldolioCLI.exe citylist 458,429,252,477
 
 
 ## MAUI

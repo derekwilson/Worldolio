@@ -63,7 +63,7 @@ namespace WorldolioPOC
             set = moon.Item2 == null ? "None" : moon.Item2.ToString();
             Console.WriteLine($"Moon Rise2 {rise} Set {set}");
 
-            Console.WriteLine($"   Moonrise: {home.GetMoonrise(date, TimeFormat.DATE_TIME_LONG)}, Moonset: {home.GetMoonset(date, TimeFormat.DATE_TIME_LONG)}");
+            Console.WriteLine($"   Moonrise: {home.GetMoonrise(date, ITimeZone.TimeFormat.DATE_TIME_LONG)}, Moonset: {home.GetMoonset(date, ITimeZone.TimeFormat.DATE_TIME_LONG)}");
         }
     }
 }

@@ -71,6 +71,7 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
         private void UpdateTime()
         {
             _currentNow = _systemTimeProvider.Now;
+            _logger.Debug(() => $"CityGridViewModel UpdateTime: now = {_currentNow}");
             MoonPhase = GeoCalculator.GetFormattedIlluminatedFractionOfMoon(_currentNow);
             // TODO - actually these only need to be done when the day changes
             OnPropertyChanged(nameof(MoonPhase));
@@ -83,7 +84,6 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
             {
                 CurrentTime = Cities[0].CurrentTime;
             }
-            _logger.Debug(() => $"CityGridViewModel UpdateTime: {CurrentTime}");
             OnPropertyChanged(nameof(CurrentTime));
         }
 

@@ -213,6 +213,12 @@ namespace WorldolioDataChecker
         {
             ICollection<City> cities = ids == null ? await _citiesRepository.GetAllAsync() : await _citiesRepository.GetByIdsAsync(ids);
 
+            var home = cities.First();
+            if (home == null)
+            {
+                throw new Exception($"Bad home city");
+            }
+
             foreach (City city in cities)
             {
                 if (city.TimeZone.IsValid)
@@ -224,7 +230,7 @@ namespace WorldolioDataChecker
                     Console.ForegroundColor = ConsoleColor.Red;
                 }
                 Console.WriteLine($"City {city.Id}, {city.DisplayName}, {city.Country.DisplayName}, Pos {city.Position.ToString(true)} Drives {city.Country.DriveSide.Description}");
-                Console.WriteLine($"   TZ {city.IanaTz}, {city.TimeZone.GetFormattedLocalTime(TimeFormat.TIME_SHORT_AMPM)}, {city.TimeZone.GetDSTDatesForDisplay()}");
+                Console.WriteLine($"   TZ {city.IanaTz}, {city.TimeZone.ToLocalTimeFormatted(DateTime.Now, home.TimeZone, ITimeZone.TimeFormat.TIME_SHORT_AMPM)}, {city.TimeZone.GetDSTDatesForDisplay(DateTime.Now)}");
                 Console.ResetColor();
             }
             var invalidCount = cities.Count(c => !c.TimeZone.IsValid);
