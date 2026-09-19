@@ -1,14 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Windows.Input;
 using Worldolio.Data.Logging;
 using Worldolio.Data.Model;
 using Worldolio.Data.Repository;
 using Worldolio.Data.Utility;
 using WorldolioMauiPOC.AppSettings;
 using WorldolioMauiPOC.Utility;
-using static Worldolio.Data.Model.TimeZone;
 
 namespace WorldolioMauiPOC.ViewModels.CityGrid
 {

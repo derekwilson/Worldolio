@@ -56,6 +56,7 @@
 		<MauiImage Include="Resources\Icons\moon.svg" />
 		<MauiImage Include="Resources\Icons\plan.svg" />
 		<MauiImage Include="Resources\Icons\settings.svg" />
+		<EmbeddedResource Include="Resources\Images\Embedded\earth_transparent_2048.png" />
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splash_worldolio.svg" Color="#00319c" BaseSize="128,128" />

@@ -1,12 +1,46 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:drawableControls="clr-namespace:WorldolioMauiPOC.Views.Drawable"
              x:Class="WorldolioMauiPOC.Views.Map"
              Title="Map">
-    <VerticalStackLayout>
-        <Label 
-            Text="Map View"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+
+    <ScrollView>
+
+        <Grid   
+            Padding="10"
+            RowSpacing="5"
+            ColumnDefinitions="*"
+            RowDefinitions="Auto, Auto, Auto"
+            SizeChanged="Grid_SizeChanged"
+            >
+
+            <Image
+                Source="earth_winform.jpg"
+                HorizontalOptions="Fill"
+                VerticalOptions="Center"
+                Aspect="AspectFit"
+                SemanticProperties.Description="map view of the world"
+                />
+
+            <GraphicsView 
+                Grid.Row="1"
+                x:Name="MapGraphicsView"
+                HorizontalOptions="Fill"
+                />
+            
+            <Image
+                Grid.Row="2"
+                Source="earth_transparent_2048.png"
+                BackgroundColor="{StaticResource PrimaryLight}"
+                HorizontalOptions="Fill"
+                VerticalOptions="Center"
+                Aspect="AspectFit" 
+                SemanticProperties.Description="map view of the world"
+                />
+
+        </Grid>
+
+    </ScrollView>
+
 </ContentPage>

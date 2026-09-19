@@ -65,6 +65,7 @@ Done
 Todo
 
 1. splash screen not working on Android 16
+1. Move Done buttons (About and Settings) to toolbar helper and out of the page XAML
 1. Implement Map page
 1. stop reloading from the DB when the settings need to be refreshed, cache model objects in settings
 1. get dark theme to work
