@@ -9,6 +9,8 @@ namespace WorldolioMauiPOC.Views.Drawable
 {
     public class MapDrawable : IDrawable
     {
+        public DateTime UtcTime { get; set; } = DateTime.UtcNow;
+
         private ILogger _logger;
         private IResourceHelper _resourceHelper;
 
@@ -24,7 +26,7 @@ namespace WorldolioMauiPOC.Views.Drawable
 
         public void Draw(ICanvas canvas, RectF dirtyRect)
         {
-            _logger.Debug(() => $"MapDrawable draw, {dirtyRect.X} {dirtyRect.Y} {dirtyRect.Width} {dirtyRect.Height}");
+            _logger.Debug(() => $"MapDrawable draw, {dirtyRect.X} {dirtyRect.Y} {dirtyRect.Width} {dirtyRect.Height} at {UtcTime}");
 
             // Background
             canvas.FillColor = _resourceHelper.GetResource<Color>("PrimaryLight", Colors.Red);
@@ -48,7 +50,7 @@ namespace WorldolioMauiPOC.Views.Drawable
                 canvas.DrawImage(image, 0, 0, dirtyRect.Width, dirtyRect.Height);
             }
 
-            DrawShadow(DateTime.UtcNow, canvas, dirtyRect.Width, dirtyRect.Height);
+            DrawShadow(UtcTime, canvas, dirtyRect.Width, dirtyRect.Height);
 
             // Draw stuff over the top
             /*
