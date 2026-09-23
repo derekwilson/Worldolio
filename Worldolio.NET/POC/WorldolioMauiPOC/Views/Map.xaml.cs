@@ -61,7 +61,7 @@ public partial class Map : ContentPage
 
     private void UpdateMap()
     {
-        // there isnt a lot of point making a bindable property if we are not going to instatiate it in XAML
+        // there isnt a lot of point making a bindable property if we are not going to instatiate the control in XAML
         // so we will just make it a property
         _mapDrawable.UtcTime = _timeProvider.GetUtcNow();
         MapGraphicsView.Invalidate();
@@ -82,7 +82,7 @@ public partial class Map : ContentPage
 
     protected override void OnDisappearing()
     {
-        _logger.Debug(() => $"Map.OnAppearing");
+        _logger.Debug(() => $"Map.OnDisappearing");
         base.OnDisappearing();
 
         if (_timer.IsRunning)

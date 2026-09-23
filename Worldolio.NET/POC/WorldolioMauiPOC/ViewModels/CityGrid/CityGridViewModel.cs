@@ -21,7 +21,6 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
         private ITimeZone.TimeFormat _currentInDayTimeFormat = ITimeZone.TimeFormat.TIME_SHORT_AMPM;            // TODO - read from settings
         private ITimeZone.TimeFormat _currentWithDayTimeFormat = ITimeZone.TimeFormat.DAY_TIME_SHORT_AMPM;      // TODO - read from settings
         private DateTime _currentNow;
-        private Timer _timer;
         private DateTime _lastRefreshTime = DateTime.MinValue;
 
 
@@ -46,30 +45,12 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
             _navigationHelper = navigationHelper;
             _systemTimeProvider = systemTimeProvider;
             _userSettings = userSettings;
-
-            // Initialize timer to fire immediately, then tick every 1 second
-            _timer = new Timer(TimerCallback, null, TimeSpan.Zero, TimeSpan.FromSeconds(60));
         }
 
-        ~CityGridViewModel() {
-            _timer?.Dispose();
-        }
-
-        private void TimerCallback(object? state)
-        {
-            // MainThread required since Timer ticks on a background thread
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                _logger.Debug(() => $"CityGridViewModel TimerCallback");
-                UpdateTime();
-                _logger.Debug(() => $"CityGridViewModel TimerCallback - end");
-            });
-        }
-
-        private void UpdateTime()
+        public void UpdateCityGrid()
         {
             _currentNow = _systemTimeProvider.Now;
-            _logger.Debug(() => $"CityGridViewModel UpdateTime: now = {_currentNow}");
+            _logger.Debug(() => $"CityGridViewModel UpdateCityGrid: now = {_currentNow}");
             MoonPhase = GeoCalculator.GetFormattedIlluminatedFractionOfMoon(_currentNow);
             // TODO - actually these only need to be done when the day changes
             OnPropertyChanged(nameof(MoonPhase));
@@ -108,7 +89,7 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
                 _lastRefreshTime = _systemTimeProvider.GetUtcNow();
             }
 
-            UpdateTime();
+            UpdateCityGrid();
             _logger.Debug(() => $"CityGridViewModel cities = {Cities.Count}");
         }
 
