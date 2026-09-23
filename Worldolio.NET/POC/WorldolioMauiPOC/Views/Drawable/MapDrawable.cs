@@ -1,6 +1,4 @@
 ﻿
-using Microsoft.Maui.Graphics.Platform;
-using System.Reflection;
 using Worldolio.Data.Logging;
 using Worldolio.Data.Model;
 using WorldolioMauiPOC.Utility;
@@ -38,6 +36,7 @@ namespace WorldolioMauiPOC.Views.Drawable
                 canvas.DrawImage(image, 0, 0, dirtyRect.Width, dirtyRect.Height);
             }
 
+            // Day Night shadow
             if (ShowShadow)
             {
                 DrawShadow(UtcTime, canvas, dirtyRect.Width, dirtyRect.Height);
@@ -59,34 +58,28 @@ namespace WorldolioMauiPOC.Views.Drawable
             */
         }
 
-        Point[] _shadow = new Point[GeoCalculator.SHADOW_EDGE_POINTS + 2];
-
         private void DrawShadow(System.DateTime time, ICanvas canvas, float width, float height)
         {
             bool bShadowNorth = true;
-            Position[] arrEdge = GeoCalculator.CalcDayNightShadowEdge(time, ref bShadowNorth);
+            var arrEdge = GeoCalculator.CalcDayNightShadowEdge(time, ref bShadowNorth);
 
-            // translate the lat/long edge of the shadow into xy points on the image
-            for (int index = 0; index < arrEdge.Length; index++)
-            {
-                _shadow[index] = PositionToMapPoint(arrEdge[index], width, height);
-            }
+            // translate the lat/long edge of the shadow into xy points on the image and then create a Path from them
+            var path = ConvertPositionsToPath(arrEdge, width, height);
 
             // add on the top or bottom corners
             if (bShadowNorth)
             {
                 // top 2 corners
-                _shadow[arrEdge.Length] = new Point(width, 0);
-                _shadow[arrEdge.Length + 1] = new Point(0, 0);
+                path.LineTo((float)width, 0);
+                path.LineTo(0, 0);
             }
             else
             {
                 // bottom 2 corners
-                _shadow[arrEdge.Length] = new Point(width, height);
-                _shadow[arrEdge.Length + 1] = new Point(0, height);
+                path.LineTo((float)width, (float)height);
+                path.LineTo(0, (float)height);
             }
-
-            var path = ConvertPointsToPath(_shadow);
+            path.Close(); // Connects the last point back to the first - not sure this is needed
             canvas.FillColor = Color.FromArgb("#7F000000");
             canvas.FillPath(path);
 
@@ -97,6 +90,25 @@ namespace WorldolioMauiPOC.Views.Drawable
             DrawSurface.FillPolygon(semiTransBrush, _shadow);
             DrawSurface.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.Default;
             */
+        }
+
+        private PathF ConvertPositionsToPath(Position[] positions, float width, float height)
+        {
+            // translate the positions into xy points on the image and then create a Path from them
+            PathF path = new PathF();
+            for (int index = 0; index < positions.Length; index++)
+            {
+                var point = PositionToMapPoint(positions[index], width, height);
+                if (index == 0)
+                {
+                    path.MoveTo((float)point.X, (float)point.Y);
+                }
+                else
+                {
+                    path.LineTo((float)point.X, (float)point.Y);
+                }
+            }
+            return path;
         }
 
         private PathF ConvertPointsToPath(Point[] points)
