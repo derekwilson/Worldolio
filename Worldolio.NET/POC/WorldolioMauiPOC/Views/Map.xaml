@@ -11,34 +11,15 @@
             Padding="10"
             RowSpacing="5"
             ColumnDefinitions="*"
-            RowDefinitions="Auto, Auto, Auto"
+            RowDefinitions="Auto"
             SizeChanged="Grid_SizeChanged"
             >
 
-            <Image
-                Source="earth_winform.jpg"
-                HorizontalOptions="Fill"
-                VerticalOptions="Center"
-                Aspect="AspectFit"
-                SemanticProperties.Description="map view of the world"
-                />
-
             <GraphicsView 
-                Grid.Row="1"
                 x:Name="MapGraphicsView"
                 HorizontalOptions="Fill"
                 />
             
-            <Image
-                Grid.Row="2"
-                Source="earth_transparent_2048.png"
-                BackgroundColor="{StaticResource PrimaryLight}"
-                HorizontalOptions="Fill"
-                VerticalOptions="Center"
-                Aspect="AspectFit" 
-                SemanticProperties.Description="map view of the world"
-                />
-
         </Grid>
 
     </ScrollView>

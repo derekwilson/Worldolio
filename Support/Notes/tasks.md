@@ -86,5 +86,7 @@ Todo
 1. keyboard support on Windows - select item from grid using enter
 1. keyboard support on Android
 1. revisit if we can do DI into the ContentPage from TabbedPage in XAML
+1. write instructions to update DB
+1. implement mechanism to update the DB
 
 

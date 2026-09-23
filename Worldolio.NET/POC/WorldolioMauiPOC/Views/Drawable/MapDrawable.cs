@@ -9,19 +9,17 @@ namespace WorldolioMauiPOC.Views.Drawable
 {
     public class MapDrawable : IDrawable
     {
+        public bool ShowShadow { get; set; } = true;
         public DateTime UtcTime { get; set; } = DateTime.UtcNow;
 
         private ILogger _logger;
-        private IResourceHelper _resourceHelper;
+        private IResourceProvider _resourceProvider;
 
-        private float _mapHeight;
-        private float _mapWidth;
-
-        public MapDrawable(ILogger logger, IResourceHelper resourceHelper)
+        public MapDrawable(ILogger logger, IResourceProvider resourceHelper)
         {
             logger.Debug(() => $"MapDrawable init");
             _logger = logger;
-            _resourceHelper = resourceHelper;
+            _resourceProvider = resourceHelper;
         }
 
         public void Draw(ICanvas canvas, RectF dirtyRect)
@@ -29,28 +27,21 @@ namespace WorldolioMauiPOC.Views.Drawable
             _logger.Debug(() => $"MapDrawable draw, {dirtyRect.X} {dirtyRect.Y} {dirtyRect.Width} {dirtyRect.Height} at {UtcTime}");
 
             // Background
-            canvas.FillColor = _resourceHelper.GetResource<Color>("PrimaryLight", Colors.Red);
+            canvas.FillColor = _resourceProvider.GetResource<Color>("PrimaryLight", Colors.Red);
             canvas.FillRectangle(dirtyRect);
 
-            Microsoft.Maui.Graphics.IImage image;
-            Assembly assembly = GetType().GetTypeInfo().Assembly;
-
-            // TODO - move to the resource helper
-            // Load image from Embedded Resources
-            using (Stream stream = assembly.GetManifestResourceStream("WorldolioMauiPOC.Resources.Images.Embedded.earth_transparent_2048.png"))
-            {
-                image = PlatformImage.FromStream(stream);
-                _mapWidth = image.Width;
-                _mapHeight = image.Height;
-            }
-
+            // Map Image
+            var image = _resourceProvider.LoadImageFromEmbeddedResource("WorldolioMauiPOC.Resources.Images.Embedded.earth_transparent_2048.png");
             if (image != null)
             {
                 // Draw image at x: 10, y: 10 with specified width and height
                 canvas.DrawImage(image, 0, 0, dirtyRect.Width, dirtyRect.Height);
             }
 
-            DrawShadow(UtcTime, canvas, dirtyRect.Width, dirtyRect.Height);
+            if (ShowShadow)
+            {
+                DrawShadow(UtcTime, canvas, dirtyRect.Width, dirtyRect.Height);
+            }
 
             // Draw stuff over the top
             /*
@@ -150,15 +141,15 @@ namespace WorldolioMauiPOC.Views.Drawable
             return new Point(xPos, yPos);
         }
 
-        private Position MapPointToPosition(Point Pt)
+        private Position MapPointToPosition(Point Pt, float width, float height)
         {
-            return MapPointToPosition_Equirectangular(Pt);
+            return MapPointToPosition_Equirectangular(Pt, width, height);
         }
 
-        private Position MapPointToPosition_Equirectangular(Point Pt)
+        private Position MapPointToPosition_Equirectangular(Point Pt, float width, float height)
         {
-            double Longitude = (((double)Pt.X * 360.0) / _mapWidth) - 180.0;
-            double Latitude = 90.0 - (((double)Pt.Y * 180.0) / _mapHeight);
+            double Longitude = (((double)Pt.X * 360.0) / width) - 180.0;
+            double Latitude = 90.0 - (((double)Pt.Y * 180.0) / height);
 
             return new Position(Latitude, Longitude);
         }

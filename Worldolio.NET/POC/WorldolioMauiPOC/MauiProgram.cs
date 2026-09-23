@@ -71,7 +71,7 @@ namespace WorldolioMauiPOC
             // MAUI objects
             builder.Services.AddSingleton<AppShell>();
             builder.Services.AddSingleton<AppTabbedPage>();
-            builder.Services.AddSingleton<IResourceHelper, ResourceHelper>();
+            builder.Services.AddSingleton<IResourceProvider, ResourceProvider>();
             builder.Services.AddSingleton<IEnvironmentInformationProvider, EnvironmentInformationProvider>();
             builder.Services.AddSingleton<INavigationHelper, NavigationHelper>();
             builder.Services.AddSingleton<IDialogHelper, DialogHelper>();

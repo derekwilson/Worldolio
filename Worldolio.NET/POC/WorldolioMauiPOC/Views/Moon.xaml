@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WorldolioMauiPOC.Views.Moon"
              Title="Moon">
-    <!--
+
     <VerticalStackLayout>
         
         <Label 
@@ -12,25 +12,5 @@
             HorizontalOptions="Center" />
 
     </VerticalStackLayout>
-    -->
-
-    <ScrollView>
-
-        <Grid   
-            Padding="10"  
-            ColumnDefinitions="*"
-            RowDefinitions="*">
-
-            <Image
-                Source="earth_transparent_2048.png"
-                BackgroundColor="{StaticResource PrimaryLight}"
-                HorizontalOptions="Fill"
-                VerticalOptions="Center"
-                Aspect="AspectFit" 
-                SemanticProperties.Description="map view of the world"
-                />
-
-        </Grid>
-    </ScrollView>
 
 </ContentPage>
