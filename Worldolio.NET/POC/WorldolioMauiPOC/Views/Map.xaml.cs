@@ -8,22 +8,29 @@ namespace WorldolioMauiPOC.Views;
 
 public partial class Map : ContentPage
 {
+    private const int FORCE_REFRESH_MINUTES = 15;
+
     private ILogger _logger;
     private MapDrawable _mapDrawable;
     private ISystemTimeProvider _timeProvider;
+    private IDialogHelper _dialogHelper;
+
     private IDispatcherTimer _timer;
+    private DateTime _lastForcedRefreshTime = DateTime.MinValue;
 
     public Map(
         MapViewModel viewModel,
         ILogger logger,
         IToolbarHelper toolbarHelper,
         MapDrawable drawable,
-        ISystemTimeProvider timeProvider)
+        ISystemTimeProvider timeProvider,
+        IDialogHelper dialogHelper)
     {
         logger.Debug(() => $"Map init");
         _logger = logger;
         _mapDrawable = drawable;
         _timeProvider = timeProvider;
+        _dialogHelper = dialogHelper;
 
         BindingContext = viewModel;
 
@@ -39,7 +46,7 @@ public partial class Map : ContentPage
 
         // Create the timer on the Main Thread's dispatcher
         _timer = Dispatcher.CreateTimer();
-        _timer.Interval = TimeSpan.FromMinutes(15);
+        _timer.Interval = TimeSpan.FromMinutes(FORCE_REFRESH_MINUTES);
         _timer.Tick += OnTimerTick;
     }
 
@@ -67,12 +74,30 @@ public partial class Map : ContentPage
         MapGraphicsView.Invalidate();
     }
 
+    private bool NeedUpdateBecauseTimeElapsed()
+    {
+        var elapsed = _lastForcedRefreshTime - _timeProvider.GetUtcNow();
+        return elapsed.TotalMinutes > FORCE_REFRESH_MINUTES;
+    }
+
+    private void OnTimerTick(object? sender, EventArgs e)
+    {
+        _logger.Debug(() => $"Map.OnTimerTick");
+        UpdateMap();
+        _lastForcedRefreshTime = _timeProvider.GetUtcNow();
+    }
+
     protected override void OnAppearing()
     {
         _logger.Debug(() => $"Map.OnAppearing");
         base.OnAppearing();
 
-        UpdateMap();
+        if (_mapDrawable.NeedUpdateBecauseDataChanged || NeedUpdateBecauseTimeElapsed())
+        {
+            _logger.Debug(() => $"Map.OnAppearing - refresh map");
+            UpdateMap();
+            _lastForcedRefreshTime = _timeProvider.GetUtcNow();
+        }
 
         if (!_timer.IsRunning)
         {
@@ -91,9 +116,24 @@ public partial class Map : ContentPage
         }
     }
 
-    private void OnTimerTick(object? sender, EventArgs e)
+    private void MapGraphicsView_MoveHoverInteraction(object sender, TouchEventArgs e)
     {
-        _logger.Debug(() => $"Map.OnTimerTick");
-        UpdateMap();
+        // Capture the first pointer contact coordinate position
+        PointF hoverPosition = e.Touches[0];
+        //_logger.Debug(() => $"Map.MapGraphicsView_MoveHoverInteraction {hoverPosition.X} {hoverPosition.Y}");
+        MapTooltipLabel.Text = _mapDrawable.GetTooltipText(hoverPosition);
+    }
+
+    private void MapGraphicsView_EndHoverInteraction(object sender, EventArgs e)
+    {
+        _logger.Debug(() => $"Map.MapGraphicsView_MoveHoverInteraction");
+        MapTooltipLabel.Text = "  ";
+    }
+
+    private async void MapGraphicsView_EndInteraction(object sender, TouchEventArgs e)
+    {
+        // Capture the first pointer contact coordinate position
+        PointF clickPosition = e.Touches[0];
+        await _dialogHelper.ShowAlertAsync("Alert", $"Pos = {clickPosition.X},{clickPosition.Y}");
     }
 }

@@ -11,15 +11,25 @@
             Padding="10"
             RowSpacing="5"
             ColumnDefinitions="*"
-            RowDefinitions="Auto"
+            RowDefinitions="Auto, Auto"
             SizeChanged="Grid_SizeChanged"
             >
 
+            <Label 
+                x:Name="MapTooltipLabel"
+                Text="  "
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+
             <GraphicsView 
+                Grid.Row="1"
                 x:Name="MapGraphicsView"
                 HorizontalOptions="Fill"
+                MoveHoverInteraction="MapGraphicsView_MoveHoverInteraction"
+                EndHoverInteraction="MapGraphicsView_EndHoverInteraction"
+                EndInteraction="MapGraphicsView_EndInteraction"
                 />
-            
+
         </Grid>
 
     </ScrollView>

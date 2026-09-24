@@ -65,13 +65,14 @@ Done
 1. stop timer on CityGrid when page is not visible
 1. Convert from Position[] to Path directly
 1. Render current cities on the map
+1. Implement Map page
+1. Implement tap handler on map
 
 Todo
 
-1. Implement Map page
 1. stop reloading from the DB when the settings need to be refreshed, cache City model objects in settings, eliminate _citiesRepo.GetByIdsAsync
 1. align timer on the start of a minute
-1. Implement tap handler on map, display nearby cities
+1. Implement add city from tapping the map display nearby cities
 1. splash screen not working on Android 16
 1. Move Done buttons (About and Settings) to toolbar helper and out of the page XAML
 1. Debounce Done/Close buttons on the About and Settings page as they crash on Andoird

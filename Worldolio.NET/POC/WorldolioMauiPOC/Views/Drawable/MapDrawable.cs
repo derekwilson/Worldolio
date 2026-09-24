@@ -14,11 +14,22 @@ namespace WorldolioMauiPOC.Views.Drawable
         public DateTime UtcTime { get; set; } = DateTime.UtcNow;
         public bool ShowCities { get; set; } = true;
 
+        public bool NeedUpdateBecauseDataChanged
+        {
+            get
+            {
+                return _userSettings.HasBeenUpdatedSince(_lastRefreshTime);
+            }
+        }
+
+        private Distance _nearbyDistance = Distance.FromValues(200, Distance.Units.Kilometers);
         private const int _dotsize = 1;
         private Color _cityColour = Colors.White;
         private Color _homeCityColour = Colors.Red;
         private DateTime _lastRefreshTime = DateTime.MinValue;
-        public List<City> _cities = new List<City>();
+        private List<City> _cities = new List<City>();
+        private float _currentImageWidth = 2;
+        private float _currentImageHeight = 1;
 
         private ILogger _logger;
         private IResourceProvider _resourceProvider;
@@ -52,6 +63,8 @@ namespace WorldolioMauiPOC.Views.Drawable
             var image = _resourceProvider.LoadImageFromEmbeddedResource("WorldolioMauiPOC.Resources.Images.Embedded.earth_transparent_2048.png");
             if (image != null)
             {
+                _currentImageWidth = dirtyRect.Width;
+                _currentImageHeight = dirtyRect.Height;
                 // Draw image at x: 10, y: 10 with specified width and height
                 canvas.DrawImage(image, 0, 0, dirtyRect.Width, dirtyRect.Height);
             }
@@ -72,8 +85,10 @@ namespace WorldolioMauiPOC.Views.Drawable
 
         #region day night shadow
 
-        private void DrawShadow(System.DateTime time, ICanvas canvas, float width, float height)
+        private void DrawShadow(DateTime time, ICanvas canvas, float width, float height)
         {
+            _logger.Debug(() => $"MapDrawable DrawShadow, UTC time: {time}");
+
             bool bShadowNorth = true;
             var arrEdge = GeoCalculator.CalcDayNightShadowEdge(time, ref bShadowNorth);
 
@@ -125,7 +140,7 @@ namespace WorldolioMauiPOC.Views.Drawable
         {
             _logger.Debug(() => $"MapDrawable LoadCitiesIfNeeded, last refresh: {_lastRefreshTime}");
 
-            if (_userSettings.HasBeenUpdatedSince(_lastRefreshTime))
+            if (NeedUpdateBecauseDataChanged)
             {
                 _logger.Debug(() => $"MapDrawable LoadCitiesIfNeeded - refresh needed");
 
@@ -215,5 +230,33 @@ namespace WorldolioMauiPOC.Views.Drawable
         }
 
         #endregion
+
+        public string GetTooltipText(PointF hoverPosition)
+        {
+            var pos = MapPointToPosition(hoverPosition, _currentImageWidth, _currentImageHeight);
+            var home = _cities.FirstOrDefault();
+            string strDist = "";
+            if (home != null)
+            {
+                Distance dist = home.GetDistance(pos);
+                // TODO - get units from settings
+                strDist = $", Dist: {dist.ToString(Distance.Units.Kilometers)}";
+            }
+
+            string strInfo = $"Long: {pos.Longitude.ToString("#,0")} W, Lat: {pos.Latitude.ToString("#,0")} N{strDist}";
+
+            string strCity = "";
+
+            foreach (City thisCity in _cities)
+            {
+                if (thisCity.GetDistance(pos).Kilometers < _nearbyDistance.Kilometers)
+                {
+                    strCity = $" ({thisCity.DisplayName})";
+                    break;
+                }
+            }
+
+            return $"{strInfo} {strCity}";
+        }
     }
 }

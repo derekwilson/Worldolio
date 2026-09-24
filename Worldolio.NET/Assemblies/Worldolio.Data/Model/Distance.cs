@@ -29,6 +29,11 @@
             return (Units)Enum.ToObject(typeof(Units), (object)val);
         }
 
+        public static Distance FromValues(double val, Units units)
+        {
+            return new Distance(val, units);
+        }
+
         /// <summary>
         /// This is always held in kilometers
         /// </summary>
