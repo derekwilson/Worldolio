@@ -61,16 +61,16 @@ Done
 1. get ripple to work on ImageButton on android - actually replace ImageButton with Border/Label as its more flexible
 1. create partial control using bindings on the custom button using font icons FontIconButton
 1. TimePlanner should use the selected time on the top city on the grid
+1. Move image loading to the resource helper
+1. stop timer on CityGrid when page is not visible
+1. Convert from Position[] to Path directly
+1. Render current cities on the map
 
 Todo
 
 1. Implement Map page
-1. Move image loading to the resource helper
-1. stop reloading from the DB when the settings need to be refreshed, cache City model objects in settings
-1. stop timer on CityGrid when page is not visible
+1. stop reloading from the DB when the settings need to be refreshed, cache City model objects in settings, eliminate _citiesRepo.GetByIdsAsync
 1. align timer on the start of a minute
-1. Convert from Position[] to Path directly
-1. Render current cities on the map
 1. Implement tap handler on map, display nearby cities
 1. splash screen not working on Android 16
 1. Move Done buttons (About and Settings) to toolbar helper and out of the page XAML

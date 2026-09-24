@@ -1,6 +1,9 @@
 ﻿
 using Worldolio.Data.Logging;
 using Worldolio.Data.Model;
+using Worldolio.Data.Repository;
+using Worldolio.Data.Utility;
+using WorldolioMauiPOC.AppSettings;
 using WorldolioMauiPOC.Utility;
 
 namespace WorldolioMauiPOC.Views.Drawable
@@ -9,15 +12,32 @@ namespace WorldolioMauiPOC.Views.Drawable
     {
         public bool ShowShadow { get; set; } = true;
         public DateTime UtcTime { get; set; } = DateTime.UtcNow;
+        public bool ShowCities { get; set; } = true;
+
+        private const int _dotsize = 1;
+        private Color _cityColour = Colors.White;
+        private Color _homeCityColour = Colors.Red;
+        private DateTime _lastRefreshTime = DateTime.MinValue;
+        public List<City> _cities = new List<City>();
 
         private ILogger _logger;
         private IResourceProvider _resourceProvider;
+        private ICityRepository _citiesRepository;
+        private IUserSettings _userSettings;
+        private ISystemTimeProvider _systemTimeProvider;
 
-        public MapDrawable(ILogger logger, IResourceProvider resourceHelper)
+        public MapDrawable(ILogger logger, IResourceProvider resourceProvider, IUserSettings userSettings, ICityRepository citiesRepository, ISystemTimeProvider systemTimeProvider)
         {
             logger.Debug(() => $"MapDrawable init");
+
+            _cityColour = resourceProvider.GetResource<Color>("White", Colors.White);
+            _homeCityColour = resourceProvider.GetResource<Color>("Red", Colors.White);
+
             _logger = logger;
-            _resourceProvider = resourceHelper;
+            _resourceProvider = resourceProvider;
+            _userSettings = userSettings;
+            _citiesRepository = citiesRepository;
+            _systemTimeProvider = systemTimeProvider;
         }
 
         public void Draw(ICanvas canvas, RectF dirtyRect)
@@ -42,21 +62,15 @@ namespace WorldolioMauiPOC.Views.Drawable
                 DrawShadow(UtcTime, canvas, dirtyRect.Width, dirtyRect.Height);
             }
 
-            // Draw stuff over the top
-            /*
-            canvas.StrokeSize = 1;
-            canvas.StrokeColor = Color.FromArgb("#0033FF");
-            Random Rand = new();
-            for (int i = 0; i < 10; i++)
+            // Draw the current cities
+            if (ShowCities)
             {
-                canvas.DrawLine(
-                    x1: (float)Rand.NextDouble() * dirtyRect.Width,
-                    y1: (float)Rand.NextDouble() * dirtyRect.Height,
-                    x2: (float)Rand.NextDouble() * dirtyRect.Width,
-                    y2: (float)Rand.NextDouble() * dirtyRect.Height);
+                LoadCitiesIfNeeded();
+                DrawCurrentCities(canvas, dirtyRect.Width, dirtyRect.Height);
             }
-            */
         }
+
+        #region day night shadow
 
         private void DrawShadow(System.DateTime time, ICanvas canvas, float width, float height)
         {
@@ -82,14 +96,6 @@ namespace WorldolioMauiPOC.Views.Drawable
             path.Close(); // Connects the last point back to the first - not sure this is needed
             canvas.FillColor = Color.FromArgb("#7F000000");
             canvas.FillPath(path);
-
-            // fill the whole thing with alpha blending
-            /* - translate into MAUI
-            SolidBrush semiTransBrush = new SolidBrush(Color.FromArgb(128, 0, 0, 0));
-            DrawSurface.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            DrawSurface.FillPolygon(semiTransBrush, _shadow);
-            DrawSurface.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.Default;
-            */
         }
 
         private PathF ConvertPositionsToPath(Position[] positions, float width, float height)
@@ -101,42 +107,84 @@ namespace WorldolioMauiPOC.Views.Drawable
                 var point = PositionToMapPoint(positions[index], width, height);
                 if (index == 0)
                 {
-                    path.MoveTo((float)point.X, (float)point.Y);
+                    path.MoveTo(point.X, point.Y);
                 }
                 else
                 {
-                    path.LineTo((float)point.X, (float)point.Y);
+                    path.LineTo(point.X, point.Y);
                 }
             }
             return path;
         }
 
-        private PathF ConvertPointsToPath(Point[] points)
+        #endregion
+
+        #region drawing cities
+
+        private void LoadCitiesIfNeeded()
         {
-            bool doneFirst = false;
-            PathF path = new PathF();
-            foreach (Point p in points)
+            _logger.Debug(() => $"MapDrawable LoadCitiesIfNeeded, last refresh: {_lastRefreshTime}");
+
+            if (_userSettings.HasBeenUpdatedSince(_lastRefreshTime))
             {
-                if (doneFirst)
-                {
-                    path.LineTo((float)p.X, (float)p.Y);
-                }
-                else
-                {
-                    path.MoveTo((float)p.X, (float)p.Y);
-                    doneFirst = true;
-                }
+                _logger.Debug(() => $"MapDrawable LoadCitiesIfNeeded - refresh needed");
+
+                // we cannot be async
+                // TODO start loading and then actually perform the drawing when the data is ready perhaps
+                var temp = _citiesRepository.GetByIdsAsync(_userSettings.Cities).Result;
+                _cities = new List<City>(temp);
+
+                _lastRefreshTime = _systemTimeProvider.GetUtcNow();
             }
-            path.Close(); // Connects the last point back to the first
-            return path;
+
+            _logger.Debug(() => $"MapDrawable cities = {_cities.Count}");
         }
 
-        private Point PositionToMapPoint(Position Pos, float width, float height)
+        private void DrawCurrentCities(ICanvas canvas, float width, float height)
+        {
+            var home = _cities.FirstOrDefault();
+            foreach (City city in _cities)
+            {
+                var dot = CalcMapRect(city, width, height);
+                var isHome = home != null && home.Id == city.Id;
+                DrawOutlinedDot(canvas, dot, isHome);
+            }
+        }
+
+        private void DrawOutlinedDot(ICanvas canvas, RectF dot, bool isHome)
+        {
+            canvas.FillColor = isHome ? _homeCityColour : _cityColour;
+            canvas.FillEllipse(dot);
+            canvas.StrokeSize = 1;
+            canvas.StrokeColor = Colors.Black;
+            canvas.DrawEllipse(dot.Inflate(1, 1));
+        }
+
+        public RectF CalcMapRect(City city, float width, float height)
+        {
+            return CalcMapRect(city.Position, _dotsize, width, height);
+        }
+
+        protected RectF CalcMapRect(Position pos, int dotSize, float width, float height)
+        {
+            return CalcMapRect(PositionToMapPoint(pos, width, height), dotSize);
+        }
+
+        protected RectF CalcMapRect(PointF pt, int DotSize)
+        {
+            return new RectF(pt.X - DotSize, pt.Y - DotSize, (2 * DotSize) + 1, (2 * DotSize) + 1);
+        }
+
+        #endregion
+
+        #region Convert Lat/Long Positions <-> Image Point (needs to take account of the current image size)
+
+        private PointF PositionToMapPoint(Position Pos, float width, float height)
         {
             return PositionToMapPoint_Equirectangular(Pos, width, height);
         }
 
-        private Point PositionToMapPoint_Equirectangular(Position Pos, float width, float height)
+        private PointF PositionToMapPoint_Equirectangular(Position Pos, float width, float height)
         {
             // Equirectangular projection
             // For some strange reason they only go to +/- 90 degrees latitude
@@ -150,20 +198,22 @@ namespace WorldolioMauiPOC.Views.Drawable
                 yPos = 0;
             if (yPos > height)
                 yPos = (int) height;
-            return new Point(xPos, yPos);
+            return new PointF(xPos, yPos);
         }
 
-        private Position MapPointToPosition(Point Pt, float width, float height)
+        private Position MapPointToPosition(PointF Pt, float width, float height)
         {
             return MapPointToPosition_Equirectangular(Pt, width, height);
         }
 
-        private Position MapPointToPosition_Equirectangular(Point Pt, float width, float height)
+        private Position MapPointToPosition_Equirectangular(PointF Pt, float width, float height)
         {
             double Longitude = (((double)Pt.X * 360.0) / width) - 180.0;
             double Latitude = 90.0 - (((double)Pt.Y * 180.0) / height);
 
             return new Position(Latitude, Longitude);
         }
+
+        #endregion
     }
 }
