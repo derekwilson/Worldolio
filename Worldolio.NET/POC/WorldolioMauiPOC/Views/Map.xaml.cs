@@ -126,7 +126,7 @@ public partial class Map : ContentPage
 
     private void MapGraphicsView_EndHoverInteraction(object sender, EventArgs e)
     {
-        _logger.Debug(() => $"Map.MapGraphicsView_MoveHoverInteraction");
+        _logger.Debug(() => $"Map.MapGraphicsView_EndHoverInteraction");
         MapTooltipLabel.Text = "  ";
     }
 
@@ -134,6 +134,19 @@ public partial class Map : ContentPage
     {
         // Capture the first pointer contact coordinate position
         PointF clickPosition = e.Touches[0];
-        await _dialogHelper.ShowAlertAsync("Alert", $"Pos = {clickPosition.X},{clickPosition.Y}");
+
+        _logger.Debug(() => $"Map.MapGraphicsView_EndInteraction {clickPosition.X},{clickPosition.Y}");
+        //await _dialogHelper.ShowAlertAsync("Alert", $"Pos = {clickPosition.X},{clickPosition.Y}");
+    }
+
+    private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    {
+        var pos = e.GetPosition((View)sender);
+        if (pos is not null)
+        {
+            Point clickPosition = (Point) pos;
+            _logger.Debug(() => $"Map.TapGestureRecognizer_Tapped {clickPosition.X},{clickPosition.Y}");
+            await _dialogHelper.ShowAlertAsync("Alert", $"Pos = {clickPosition.X},{clickPosition.Y}");
+        }
     }
 }

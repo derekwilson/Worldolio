@@ -28,7 +28,12 @@
                 MoveHoverInteraction="MapGraphicsView_MoveHoverInteraction"
                 EndHoverInteraction="MapGraphicsView_EndHoverInteraction"
                 EndInteraction="MapGraphicsView_EndInteraction"
-                />
+                >
+                <GraphicsView.GestureRecognizers>
+                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped" />
+                </GraphicsView.GestureRecognizers>
+            </GraphicsView>
+                
 
         </Grid>
 
