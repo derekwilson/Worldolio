@@ -6,9 +6,9 @@ namespace WorldolioMauiPOC.Utility
     public interface INavigationHelper
     {
         Task ExecuteNavigationAsync(string route);
-        Task ExecuteModalNavigationAsync<PAGE>(bool animated)
+        Task<PAGE?> ExecuteModalNavigationAsync<PAGE>(bool animated)
             where PAGE : ContentPage;
-        Task ExecuteModalNavigationWithDebounceAsync<PAGE>(bool animated)
+        Task<PAGE?> ExecuteModalNavigationWithDebounceAsync<PAGE>(bool animated)
             where PAGE : ContentPage;
         Task ExecuteModalNavigationBackAsync();
     }
@@ -40,7 +40,7 @@ namespace WorldolioMauiPOC.Utility
             }
         }
 
-        public async Task ExecuteModalNavigationAsync<PAGE>(bool animated)
+        public async Task<PAGE?> ExecuteModalNavigationAsync<PAGE>(bool animated)
             where PAGE : ContentPage
         {
             try
@@ -54,6 +54,7 @@ namespace WorldolioMauiPOC.Utility
                 if (navigator != null)
                 {
                     await navigator.PushModalAsync(new NavigationPage(modalPage), animated);
+                    return modalPage;
                 } 
                 else
                 {
@@ -64,6 +65,7 @@ namespace WorldolioMauiPOC.Utility
             {
                 _logger.LogException(() => "ExecuteModalNavigationAsync", ex);
             }
+            return null;
         }
 
         private DateTime _lastClick = DateTime.MinValue;
@@ -79,18 +81,18 @@ namespace WorldolioMauiPOC.Utility
             return false;
         }
 
-        public async Task ExecuteModalNavigationWithDebounceAsync<PAGE>(bool animated)
+        public async Task<PAGE?> ExecuteModalNavigationWithDebounceAsync<PAGE>(bool animated)
             where PAGE : ContentPage
         {
             _logger.Debug(() => $"ExecuteModalNavigationWithDebounceAsync {typeof(PAGE).FullName}");
             if (IsDoubleTap())
             {
                 _logger.Debug(() => $"ExecuteModalNavigationWithDebounceAsync {typeof(PAGE).FullName} - busy - supressed");
-                return;
+                return null;
             }
             else
             {
-                await ExecuteModalNavigationAsync<PAGE>(animated);
+                return await ExecuteModalNavigationAsync<PAGE>(animated);
             }
         }
 

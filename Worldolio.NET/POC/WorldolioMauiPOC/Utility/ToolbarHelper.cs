@@ -1,4 +1,5 @@
 ﻿using Worldolio.Data.Logging;
+using WorldolioMauiPOC.ViewModels.About;
 
 namespace WorldolioMauiPOC.Utility
 {
@@ -61,7 +62,11 @@ namespace WorldolioMauiPOC.Utility
             {
                 Text = "About",
                 IconImageSource = aboutImage,
-                Command = new Command(async () => await _navigationHelper.ExecuteModalNavigationWithDebounceAsync<Views.About>(false))
+                Command = new Command(async () =>
+                {
+                    var page = await _navigationHelper.ExecuteModalNavigationWithDebounceAsync<Views.About>(false);
+                    (page?.BindingContext as AboutViewModel)?.Parameter = "Param #2";
+                })
             };
             toolbarItems.Add(about);
             _logger.Debug(() => $"AddToolbarItems - complete");

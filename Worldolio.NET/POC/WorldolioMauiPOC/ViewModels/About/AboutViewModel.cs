@@ -20,6 +20,18 @@ namespace WorldolioMauiPOC.ViewModels.About
         public string DBPath { get; set; } = "";
         public string LoggingPath { get; set; } = "";
         public string TzDbVersion { get; set; } = "";
+        public string Parameter
+        {
+            get
+            {
+                return field;
+            }
+            set
+            {
+                field = value;
+                OnPropertyChanged(nameof(Parameter));
+            }
+        }
 
         public ICommand NavigateBack { get; }
 
