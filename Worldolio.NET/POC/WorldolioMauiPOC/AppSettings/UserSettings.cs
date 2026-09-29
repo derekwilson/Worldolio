@@ -9,9 +9,12 @@ namespace WorldolioMauiPOC.AppSettings
 
         long[] Cities { get; }
 
-        void SetFromString(String ids, bool store);
+        void SetCityIdsFromString(String ids, bool store);
 
-        bool HasBeenUpdatedSince(DateTime time);
+        bool CityIdsHaveBeenUpdatedSince(DateTime time);
+
+        double WindowWidth { get; set; }
+        double WindowHeight { get; set;  }
     }
 
     public class UserSettings : IUserSettings
@@ -20,6 +23,11 @@ namespace WorldolioMauiPOC.AppSettings
         private ISystemTimeProvider _timeProvider;
 
         private const string CITY_IDS_KEY = "city_ids";
+        private const string WINDOW_WIDTH_KEY = "window_width";
+        private const string WINDOW_HEIGHT_KEY = "window_height";
+
+        private const double DEFAULT_WINDOW_WIDTH = 700;
+        private const double DEFAULT_WINDOW_HEIGHT = 700;
 
         public UserSettings(ILogger logger, ISystemTimeProvider timeProvider)
         {
@@ -27,15 +35,19 @@ namespace WorldolioMauiPOC.AppSettings
             _timeProvider = timeProvider;
 
             logger.Debug(() => $"UserSettings init:");
+            LoadWindowDimentions();
             string cityIdsFromPrefs = Preferences.Default.Get(CITY_IDS_KEY, String.Join(',', _defaultcities));
-            SetFromString(cityIdsFromPrefs, false);
-            logger.Debug(() => $"UserSettings init: [{String.Join(',', _cities)}]");
+            SetCityIdsFromString(cityIdsFromPrefs, false);
+            logger.Debug(() => $"UserSettings init: Window w {_windowWidth}, h {_windowHeight}");
+            logger.Debug(() => $"UserSettings init: Ids: [{String.Join(',', _cities)}]");
         }
 
         //private long[] _defaultcities = [458, 252, 477];
         private long[] _defaultcities = [458, 252, 477, 324, 79, 320, 279];
         private long[] _cities = [];
         private DateTime _lastUpdateTime = DateTime.MinValue;
+        private double _windowWidth = DEFAULT_WINDOW_WIDTH;
+        private double _windowHeight = DEFAULT_WINDOW_HEIGHT;
 
         public long[] DefaultCities
         {
@@ -53,7 +65,39 @@ namespace WorldolioMauiPOC.AppSettings
             }
         }
 
-        public void SetFromString(string ids, bool store)
+        public double WindowWidth
+        {
+            get
+            {
+                return _windowWidth;
+            }
+            set
+            {
+                _windowWidth = value;
+                Preferences.Default.Set(WINDOW_WIDTH_KEY, _windowWidth);
+            }
+        }
+
+        public double WindowHeight
+        {
+            get
+            {
+                return _windowHeight;
+            }
+            set
+            {
+                _windowHeight = value;
+                Preferences.Default.Set(WINDOW_HEIGHT_KEY, _windowHeight);
+            }
+        }
+
+        private void LoadWindowDimentions()
+        {
+            _windowWidth = Preferences.Default.Get(WINDOW_WIDTH_KEY, DEFAULT_WINDOW_WIDTH);
+            _windowHeight = Preferences.Default.Get(WINDOW_HEIGHT_KEY, DEFAULT_WINDOW_HEIGHT);
+        }
+
+        public void SetCityIdsFromString(string ids, bool store)
         {
             _logger.Debug(() => $"UserSettings SetFromString: {ids}");
             var idArray = ids.Split(',');
@@ -84,7 +128,7 @@ namespace WorldolioMauiPOC.AppSettings
             }
         }
 
-        public bool HasBeenUpdatedSince(DateTime time)
+        public bool CityIdsHaveBeenUpdatedSince(DateTime time)
         {
             return _lastUpdateTime > time;
         }

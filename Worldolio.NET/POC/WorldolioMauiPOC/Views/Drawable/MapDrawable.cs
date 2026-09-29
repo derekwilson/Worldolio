@@ -18,7 +18,7 @@ namespace WorldolioMauiPOC.Views.Drawable
         {
             get
             {
-                return _userSettings.HasBeenUpdatedSince(_lastRefreshTime);
+                return _userSettings.CityIdsHaveBeenUpdatedSince(_lastRefreshTime);
             }
         }
 

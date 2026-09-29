@@ -71,7 +71,7 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
         {
             _logger.Debug(() => $"CityGridViewModel InitAsync, last refresh: {_lastRefreshTime}");
 
-            if (_userSettings.HasBeenUpdatedSince(_lastRefreshTime))
+            if (_userSettings.CityIdsHaveBeenUpdatedSince(_lastRefreshTime))
             {
                 _logger.Debug(() => $"CityGridViewModel InitAsync - refresh needed");
 

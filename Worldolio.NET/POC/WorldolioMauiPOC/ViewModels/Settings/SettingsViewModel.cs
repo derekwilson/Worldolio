@@ -43,7 +43,7 @@ namespace WorldolioMauiPOC.ViewModels.Settings
             UpdateIds = new Command(() =>
             {
                 _logger.Debug(() => $"UpdateIds {CurrentSettingsCityIds}");
-                _userSettings.SetFromString(CurrentSettingsCityIds, true);
+                _userSettings.SetCityIdsFromString(CurrentSettingsCityIds, true);
                 CurrentSettingsCityIds = String.Join(',', _userSettings.Cities);
                 OnPropertyChanged("CurrentSettingsCityIds");
             });

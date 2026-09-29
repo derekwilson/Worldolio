@@ -148,7 +148,7 @@ namespace WorldolioMauiPOC.ViewModels.Plan
         {
             _logger.Debug(() => $"PlanViewModel InitAsync, last refresh: {_lastRefreshTime}");
 
-            if (_userSettings.HasBeenUpdatedSince(_lastRefreshTime))
+            if (_userSettings.CityIdsHaveBeenUpdatedSince(_lastRefreshTime))
             {
                 _logger.Debug(() => $"PlanViewModel InitAsync - refresh needed");
 
