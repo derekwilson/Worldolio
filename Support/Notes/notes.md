@@ -332,5 +332,60 @@ release build warnings
 
 
 
+Sentry
+
+
+## Install
+
+Install the **NuGet** package:
+
+```shell
+
+Install-Package Sentry.Maui -Version 6.11.1
+```
+
+## Configure SDK
+
+Then add Sentry to `MauiProgram.cs` through the `MauiAppBuilder`:
+
+```csharp
+
+public static MauiApp CreateMauiApp()
+{
+  var builder = MauiApp.CreateBuilder();
+  builder
+    .UseMauiApp<App>()
+
+    // Add this section anywhere on the builder:
+    .UseSentry(options => {
+      // The DSN is the only required setting.
+      options.Dsn = "https://c740d4117e6a21220a5641d0d648ceba@o4512174507753472.ingest.de.sentry.io/4512174515421264";
+
+      // Use debug mode if you want to see what the SDK is doing.
+      // Debug messages are written to stdout with Console.Writeline,
+      // and are viewable in your IDE's debug console or with 'adb logcat', etc.
+      // This option is not recommended when deploying your application.
+      options.Debug = true;
+
+      // Other Sentry options can be set here.
+  })
+
+  // ... the remainder of your MAUI app setup
+
+  return builder.Build();
+}
+```
+
+## Verify
+
+To verify your set up, you can capture a message with the SDK, anywhere in your code after the application is built, such as in a page constructor or button click event handler:
+
+```csharp
+SentrySdk.CaptureMessage("Hello Sentry");
+```
+
+## Sample Application
+
+See the [MAUI Sample in the `sentry-dotnet` repository](https://github.com/getsentry/sentry-dotnet/tree/main/samples/Sentry.Samples.Maui).
 
 

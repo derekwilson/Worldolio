@@ -43,6 +43,12 @@
 	<Import Project="$(ProjectDir)..\..\..\LocalOnly\windowscertproperties.xml" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' and '$(Configuration)' == 'Release'" />
 
 	<ItemGroup>
+		<Compile Include="$(ProjectDir)..\..\..\LocalOnly\Secrets.cs">
+			<Link>Secrets.cs</Link>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
 		<!-- App Icon -->
 		<!-- Android Specific Foreground Scale -->
 		<MauiIcon Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'" Include="Resources\AppIcon\appicon_worldolio.svg" ForegroundFile="Resources\AppIcon\appiconfg_worldolio.svg" Color="#00319c" ForegroundScale="0.65" />
@@ -94,6 +100,7 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
 		<PackageReference Include="NLog.Extensions.Logging" Version="6.1.3" />
 		<PackageReference Include="NLog.Targets.MauiLog" Version="8.6.2" />
+		<PackageReference Include="Sentry.Maui" Version="6.11.1" />
 	</ItemGroup>
 
 	<ItemGroup>

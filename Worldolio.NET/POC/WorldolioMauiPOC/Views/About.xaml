@@ -49,6 +49,12 @@
                         <Span Text="{Binding AppVersion}" FontAttributes="Bold" />
                     </FormattedString>
                 </Label.FormattedText>
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer 
+                        Command="{Binding VersionTappedCommand}"
+                        NumberOfTapsRequired="2"
+                        />
+                </Label.GestureRecognizers>
             </Label>
 
             <Label>

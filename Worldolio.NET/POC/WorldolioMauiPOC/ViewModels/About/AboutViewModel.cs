@@ -31,7 +31,7 @@ namespace WorldolioMauiPOC.ViewModels.About
                 field = value;
                 OnPropertyChanged(nameof(Parameter));
             }
-        }
+        } = "NOT SET";
 
         public ICommand NavigateBack { get; }
 
@@ -39,12 +39,13 @@ namespace WorldolioMauiPOC.ViewModels.About
         private ISchemaRevisionAuditRepository _sraRepository;
         private IEnvironmentInformationProvider _environmentInformationProvider;
         private INavigationHelper _navigationHelper;
+        private ICrashReporter _crashReporter;
 
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged(string name) =>
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-        public AboutViewModel(ILogger logger, IEnvironmentInformationProvider environmentInformationProvider, ISchemaRevisionAuditRepository sraRepository, INavigationHelper navigationHelper)
+        public AboutViewModel(ILogger logger, IEnvironmentInformationProvider environmentInformationProvider, ISchemaRevisionAuditRepository sraRepository, INavigationHelper navigationHelper, ICrashReporter crashReporter)
         {
             logger.Debug(() => $"AboutViewModel init");
 
@@ -52,6 +53,7 @@ namespace WorldolioMauiPOC.ViewModels.About
             _environmentInformationProvider = environmentInformationProvider;
             _sraRepository = sraRepository;
             _navigationHelper = navigationHelper;
+            _crashReporter = crashReporter;
 
             NavigateBack = new Command(async () => await _navigationHelper.ExecuteModalNavigationBackAsync());
         }
@@ -100,6 +102,14 @@ namespace WorldolioMauiPOC.ViewModels.About
                 Loading = false;
                 OnPropertyChanged(nameof(Loading));
             }
+        }
+
+        [RelayCommand]
+        public void VersionTapped()
+        {
+            _logger.Debug(() => $"AboutViewModel VersionTapped");
+
+            _crashReporter.TestReporting();
         }
     }
 }
