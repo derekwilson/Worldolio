@@ -5,12 +5,12 @@ namespace WorldolioMauiPOC.Utility
 {
     public interface INavigationHelper
     {
-        Task ExecuteNavigationAsync(string route);
         Task<PAGE?> ExecuteModalNavigationAsync<PAGE>(bool animated)
             where PAGE : ContentPage;
         Task<PAGE?> ExecuteModalNavigationWithDebounceAsync<PAGE>(bool animated)
             where PAGE : ContentPage;
         Task ExecuteModalNavigationBackAsync();
+        Task ExecuteModalNavigationBackWithDebounceAsync();
     }
 
     public class NavigationHelper : INavigationHelper
@@ -24,20 +24,6 @@ namespace WorldolioMauiPOC.Utility
             _logger = logger;
             _serviceProvider = serviceProvider;
             _systemTimeProvider = systemTimeProvider;
-        }
-
-        public async Task ExecuteNavigationAsync(string route)
-        {
-            try
-            {
-                _logger.Debug(() => $"NavigationHelper ExecuteNavigationAsync {route}");
-                // Perform your asynchronous call
-                await Shell.Current.GoToAsync(route);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogException(() => "ExecuteNavigationAsync", ex);
-            }
         }
 
         public async Task<PAGE?> ExecuteModalNavigationAsync<PAGE>(bool animated)
@@ -81,6 +67,7 @@ namespace WorldolioMauiPOC.Utility
             return false;
         }
 
+        // on android its possible to tap a button twice before the first tap is handled - not on windows
         public async Task<PAGE?> ExecuteModalNavigationWithDebounceAsync<PAGE>(bool animated)
             where PAGE : ContentPage
         {
@@ -107,6 +94,21 @@ namespace WorldolioMauiPOC.Utility
             else
             {
                 _logger.Warning(() => $"NavigationHelper ExecuteModalNavigationBackAsync - NULL navigator");
+            }
+        }
+
+        // on android its possible to tap a button twice before the first tap is handled - not on windows
+        public async Task ExecuteModalNavigationBackWithDebounceAsync()
+        {
+            _logger.Debug(() => $"ExecuteModalNavigationBackWithDebounceAsync");
+            if (IsDoubleTap())
+            {
+                _logger.Debug(() => $"ExecuteModalNavigationBackWithDebounceAsync - busy - supressed");
+                return;
+            }
+            else
+            {
+                await ExecuteModalNavigationBackAsync();
             }
         }
     }

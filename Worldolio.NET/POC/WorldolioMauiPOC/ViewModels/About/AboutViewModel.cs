@@ -55,7 +55,7 @@ namespace WorldolioMauiPOC.ViewModels.About
             _navigationHelper = navigationHelper;
             _crashReporter = crashReporter;
 
-            NavigateBack = new Command(async () => await _navigationHelper.ExecuteModalNavigationBackAsync());
+            NavigateBack = new Command(async () => await _navigationHelper.ExecuteModalNavigationBackWithDebounceAsync());
         }
 
         [RelayCommand]

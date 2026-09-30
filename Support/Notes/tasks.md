@@ -70,6 +70,8 @@ Done
 1. Implement tap handler on map
 1. remember the position of the window on Windows
 1. pass parameters from one page to another using the navigation helper
+1. get crash reporting to work - Sentry?
+1. Debounce Done/Close buttons on the About and Settings page as they crash on Android
 
 Todo
 
@@ -78,11 +80,9 @@ Todo
 1. Implement add city from tapping the map display nearby cities
 1. splash screen not working on Android 16
 1. Move Done buttons (About and Settings) to toolbar helper and out of the page XAML
-1. Debounce Done/Close buttons on the About and Settings page as they crash on Android
 1. get dark theme to work
 1. get edge to edge to work properly on Android - colour the top status bar text
 1. auto size font when window changes size
-1. get crash reporting to work - Sentry?
 1. get analytics to work
 1. custom selection lists
 1. show when an item is in daylight

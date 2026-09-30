@@ -131,10 +131,6 @@ namespace WorldolioMauiPOC
             DapperExtensions.AttachMappers();
             DatabaseHelper.CopyDatabaseToFileSystem(_logger, DatabaseHelper.GetDatabaseFilePath());
 
-            // register routes
-            Routing.RegisterRoute(nameof(About), typeof(About));
-            Routing.RegisterRoute(nameof(Settings), typeof(Settings));
-
             var app = builder.Build();
             MauiProgram.Services = app.Services;
             return app;
