@@ -12,6 +12,7 @@ namespace WorldolioMauiPOC.AppSettings
         void SetCityIdsFromString(String ids, bool store);
 
         bool CityIdsHaveBeenUpdatedSince(DateTime time);
+        void AddCityId(long id);
 
         double WindowWidth { get; set; }
         double WindowHeight { get; set;  }
@@ -131,6 +132,20 @@ namespace WorldolioMauiPOC.AppSettings
         public bool CityIdsHaveBeenUpdatedSince(DateTime time)
         {
             return _lastUpdateTime > time;
+        }
+
+        public void AddCityId(long id)
+        {
+            _logger.Debug(() => $"UserSettings AddCityId: {id}");
+            if (_cities.Contains(id))
+            {
+                _logger.Debug(() => $"UserSettings AddCityId: {id}, duplicate - ignored");
+                return;
+            }
+            _cities = _cities.Append(id).ToArray();
+            _lastUpdateTime = _timeProvider.GetUtcNow();
+            _logger.Debug(() => $"UserSettings AddCityId: last update {_lastUpdateTime}");
+            Preferences.Default.Set(CITY_IDS_KEY, String.Join(',', _cities));
         }
     }
 }

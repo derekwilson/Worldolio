@@ -933,7 +933,7 @@ namespace Worldolio.Data.Model
         /// <returns>a view onto the collection data</returns>
         public static async Task<ICollection<City>> GetCitiesInAreaAsync(ICityRepository repo, Position topLeft, Position bottomRight)
         {
-            var allCities = await repo.GetAllAsync();
+            var allCities = await repo.GetAllShallowAsync();
 
             return allCities.Where(c => IsInArea(c.Position, topLeft, bottomRight)).ToList();
         }

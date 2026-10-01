@@ -13,7 +13,11 @@ namespace Worldolio.Data.Repository
 
         Task<ICollection<City>> FindByNameAsync(string nameSearch);
 
+        // careful this will inflate the whole DB
         Task<ICollection<City>> GetAllAsync();
+
+        // only inflate the city and country objects, not the drive side or the TZ
+        Task<ICollection<City>> GetAllShallowAsync();
 
         Task<ICollection<City>> GetNearbyCitiesAsync(City c, Distance dist);
     }
@@ -26,6 +30,12 @@ namespace Worldolio.Data.Repository
     				INNER JOIN cnt_country cnt ON cnt.cnt_iso2name = cty.cty_cnt_iso2name
     				INNER JOIN dsi_driveside dsi ON dsi.dsi_id = cnt.cnt_dsi_id
                     ";
+        private const string SQL_SELECT_SHALLOW = @"
+                    SELECT cty.*, cnt.*
+                    FROM cty_city cty
+    				INNER JOIN cnt_country cnt ON cnt.cnt_iso2name = cty.cty_cnt_iso2name
+                    ";
+
         private const string SQL_WHERE_ID_SUFFIX = " WHERE cty.cty_id = @ID ";
         private const string SQL_WHERE_ID_IN_SUFFIX = " WHERE cty.cty_id IN @IDS ";
         private const string SQL_WHERE_NAME_SUFFIX = " WHERE cty.cty_displayname LIKE @SEARCH ";
@@ -33,6 +43,7 @@ namespace Worldolio.Data.Repository
         private const string SQL_ORDER_BY_SUFFIX = " ORDER BY cty.cty_displayname";
 
         private const string SQL_SELECT_ALL = SQL_SELECT + SQL_ORDER_BY_SUFFIX;
+        private const string SQL_SELECT_ALL_SHALLOW = SQL_SELECT_SHALLOW + SQL_ORDER_BY_SUFFIX;
         private const string SQL_SELECT_BY_ID = SQL_SELECT + SQL_WHERE_ID_SUFFIX + SQL_ORDER_BY_SUFFIX;
         private const string SQL_SELECT_BY_IDS = SQL_SELECT + SQL_WHERE_ID_IN_SUFFIX + SQL_ORDER_BY_SUFFIX;
         private const string SQL_SELECT_BY_NAME = SQL_SELECT + SQL_WHERE_NAME_SUFFIX + SQL_ORDER_BY_SUFFIX;
@@ -54,6 +65,19 @@ namespace Worldolio.Data.Repository
                             SQL_SELECT_ALL,
                             MAP,
                             splitOn: "cty_id, cnt_iso2name, dsi_id"
+                        );
+                return items.ToList();
+            }
+        }
+
+        public async Task<ICollection<City>> GetAllShallowAsync()
+        {
+            using (IDbConnection connection = _connectionFactory.GetOpenConnection())
+            {
+                var items = await connection.QueryAsync<City, Country, City>(
+                            SQL_SELECT_ALL_SHALLOW,
+                            MAP_SHALLOW,
+                            splitOn: "cty_id, cnt_iso2name"
                         );
                 return items.ToList();
             }
@@ -94,9 +118,22 @@ namespace Worldolio.Data.Repository
         {
             cnt.DriveSide = dsi;
             cty.Country = cnt;
+            GeneratePosition(cty);
+            cty.TimeZone = _timeZoneFactory.GetTimeZoneFromIanaName(cty.IanaTz);
+            return cty;
+        }
+
+        private City MAP_SHALLOW(City cty, Country cnt)
+        {
+            cty.Country = cnt;
+            GeneratePosition(cty);
+            return cty;
+        }
+
+        private City GeneratePosition(City cty)
+        {
             // we store the lat/long in integers in the DB
             cty.Position = new Position(cty.Latitude / 100.0, cty.Longitude / 100.0);
-            cty.TimeZone = _timeZoneFactory.GetTimeZoneFromIanaName(cty.IanaTz);
             return cty;
         }
 
