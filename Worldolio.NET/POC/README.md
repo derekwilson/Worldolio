@@ -10,7 +10,7 @@ This folder contains the code Worldolio POCs.
 
 ### WorldolioDataChecker
 
-VS2022 / VW2026
+VS2022 / VS2026
 Targets .NET 8
 CLI
 
@@ -67,7 +67,7 @@ If any data fails to load then an error will be reported
 
 ### WorldolioPOC
 
-VS2022 / VW2026
+VS2022 / VS2026
 Targets .NET 8
 CLI
 
@@ -76,7 +76,7 @@ The output depends on what is being tested
 
 ### MauiPOC
 
-VW2026
+VS2026
 Targets .NET 10
 Android and Windows
 
@@ -84,7 +84,7 @@ Screenshots in the support folder
 
 ### WorldolioMauiPOC
 
-VW2026
+VS2026
 Targets .NET 10
 Android and Windows
 
