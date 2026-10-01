@@ -57,6 +57,12 @@ namespace WorldolioMauiPOC
                     // The DSN is the only required setting.
                     options.Dsn = SENTRY_DSN;
 
+#if DEBUG
+                    options.Environment = "Debug";
+#else
+                    options.Environment = "Release";
+#endif
+
                     // Use debug mode if you want to see what the SDK is doing.
                     // Debug messages are written to stdout with Console.Writeline,
                     // and are viewable in your IDE's debug console or with 'adb logcat', etc.
