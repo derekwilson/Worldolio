@@ -72,6 +72,7 @@ Done
 1. pass parameters from one page to another using the navigation helper
 1. get crash reporting to work - Sentry?
 1. Debounce Done/Close buttons on the About and Settings page as they crash on Android
+1. write instructions to update DB
 
 Todo
 
@@ -90,7 +91,6 @@ Todo
 1. keyboard support on Windows - select item from grid using enter
 1. keyboard support on Android
 1. revisit if we can do DI into the ContentPage from TabbedPage in XAML
-1. write instructions to update DB
 1. implement mechanism to update the DB
 
 

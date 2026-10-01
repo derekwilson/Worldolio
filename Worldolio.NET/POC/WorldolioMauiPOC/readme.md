@@ -6,7 +6,15 @@ This folder contains the code for the POC.
 ### WorldolioMauiPOC
 
 
-Is built using VS2022
+Is built using VS2026 / .NET 10
+
+
+#### Package names
+
+| Configuration | Packagename |
+| ------------- | ----------- |
+| Release       | net.derekwilson.worldoliomauipoc
+| Debug         | net.derekwilson.worldoliomauipoc.debug
 
 
 #### Building the Release Build
