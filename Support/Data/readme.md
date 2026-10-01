@@ -15,7 +15,7 @@ This is where we can build a new DB
 
 ### Original data
 
-Edit the city and country data as required. `city.csv` and `country.csv` are plain text data files that are loaded into the sqlite db
+Edit the city and country data as required. `city.csv` and `country.csv` are plain text data files that are loaded into the sqlite db `worldolio.sqlite` using the build scripts.
 
 ### Building the db
 
