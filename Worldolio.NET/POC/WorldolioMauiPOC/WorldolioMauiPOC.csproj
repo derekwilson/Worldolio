@@ -120,6 +120,9 @@
 	  <MauiXaml Update="Views\About.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\AddCity.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\CityGrid.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

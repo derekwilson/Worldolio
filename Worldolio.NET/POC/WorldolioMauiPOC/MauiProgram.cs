@@ -15,6 +15,7 @@ using WorldolioMauiPOC.Views;
 using WorldolioMauiPOC.ViewModels.Moon;
 using WorldolioMauiPOC.ViewModels.Map;
 using WorldolioMauiPOC.Views.Drawable;
+using WorldolioMauiPOC.ViewModels.AddCity;
 
 namespace WorldolioMauiPOC
 {
@@ -125,7 +126,8 @@ namespace WorldolioMauiPOC
             builder.Services.AddTransient<About>();
             builder.Services.AddTransient<SettingsViewModel>();
             builder.Services.AddTransient<Settings>();
-
+            builder.Services.AddTransient<AddCityViewModel>();
+            builder.Services.AddTransient<AddCity>();
 
             // database init
             DapperExtensions.AttachMappers();

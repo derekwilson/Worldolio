@@ -1,6 +1,8 @@
 using Worldolio.Data.Logging;
 using Worldolio.Data.Utility;
 using WorldolioMauiPOC.Utility;
+using WorldolioMauiPOC.ViewModels.About;
+using WorldolioMauiPOC.ViewModels.AddCity;
 using WorldolioMauiPOC.ViewModels.Map;
 using WorldolioMauiPOC.Views.Drawable;
 
@@ -14,6 +16,7 @@ public partial class Map : ContentPage
     private MapDrawable _mapDrawable;
     private ISystemTimeProvider _timeProvider;
     private IDialogHelper _dialogHelper;
+    private INavigationHelper _navigationHelper;
 
     private IDispatcherTimer _timer;
     private DateTime _lastForcedRefreshTime = DateTime.MinValue;
@@ -24,13 +27,15 @@ public partial class Map : ContentPage
         IToolbarHelper toolbarHelper,
         MapDrawable drawable,
         ISystemTimeProvider timeProvider,
-        IDialogHelper dialogHelper)
+        IDialogHelper dialogHelper,
+        INavigationHelper navigationHelper)
     {
         logger.Debug(() => $"Map init");
         _logger = logger;
         _mapDrawable = drawable;
         _timeProvider = timeProvider;
         _dialogHelper = dialogHelper;
+        _navigationHelper = navigationHelper;
 
         BindingContext = viewModel;
 
@@ -59,7 +64,7 @@ public partial class Map : ContentPage
             // Calculate target height for a 1:2 aspect ratio - this needs to match our resource image
             double targetHeight = containerGrid.Width * (1.0 / 2.0);
 
-            _logger.Debug(() => $"Grid_SizeChanged {containerGrid.Width} == {targetHeight}");
+            //_logger.Debug(() => $"Grid_SizeChanged {containerGrid.Width} == {targetHeight}");
 
             // Enforce the height on the GraphicsView
             MapGraphicsView.HeightRequest = targetHeight;
@@ -119,9 +124,9 @@ public partial class Map : ContentPage
     private void MapGraphicsView_MoveHoverInteraction(object sender, TouchEventArgs e)
     {
         // Capture the first pointer contact coordinate position
-        PointF hoverPosition = e.Touches[0];
-        //_logger.Debug(() => $"Map.MapGraphicsView_MoveHoverInteraction {hoverPosition.X} {hoverPosition.Y}");
-        MapTooltipLabel.Text = _mapDrawable.GetTooltipText(hoverPosition);
+        PointF hoverPoint = e.Touches[0];
+        //_logger.Debug(() => $"Map.MapGraphicsView_MoveHoverInteraction {hoverPoint.X} {hoverPoint.Y}");
+        MapTooltipLabel.Text = _mapDrawable.GetTooltipText(hoverPoint);
     }
 
     private void MapGraphicsView_EndHoverInteraction(object sender, EventArgs e)
@@ -130,23 +135,17 @@ public partial class Map : ContentPage
         MapTooltipLabel.Text = "  ";
     }
 
-    private async void MapGraphicsView_EndInteraction(object sender, TouchEventArgs e)
-    {
-        // Capture the first pointer contact coordinate position
-        PointF clickPosition = e.Touches[0];
-
-        _logger.Debug(() => $"Map.MapGraphicsView_EndInteraction {clickPosition.X},{clickPosition.Y}");
-        //await _dialogHelper.ShowAlertAsync("Alert", $"Pos = {clickPosition.X},{clickPosition.Y}");
-    }
-
     private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
-        var pos = e.GetPosition((View)sender);
-        if (pos is not null)
+        var pt = e.GetPosition((View)sender);
+        if (pt is not null)
         {
-            Point clickPosition = (Point) pos;
-            _logger.Debug(() => $"Map.TapGestureRecognizer_Tapped {clickPosition.X},{clickPosition.Y}");
-            await _dialogHelper.ShowAlertAsync("Alert", $"Pos = {clickPosition.X},{clickPosition.Y}");
+            Point clickPoint = (Point) pt;
+            _logger.Debug(() => $"Map.TapGestureRecognizer_Tapped {clickPoint.X},{clickPoint.Y}");
+            var cities = await _mapDrawable.GetNearbyCities(clickPoint);
+            _logger.Debug(() => $"Map.TapGestureRecognizer_Tapped Cities = {cities.Count}");
+            var page = await _navigationHelper.ExecuteModalNavigationWithDebounceAsync<Views.AddCity>(false);
+            (page?.BindingContext as AddCityViewModel)?.SetCities(cities);
         }
     }
 }

@@ -22,7 +22,10 @@ namespace WorldolioMauiPOC.Views.Drawable
             }
         }
 
-        private Distance _nearbyDistance = Distance.FromValues(200, Distance.Units.Kilometers);
+        // TODO - read from settings
+        private Distance _nearbyDistance = Distance.FromValues(500, Distance.Units.Kilometers);
+        // TODO - read from settings
+        private Distance _tooltipDistance = Distance.FromValues(200, Distance.Units.Kilometers);
         private const int _dotsize = 1;
         private Color _cityColour = Colors.White;
         private Color _homeCityColour = Colors.Red;
@@ -231,9 +234,9 @@ namespace WorldolioMauiPOC.Views.Drawable
 
         #endregion
 
-        public string GetTooltipText(PointF hoverPosition)
+        public string GetTooltipText(PointF hoverPoint)
         {
-            var pos = MapPointToPosition(hoverPosition, _currentImageWidth, _currentImageHeight);
+            var pos = MapPointToPosition(hoverPoint, _currentImageWidth, _currentImageHeight);
             var home = _cities.FirstOrDefault();
             string strDist = "";
             if (home != null)
@@ -249,7 +252,7 @@ namespace WorldolioMauiPOC.Views.Drawable
 
             foreach (City thisCity in _cities)
             {
-                if (thisCity.GetDistance(pos).Kilometers < _nearbyDistance.Kilometers)
+                if (thisCity.GetDistance(pos).Kilometers < _tooltipDistance.Kilometers)
                 {
                     strCity = $" ({thisCity.DisplayName})";
                     break;
@@ -257,6 +260,12 @@ namespace WorldolioMauiPOC.Views.Drawable
             }
 
             return $"{strInfo} {strCity}";
+        }
+
+        public async Task<ICollection<City>> GetNearbyCities(Point clickPoint)
+        {
+            var pos = MapPointToPosition(clickPoint, _currentImageWidth, _currentImageHeight);
+            return await GeoCalculator.GetCitiesInAreaAsync(_citiesRepository, pos, _nearbyDistance, _nearbyDistance);
         }
     }
 }

@@ -6,6 +6,7 @@ namespace WorldolioMauiPOC.Utility
     public interface IToolbarHelper
     {
         public List<ToolbarItem> CreateToolbarItems(bool showSettings);
+        public ToolbarItem CreateBackButton();
     }
 
 
@@ -18,6 +19,30 @@ namespace WorldolioMauiPOC.Utility
         {
             _logger = logger;
             _navigationHelper = navigationHelper;
+        }
+
+        public ToolbarItem CreateBackButton()
+        {
+            var item = new ToolbarItem
+            {
+                Text = "Back",
+                IconImageSource = new FontImageSource
+                {
+                    FontFamily = MaterialSymbolsIconFont.FontName,
+                    Glyph = MaterialSymbolsIconFont.IconArrowBack,
+                    Size = 20,
+                },
+                Command = new Command(async () =>
+                {
+                    await _navigationHelper.ExecuteModalNavigationBackWithDebounceAsync();
+                })
+            };
+            item.IconImageSource.SetAppTheme<Color>(
+                    FontImageSource.ColorProperty,
+                    Color.FromArgb("#1f1f1f"),      // Light Theme Color - Offblack
+                    Colors.White                    // Dark Theme Color
+                );
+            return item;
         }
 
         public List<ToolbarItem> CreateToolbarItems(bool showSettings)
