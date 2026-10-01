@@ -73,12 +73,12 @@ Done
 1. get crash reporting to work - Sentry?
 1. Debounce Done/Close buttons on the About and Settings page as they crash on Android
 1. write instructions to update DB
+1. Implement add city from tapping the map display nearby cities
 
 Todo
 
 1. stop reloading from the DB when the settings need to be refreshed, cache City model objects in settings, eliminate _citiesRepo.GetByIdsAsync
 1. align timer on the start of a minute
-1. Implement add city from tapping the map display nearby cities
 1. splash screen not working on Android 16
 1. Move Done buttons (About and Settings) to toolbar helper and out of the page XAML
 1. get dark theme to work
