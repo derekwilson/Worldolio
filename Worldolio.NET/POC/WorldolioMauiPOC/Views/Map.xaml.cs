@@ -144,8 +144,15 @@ public partial class Map : ContentPage
             _logger.Debug(() => $"Map.TapGestureRecognizer_Tapped {clickPoint.X},{clickPoint.Y}");
             var cities = await _mapDrawable.GetNearbyCities(clickPoint);
             _logger.Debug(() => $"Map.TapGestureRecognizer_Tapped Cities = {cities.Count}");
-            var page = await _navigationHelper.ExecuteModalNavigationWithDebounceAsync<Views.AddCity>(false);
-            (page?.BindingContext as AddCityViewModel)?.SetCities(cities);
+            if (cities == null || cities.Count < 1)
+            {
+                await _dialogHelper.ShowAlertAsync("Worldolio", $"There are no cities nearby");
+            }
+            else
+            {
+                var page = await _navigationHelper.ExecuteModalNavigationWithDebounceAsync<Views.AddCity>(false);
+                (page?.BindingContext as AddCityViewModel)?.SetCities(cities);
+            }
         }
     }
 }

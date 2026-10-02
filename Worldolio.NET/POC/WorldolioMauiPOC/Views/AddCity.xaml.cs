@@ -19,7 +19,7 @@ public partial class AddCity : ContentPage
 
         InitializeComponent();
 
-        this.ToolbarItems.Add(toolbarHelper.CreateBackButton());
+        this.ToolbarItems.Add(toolbarHelper.CreateDoneButton());
 
         _logger = logger;
     }

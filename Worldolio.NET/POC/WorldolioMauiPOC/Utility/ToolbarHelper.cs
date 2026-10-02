@@ -1,4 +1,5 @@
-﻿using Worldolio.Data.Logging;
+﻿using System.Windows.Input;
+using Worldolio.Data.Logging;
 using WorldolioMauiPOC.ViewModels.About;
 
 namespace WorldolioMauiPOC.Utility
@@ -7,6 +8,7 @@ namespace WorldolioMauiPOC.Utility
     {
         public List<ToolbarItem> CreateToolbarItems(bool showSettings);
         public ToolbarItem CreateBackButton();
+        public ToolbarItem CreateDoneButton();
     }
 
 
@@ -14,35 +16,67 @@ namespace WorldolioMauiPOC.Utility
     {
         private ILogger _logger;
         private INavigationHelper _navigationHelper;
+        private IResourceProvider _resourceProvider;
 
-        public ToolbarHelper(ILogger logger, INavigationHelper navigationHelper)
+        public ToolbarHelper(ILogger logger, INavigationHelper navigationHelper, IResourceProvider resourceProvider)
         {
             _logger = logger;
             _navigationHelper = navigationHelper;
+            _resourceProvider = resourceProvider;
+        }
+
+        private ToolbarItem CreateToolbarItem(
+            string text,
+            string iconFont, 
+            string iconGlyph, 
+            Color lightThemeColour,
+            Color darkThemeColour,
+            ICommand command
+            )
+        {
+            var item = new ToolbarItem
+            {
+                Text = text,
+                IconImageSource = new FontImageSource
+                {
+                    FontFamily = iconFont,
+                    Glyph = iconGlyph,
+                    Size = 20,
+                },
+                Command = command
+            };
+            item.IconImageSource.SetAppTheme<Color>(FontImageSource.ColorProperty,lightThemeColour,darkThemeColour);
+            return item;
         }
 
         public ToolbarItem CreateBackButton()
         {
-            var item = new ToolbarItem
-            {
-                Text = "Back",
-                IconImageSource = new FontImageSource
-                {
-                    FontFamily = MaterialSymbolsIconFont.FontName,
-                    Glyph = MaterialSymbolsIconFont.IconArrowBack,
-                    Size = 20,
-                },
-                Command = new Command(async () =>
+            return CreateToolbarItem(
+                "Back",
+                MaterialSymbolsIconFont.FontName,
+                MaterialSymbolsIconFont.IconArrowBack,
+                _resourceProvider.GetResource<Color>("Offblack", Colors.Black),     // Light Theme Color
+                _resourceProvider.GetResource<Color>("White", Colors.White),        // Dark Theme Color
+                new Command(async () =>
                 {
                     await _navigationHelper.ExecuteModalNavigationBackWithDebounceAsync();
                 })
-            };
-            item.IconImageSource.SetAppTheme<Color>(
-                    FontImageSource.ColorProperty,
-                    Color.FromArgb("#1f1f1f"),      // Light Theme Color - Offblack
-                    Colors.White                    // Dark Theme Color
                 );
-            return item;
+        }
+
+        public ToolbarItem CreateDoneButton()
+        {
+            return CreateToolbarItem(
+                "Done",
+                MaterialSymbolsIconFont.FontName,
+                MaterialSymbolsIconFont.IconClose,
+                _resourceProvider.GetResource<Color>("Offblack", Colors.Black),     // Light Theme Color
+                _resourceProvider.GetResource<Color>("White", Colors.White),        // Dark Theme Color
+                new Command(async () =>
+                {
+                    await _navigationHelper.ExecuteModalNavigationBackWithDebounceAsync();
+                })
+                );
         }
 
         public List<ToolbarItem> CreateToolbarItems(bool showSettings)
@@ -51,49 +85,34 @@ namespace WorldolioMauiPOC.Utility
             var toolbarItems = new List<ToolbarItem>();
             if (showSettings)
             {
-                var settingsImage = new FontImageSource
-                {
-                    FontFamily = MaterialSymbolsIconFont.FontName,
-                    Glyph = MaterialSymbolsIconFont.IconSettings,
-                    Size = 20,
-                };
-                settingsImage.SetAppTheme<Color>(
-                    FontImageSource.ColorProperty,
-                    Color.FromArgb("#1f1f1f"),      // Light Theme Color - Offblack
-                    Colors.White                    // Dark Theme Color
+                var settingsItem = CreateToolbarItem(
+                    "Settings",
+                    MaterialSymbolsIconFont.FontName,
+                    MaterialSymbolsIconFont.IconSettings,
+                    _resourceProvider.GetResource<Color>("Offblack", Colors.Black),     // Light Theme Color
+                    _resourceProvider.GetResource<Color>("White", Colors.White),        // Dark Theme Color
+                    new Command(async () =>
+                    {
+                        await _navigationHelper.ExecuteModalNavigationWithDebounceAsync<Views.Settings>(false);
+                    })
                 );
-                var settings = new ToolbarItem
-                {
-                    Text = "Settings",
-                    IconImageSource = settingsImage,
-                    Command = new Command(async () => await _navigationHelper.ExecuteModalNavigationWithDebounceAsync<Views.Settings>(false))
-                };
-
-                toolbarItems.Add(settings);
+                toolbarItems.Add(settingsItem);
             }
 
-            var aboutImage = new FontImageSource
-            {
-                FontFamily = MaterialSymbolsIconFont.FontName,
-                Glyph = MaterialSymbolsIconFont.IconInfo,
-                Size = 20,
-            };
-            aboutImage.SetAppTheme<Color>(
-                FontImageSource.ColorProperty,
-                Color.FromArgb("#1f1f1f"),      // Light Theme Color - Offblack
-                Colors.White                    // Dark Theme Color
-            );
-            var about = new ToolbarItem
-            {
-                Text = "About",
-                IconImageSource = aboutImage,
-                Command = new Command(async () =>
+            var aboutItem = CreateToolbarItem(
+                "About",
+                MaterialSymbolsIconFont.FontName,
+                MaterialSymbolsIconFont.IconInfo,
+                _resourceProvider.GetResource<Color>("Offblack", Colors.Black),     // Light Theme Color
+                _resourceProvider.GetResource<Color>("White", Colors.White),        // Dark Theme Color
+                new Command(async () =>
                 {
                     var page = await _navigationHelper.ExecuteModalNavigationWithDebounceAsync<Views.About>(false);
                     (page?.BindingContext as AboutViewModel)?.Parameter = "Param #2";
                 })
-            };
-            toolbarItems.Add(about);
+            );
+            toolbarItems.Add(aboutItem);
+
             _logger.Debug(() => $"AddToolbarItems - complete");
             return toolbarItems;
         }

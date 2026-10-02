@@ -40,7 +40,7 @@ namespace WorldolioMauiPOC.ViewModels.AddCity
 
         public void SetCities(ICollection<City> cities)
         {
-            _logger.Debug(() => $"AddCityViewModel SetCities");
+            _logger.Debug(() => $"AddCityViewModel SetCities: {cities.Count}");
             Cities = new ObservableCollection<City>(cities);
             _selectedCity = null;
 
