@@ -1,4 +1,6 @@
-﻿// we do this rather than reference PolySharp
+﻿// we want to use required keyword but we cannot in a multi targetted assembly
+// https://stackoverflow.com/questions/73388918/compiler-generating-error-when-using-c-sharp-required-keyword
+// we do the following rather than reference PolySharp
 // https://www.nuget.org/packages/PolySharp/
 
 namespace System.Runtime.CompilerServices
