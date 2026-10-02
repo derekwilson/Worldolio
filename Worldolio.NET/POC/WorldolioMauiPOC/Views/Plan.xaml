@@ -26,7 +26,7 @@
             <DatePicker 
                 Grid.Column="1"
                 Date="{Binding SelectedDate, Mode=TwoWay}"
-                Format="dd/MMM/yyyy"
+                Format="D d MMM yyyy"
                 FontAttributes="Bold"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" />
