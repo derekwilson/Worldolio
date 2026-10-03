@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 using Worldolio.Data.DependencyInjection;
+using Worldolio.Data.Exceptions;
 using Worldolio.Data.Logging;
 using Worldolio.Data.Model;
 using Worldolio.Data.Repository;
@@ -218,9 +219,17 @@ namespace WorldolioDataChecker
             {
                 throw new Exception($"Bad home city");
             }
+            if (home.TimeZone is null)
+            {
+                throw new ShallowObjectException("TimeZone is not initialised");
+            }
 
             foreach (City city in cities)
             {
+                if (city.TimeZone is null)
+                {
+                    throw new ShallowObjectException("TimeZone is not initialised");
+                }
                 if (city.TimeZone.IsValid)
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using Worldolio.Data.Exceptions;
 using Worldolio.Data.Model;
 using WorldolioMauiPOC.Utility;
 
@@ -51,6 +52,10 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
                 }
                 else
                 {
+                    if (_homeCity.TimeZone is null || _city.TimeZone is null)
+                    {
+                        throw new ShallowObjectException("TimeZone is not initialised");
+                    }
                     return _city.TimeZone.ToLocalTimeFormatted(_now, _homeCity.TimeZone, _inDayTimeFormat);
                 }
             }
@@ -67,6 +72,10 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
                 }
                 else
                 {
+                    if (_homeCity.TimeZone is null || _city.TimeZone is null)
+                    {
+                        throw new ShallowObjectException("TimeZone is not initialised");
+                    }
                     return _city.TimeZone.ToLocalTimeFormatted(_now, _homeCity.TimeZone, ITimeZone.TimeFormat.DAY_SHORT);
                 }
             }
@@ -84,6 +93,10 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
                 }
                 else
                 {
+                    if (_homeCity.TimeZone is null || _city.TimeZone is null)
+                    {
+                        throw new ShallowObjectException("TimeZone is not initialised");
+                    }
                     return _city.TimeZone.GetFormattedOffset(_now, _homeCity.TimeZone);
                 }
             }

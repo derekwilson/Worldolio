@@ -1,4 +1,5 @@
-﻿using Worldolio.Data.Utility;
+﻿using Worldolio.Data.Exceptions;
+using Worldolio.Data.Utility;
 
 namespace Worldolio.Data.Model
 {
@@ -10,6 +11,7 @@ namespace Worldolio.Data.Model
         [Column(Name = "cty_displayname")]
         public required string DisplayName { get; set; }
 
+        // this is always initialiased by the repository so we can treat is as if it is not nullable
         public Country Country { get; set; } = default!;
 
         [Column(Name = "cty_windowstzindex")]
@@ -24,6 +26,7 @@ namespace Worldolio.Data.Model
         [Column(Name = "cty_longitude")]
         public int Longitude { get; set; }
 
+        // this is always initialiased by the repository so we can treat is as if it is not nullable
         public Position Position { get; set; } = default!;
 
         [Column(Name = "cty_iataairportcode")]
@@ -35,7 +38,8 @@ namespace Worldolio.Data.Model
         [Column(Name = "cty_ianatz")]
         public required string IanaTz { get; set; }
 
-        public ITimeZone TimeZone { get; set; } = default!;
+        // when we shallow load this object then this is not initialsed
+        public ITimeZone? TimeZone { get; set; } = default!;
 
         public Distance GetDistance(Position pos)
         {
@@ -44,18 +48,30 @@ namespace Worldolio.Data.Model
 
         public string GetSunrise(DateTime today, ITimeZone.TimeFormat format)
         {
+            if (TimeZone is null)
+            {
+                throw new ShallowObjectException("TimeZone is not initialised");
+            }
             var sunriseUtc = GeoCalculator.GetSunriseInUtc(today, Position);
             return TimeZone.ToLocalTimeFromUtcFormatted(sunriseUtc, format);
         }
 
         public string GetSunset(DateTime today, ITimeZone.TimeFormat format)
         {
+            if (TimeZone is null)
+            {
+                throw new ShallowObjectException("TimeZone is not initialised");
+            }
             var sunsetUtc = GeoCalculator.GetSunsetInUtc(today, Position);
             return TimeZone.ToLocalTimeFromUtcFormatted(sunsetUtc, format);
         }
 
         public string GetNoon(DateTime today, ITimeZone.TimeFormat format)
         {
+            if (TimeZone is null)
+            {
+                throw new ShallowObjectException("TimeZone is not initialised");
+            }
             var noonUtc = GeoCalculator.GetSolarNoonInUtc(today, Position.Longitude);
             return TimeZone.ToLocalTimeFromUtcFormatted(noonUtc, format);
         }
@@ -74,6 +90,11 @@ namespace Worldolio.Data.Model
 
         private string FormatMoonState(DateTime? eventUtc, bool alwaysUp, bool alwaysDown, ITimeZone.TimeFormat format)
         {
+            if (TimeZone is null)
+            {
+                throw new ShallowObjectException("TimeZone is not initialised");
+            }
+
             if (eventUtc != null)
             {
                 return TimeZone.ToLocalTimeFromUtcFormatted(eventUtc.Value, format);

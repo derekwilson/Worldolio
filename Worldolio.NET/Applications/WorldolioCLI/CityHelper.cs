@@ -1,4 +1,5 @@
-﻿using Worldolio.Data.Model;
+﻿using Worldolio.Data.Exceptions;
+using Worldolio.Data.Model;
 using Worldolio.Data.Repository;
 using static Worldolio.Data.Model.TimeZone;
 
@@ -22,10 +23,19 @@ namespace WorldolioCLI
             {
                 throw new Exception($"Bad home city. ID: {homeId}");
             }
+            if (home.TimeZone is null)
+            {
+                throw new ShallowObjectException("Home TimeZone is not initialised");
+            }
             ICollection<City> cities = await citiesRepository.GetByIdsAsync(ids);
 
             foreach (City city in cities)
             {
+                if (city.TimeZone is null)
+                {
+                    throw new ShallowObjectException("City TimeZone is not initialised");
+                }
+
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"City {city.Id}, {city.DisplayName}, {city.Country.DisplayName}, Pos {city.Position.ToString(true)} Drives {city.Country.DriveSide.Description}");
                 Console.WriteLine($"   {city.TimeZone.ToLocalTimeFormatted(now, home.TimeZone, ITimeZone.TimeFormat.DAY_SHORT)} {city.TimeZone.ToLocalTimeFormatted(now, home.TimeZone, ITimeZone.TimeFormat.TIME_SHORT_AMPM)}");
@@ -43,7 +53,7 @@ namespace WorldolioCLI
                 Console.WriteLine($"   Moonrise: {city.GetMoonrise(now, ITimeZone.TimeFormat.DAY_TIME_SHORT_AMPM)}, Moonset: {city.GetMoonset(now, ITimeZone.TimeFormat.DAY_TIME_SHORT_AMPM)}");
                 Console.ResetColor();
             }
-            var invalidCount = cities.Count(c => !c.TimeZone.IsValid);
+            var invalidCount = cities.Count(c => !c.TimeZone?.IsValid ?? true);
             Console.WriteLine($"Cities count = {cities.Count}, invalid TZ = {invalidCount}");
         }
 
