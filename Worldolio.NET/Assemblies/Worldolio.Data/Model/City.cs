@@ -111,5 +111,38 @@ namespace Worldolio.Data.Model
             return "None";
         }
 
+        public string GetCurrentTimeFormatted(DateTime time, City? referenceCity, ITimeZone.TimeFormat format)
+        {
+            if (referenceCity == null)
+            {
+                // maybe revert to the system TZ
+                return "UNKNOWN";
+            }
+            else
+            {
+                if (referenceCity.TimeZone is null || TimeZone is null)
+                {
+                    throw new ShallowObjectException("TimeZone is not initialised");
+                }
+                return TimeZone.ToLocalTimeFormatted(time, referenceCity.TimeZone, format);
+            }
+        }
+
+        public string GetFormattedOffset(DateTime time, City? referenceCity)
+        {
+            if (referenceCity == null)
+            {
+                return "";
+            }
+            else
+            {
+                if (referenceCity.TimeZone is null || TimeZone is null)
+                {
+                    throw new ShallowObjectException("TimeZone is not initialised");
+                }
+                return TimeZone.GetFormattedOffset(time, referenceCity.TimeZone);
+            }
+
+        }
     }
 }

@@ -45,19 +45,7 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
         {
             get
             {
-                if (_homeCity == null)
-                {
-                    // maybe revert to the system TZ
-                    return "UNKNOWN";
-                }
-                else
-                {
-                    if (_homeCity.TimeZone is null || _city.TimeZone is null)
-                    {
-                        throw new ShallowObjectException("TimeZone is not initialised");
-                    }
-                    return _city.TimeZone.ToLocalTimeFormatted(_now, _homeCity.TimeZone, _inDayTimeFormat);
-                }
+                return _city.GetCurrentTimeFormatted(_now, _homeCity, _inDayTimeFormat);
             }
         }
 
@@ -65,19 +53,7 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
         {
             get
             {
-                if (_homeCity == null)
-                {
-                    // maybe revert to the system TZ
-                    return "UNKNOWN";
-                }
-                else
-                {
-                    if (_homeCity.TimeZone is null || _city.TimeZone is null)
-                    {
-                        throw new ShallowObjectException("TimeZone is not initialised");
-                    }
-                    return _city.TimeZone.ToLocalTimeFormatted(_now, _homeCity.TimeZone, ITimeZone.TimeFormat.DAY_SHORT);
-                }
+                return _city.GetCurrentTimeFormatted(_now, _homeCity, ITimeZone.TimeFormat.DAY_SHORT);
             }
         }
 
@@ -87,22 +63,11 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
         {
             get
             {
-                if (_homeCity == null)
-                {
-                    return "";
-                }
-                else
-                {
-                    if (_homeCity.TimeZone is null || _city.TimeZone is null)
-                    {
-                        throw new ShallowObjectException("TimeZone is not initialised");
-                    }
-                    return _city.TimeZone.GetFormattedOffset(_now, _homeCity.TimeZone);
-                }
+                return _city.GetFormattedOffset(_now, _homeCity);
             }
         }
 
-        public string DSTDates => _city.TimeZone.GetDSTDatesForDisplay(_now);
+        public string DSTDates => _city?.TimeZone?.GetDSTDatesForDisplay(_now) ?? "UNKNOWN";
 
         public string Sunrise => _city.GetSunrise(_now, _inDayTimeFormat);
         public string Noon => _city.GetNoon(_now, _inDayTimeFormat);
