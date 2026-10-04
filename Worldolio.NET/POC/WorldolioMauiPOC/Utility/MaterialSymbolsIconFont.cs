@@ -14,7 +14,10 @@
         public const string IconClose = "\ue5cd";
         public const string IconArrowBack = "\ue5c4";
         public const string IconArrowForward = "\ue5c8";
+        public const string IconArrowUp = "\ue5d8";
+        public const string IconArrowDown = "\ue5db";
         public const string IconSettings = "\ue8b8";
         public const string IconInfo = "\ue88e";
+        public const string IconDelete = "\ue872";
     }
 }

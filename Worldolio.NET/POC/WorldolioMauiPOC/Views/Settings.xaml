@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:utility="clr-namespace:WorldolioMauiPOC.Utility"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:partial="clr-namespace:WorldolioMauiPOC.Views.Partial"
              x:Class="WorldolioMauiPOC.Views.Settings"
              x:Name="thisPage"
              Title="Settings">
@@ -19,29 +20,14 @@
         />
     </Shell.BackButtonBehavior>
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Done"
-                     Order="Primary"
-                     Priority="1"
-                     Command="{Binding NavigateBack}" 
-                     >
-            <ToolbarItem.IconImageSource>
-                <FontImageSource
-                    FontFamily="{x:Static utility:MaterialSymbolsIconFont.FontName}"
-                    Glyph="{x:Static utility:MaterialSymbolsIconFont.IconClose}"
-                    Color="{AppThemeBinding Light={StaticResource OffBlack},
-                                                 Dark={StaticResource White}}"
-                    Size="20"/>
-            </ToolbarItem.IconImageSource>
-        </ToolbarItem>
-    </ContentPage.ToolbarItems>
-
-    <ScrollView>
+    <Grid 
+        RowDefinitions="Auto, *"
+        >
 
         <Grid   
             Padding="5"  
             ColumnDefinitions="Auto, *, Auto"  
-            RowDefinitions="Auto, Auto, Auto, *">
+            RowDefinitions="Auto, Auto">
 
             <Label 
                 Text="City IDs"
@@ -69,7 +55,61 @@
                 Margin="0,10,0,0"
                 Text="Update" 
                 Command="{Binding UpdateIds}" />
+
         </Grid>
-        
-    </ScrollView>
+
+        <Grid
+            Grid.Row="1"
+            Padding="5"  
+            ColumnDefinitions="*"  
+            RowDefinitions="*">
+
+            <CollectionView 
+                ItemsSource="{Binding Cities}"
+                Margin="5"
+                SelectionMode="None"
+                >
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border 
+                            Style="{StaticResource Border.DataTemplate}"
+                            >
+                            <Grid   
+                                Padding="5"  
+                                ColumnDefinitions="*, Auto"  
+                                RowDefinitions="Auto"
+                                >
+
+                                <Label
+                                    Style="{StaticResource Label.LittleGridItem}"
+                                    >
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding DisplayName}" FontAttributes="Bold" />
+                                            <Span Text=", "/>
+                                            <Span Text="{Binding Country.DisplayName}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+
+                                <partial:FontIconButton
+                                    Grid.Column="1"
+                                    FontName="{x:Static utility:MaterialSymbolsIconFont.FontName}"
+                                    IconGlyph="{x:Static utility:MaterialSymbolsIconFont.IconDelete}"
+                                    ClickCommand="{Binding BindingContext.DeleteCommand, Source={Reference thisPage}}"
+                                />
+
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+
+    </Grid>
+
 </ContentPage>
