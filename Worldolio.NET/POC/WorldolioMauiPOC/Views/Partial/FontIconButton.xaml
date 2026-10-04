@@ -10,8 +10,8 @@
         Grid.Row="2" 
         StrokeShape="RoundRectangle 8"
         Padding="0"
-        WidthRequest="40"
-        HeightRequest="40"
+        WidthRequest="{Binding BorderSize, Source={x:Reference thisPartial}}"
+        HeightRequest="{Binding BorderSize, Source={x:Reference thisPartial}}"
         HorizontalOptions="Center"
         VerticalOptions="Center">
 
@@ -27,7 +27,7 @@
         <Label 
             Text="{Binding IconGlyph, Source={x:Reference thisPartial}}" 
             FontFamily="{Binding FontName, Source={x:Reference thisPartial}}" 
-            FontSize="30" 
+            FontSize="{Binding IconGlyphSize, Source={x:Reference thisPartial}}" 
             TextColor="{AppThemeBinding Light={StaticResource OffBlack},
                                             Dark={StaticResource White}}"
             VerticalTextAlignment="Center" 

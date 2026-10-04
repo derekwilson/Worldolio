@@ -49,6 +49,8 @@
                 Grid.Row="2" 
                 FontName="{x:Static utility:MaterialSymbolsIconFont.FontName}"
                 IconGlyph="{x:Static utility:MaterialSymbolsIconFont.IconArrowBack}"
+                IconGlyphSize="30"
+                BorderSize="40"
                 ClickCommand="{Binding BindingContext.LeftClickedCommand, Source={Reference thisPage}}"
             />
 
@@ -68,6 +70,8 @@
                 Grid.Row="2" 
                 FontName="{x:Static utility:MaterialSymbolsIconFont.FontName}"
                 IconGlyph="{x:Static utility:MaterialSymbolsIconFont.IconArrowForward}"
+                IconGlyphSize="30"
+                BorderSize="40"
                 ClickCommand="{Binding BindingContext.RightClickedCommand, Source={Reference thisPage}}"
             />
         </Grid>

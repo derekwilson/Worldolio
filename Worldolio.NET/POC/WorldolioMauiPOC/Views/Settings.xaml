@@ -100,6 +100,8 @@
                                     Grid.Column="1"
                                     FontName="{x:Static utility:MaterialSymbolsIconFont.FontName}"
                                     IconGlyph="{x:Static utility:MaterialSymbolsIconFont.IconDelete}"
+                                    IconGlyphSize="20"
+                                    BorderSize="25"
                                     ClickCommand="{Binding BindingContext.DeleteCommand, Source={Reference thisPage}}"
                                 />
 
