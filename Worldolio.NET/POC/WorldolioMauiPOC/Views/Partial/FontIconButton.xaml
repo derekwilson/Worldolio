@@ -21,6 +21,7 @@
                 PressedBackgroundColor="{StaticResource PrimaryLight}"
                 HoveredBackgroundColor="{StaticResource Gray100}"
                 Command="{Binding Source={x:Reference thisPartial}, Path= ClickCommand}"
+                CommandParameter="{Binding Source={x:Reference thisPartial}, Path= ClickCommandParameter}"
             />
         </Border.Behaviors>
 

@@ -81,5 +81,20 @@ namespace WorldolioMauiPOC.ViewModels.Settings
 
             _logger.Debug(() => $"SettingsViewModel cities = {Cities.Count}");
         }
+
+        // The [RelayCommand] automatically creates an 'DeleteItemCommand' for the XAML
+        [RelayCommand]
+        private async Task DeleteItemAsync(City selectedCity)
+        {
+            _logger.Debug(() => $"SettingsViewModel DeleteItemAsync");
+            if (selectedCity == null)
+            {
+                _logger.Warning(() => $"SettingsViewModel DeleteItemAsync - NULL selected item");
+                return;
+            }
+
+            _logger.Debug(() => $"SettingsViewModel DeleteItemAsync {selectedCity.DisplayName}");
+        }
+
     }
 }

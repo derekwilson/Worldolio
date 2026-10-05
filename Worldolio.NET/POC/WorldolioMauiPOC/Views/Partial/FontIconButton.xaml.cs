@@ -58,14 +58,26 @@ public partial class FontIconButton : ContentView
 
     public static readonly BindableProperty ClickCommandProperty =
             BindableProperty.Create(
-                nameof(ClickCommand), 
-                typeof(ICommand), 
+                nameof(ClickCommand),
+                typeof(ICommand),
                 typeof(FontIconButton));
 
     public ICommand ClickCommand
     {
         get => (ICommand)GetValue(ClickCommandProperty);
         set => SetValue(ClickCommandProperty, value);
+    }
+
+    public static readonly BindableProperty ClickCommandParameterProperty =
+            BindableProperty.Create(
+                nameof(ClickCommandParameter),
+                typeof(object),
+                typeof(FontIconButton));
+
+    public object ClickCommandParameter
+    {
+        get => (object)GetValue(ClickCommandParameterProperty);
+        set => SetValue(ClickCommandParameterProperty, value);
     }
 
     public FontIconButton()
