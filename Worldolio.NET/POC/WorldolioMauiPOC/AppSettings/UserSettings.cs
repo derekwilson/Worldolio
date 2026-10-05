@@ -13,6 +13,7 @@ namespace WorldolioMauiPOC.AppSettings
 
         bool CityIdsHaveBeenUpdatedSince(DateTime time);
         void AddCityId(long id);
+        void RemoveCityId(long id);
 
         double WindowWidth { get; set; }
         double WindowHeight { get; set;  }
@@ -146,6 +147,22 @@ namespace WorldolioMauiPOC.AppSettings
             _lastUpdateTime = _timeProvider.GetUtcNow();
             _logger.Debug(() => $"UserSettings AddCityId: last update {_lastUpdateTime}");
             Preferences.Default.Set(CITY_IDS_KEY, String.Join(',', _cities));
+        }
+
+        public void RemoveCityId(long id)
+        {
+            _logger.Debug(() => $"UserSettings RemoveCityId: {id}");
+            if (_cities.Contains(id))
+            {
+                _cities = _cities.Where(val => val != id).ToArray();
+                _lastUpdateTime = _timeProvider.GetUtcNow();
+                _logger.Debug(() => $"UserSettings RemoveCityId: last update {_lastUpdateTime}");
+                Preferences.Default.Set(CITY_IDS_KEY, String.Join(',', _cities));
+            }
+            else
+            {
+                _logger.Debug(() => $"UserSettings RemoveCityId: {id}, not present - ignored");
+            }
         }
     }
 }

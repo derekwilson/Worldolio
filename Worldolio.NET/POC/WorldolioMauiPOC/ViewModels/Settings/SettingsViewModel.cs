@@ -45,8 +45,6 @@ namespace WorldolioMauiPOC.ViewModels.Settings
             _systemTimeProvider = systemTimeProvider;
             _citiesRepository = citiesRepository;
 
-            CurrentSettingsCityIds = String.Join(',', _userSettings.Cities);
-
             ResetIds = new Command(() =>
             {
                 _logger.Debug(() => $"ResetIds");
@@ -71,9 +69,12 @@ namespace WorldolioMauiPOC.ViewModels.Settings
             {
                 _logger.Debug(() => $"SettingsViewModel InitAsync - refresh needed");
 
+                CurrentSettingsCityIds = String.Join(',', _userSettings.Cities);
+
                 var temp = await _citiesRepository.GetByIdsAsync(_userSettings.Cities);
                 Cities = new ObservableCollection<City>(temp);
 
+                OnPropertyChanged("CurrentSettingsCityIds");
                 OnPropertyChanged(nameof(Cities));
 
                 _lastRefreshTime = _systemTimeProvider.GetUtcNow();
@@ -94,6 +95,8 @@ namespace WorldolioMauiPOC.ViewModels.Settings
             }
 
             _logger.Debug(() => $"SettingsViewModel DeleteItemAsync {selectedCity.DisplayName}");
+            _userSettings.RemoveCityId(selectedCity.Id);
+            await InitAsync();
         }
 
     }
