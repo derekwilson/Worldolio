@@ -75,13 +75,13 @@ Done
 1. write instructions to update DB
 1. Implement add city from tapping the map display nearby cities
 1. Add ability to manipulate the the cities (Delete and reorder) to settings page
+1. Move Done buttons (About and Settings) to toolbar helper and out of the page XAML
 
 Todo
 
+1. resolve optimisation warnings in release builds
 1. stop reloading from the DB when the settings need to be refreshed, cache City model objects in settings, eliminate _citiesRepo.GetByIdsAsync
 1. align timer on the start of a minute
-1. splash screen not working on Android 16
-1. Move Done buttons (About and Settings) to toolbar helper and out of the page XAML
 1. get dark theme to work
 1. get edge to edge to work properly on Android - colour the top status bar text
 1. auto size font when window changes size

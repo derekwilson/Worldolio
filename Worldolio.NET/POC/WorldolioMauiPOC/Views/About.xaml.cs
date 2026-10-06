@@ -1,4 +1,5 @@
 using Worldolio.Data.Logging;
+using WorldolioMauiPOC.Utility;
 using WorldolioMauiPOC.ViewModels.About;
 
 namespace WorldolioMauiPOC.Views;
@@ -7,30 +8,19 @@ public partial class About : ContentPage
 {
     private ILogger _logger;
 
-    public About(AboutViewModel viewModel, ILogger logger)
+    public About(
+        AboutViewModel viewModel,
+        IToolbarHelper toolbarHelper,
+        ILogger logger)
     {
         logger.Debug(() => $"About init");
+        BindingContext = viewModel;
+
         InitializeComponent();
+
+        this.ToolbarItems.Add(toolbarHelper.CreateDoneButton());
 
         _logger = logger;
 
-#if WINDOWS
-        //AddBackButtonToToolbar(viewModel);
-#endif
-        BindingContext = viewModel;
-    }
-
-    private void AddBackButtonToToolbar(AboutViewModel viewModel)
-    {
-        var backButtonToolbarItem = new ToolbarItem()
-        {
-            Text = "Done",
-            IconImageSource = "arrow_back.png",
-            Order = ToolbarItemOrder.Primary,
-            Priority = 0,
-            Command = viewModel.NavigateBack
-        };
-        ToolbarItems.Insert(0, backButtonToolbarItem);
-        _logger.Debug(() => $"About Added back button to toolbar");
     }
 }

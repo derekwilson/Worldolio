@@ -56,11 +56,12 @@ namespace WorldolioMauiPOC.Utility
 
         private DateTime _lastClick = DateTime.MinValue;
 
-        private bool IsDoubleTap(int thresholdMs = 1000)
+        private bool IsDoubleTap(int thresholdMs = 700)
         {
             var now = _systemTimeProvider.GetUtcNow();
             if ((now - _lastClick).TotalMilliseconds < thresholdMs)
             {
+                _logger.Debug(() => $"IsDoubleTap {thresholdMs} - true");
                 return true;
             }
             _lastClick = now;
