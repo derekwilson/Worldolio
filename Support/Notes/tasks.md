@@ -74,6 +74,7 @@ Done
 1. Debounce Done/Close buttons on the About and Settings page as they crash on Android
 1. write instructions to update DB
 1. Implement add city from tapping the map display nearby cities
+1. Add ability to manipulate the the cities (Delete and reorder) to settings page
 
 Todo
 

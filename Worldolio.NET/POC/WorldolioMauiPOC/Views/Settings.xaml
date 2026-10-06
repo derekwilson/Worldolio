@@ -20,12 +20,14 @@
         />
     </Shell.BackButtonBehavior>
 
+
     <Grid 
         RowDefinitions="Auto, *"
         >
 
         <Grid   
             Padding="5"  
+            IsVisible="{Binding IsBusy, Converter={toolkit:InvertedBoolConverter}}"
             ColumnDefinitions="Auto, *, Auto"  
             RowDefinitions="Auto, Auto">
 
@@ -58,8 +60,15 @@
 
         </Grid>
 
+        <ActivityIndicator 
+            Grid.Row="1"
+            IsRunning="{Binding IsBusy}" 
+            HeightRequest="30"
+            />
+
         <Grid
             Grid.Row="1"
+            IsVisible="{Binding IsBusy, Converter={toolkit:InvertedBoolConverter}}"
             Padding="5"  
             ColumnDefinitions="*"  
             RowDefinitions="*">
