@@ -107,8 +107,7 @@ namespace WorldolioMauiPOC.Utility
                 _resourceProvider.GetResource<Color>("White", Colors.White),        // Dark Theme Color
                 new Command(async () =>
                 {
-                    var page = await _navigationHelper.ExecuteModalNavigationWithDebounceAsync<Views.About>(false);
-                    (page?.BindingContext as AboutViewModel)?.Parameter = "Param #2";
+                    await _navigationHelper.ExecuteModalNavigationWithDebounceAsync<Views.About>(false);
                 })
             );
             toolbarItems.Add(aboutItem);

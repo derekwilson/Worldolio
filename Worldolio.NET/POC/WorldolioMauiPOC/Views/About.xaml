@@ -103,15 +103,6 @@
                 </Label.FormattedText>
             </Label>
 
-            <Label>
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Parameter: " TextColor="Gray" />
-                        <Span Text="{Binding Parameter}" FontAttributes="Bold" />
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
-
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

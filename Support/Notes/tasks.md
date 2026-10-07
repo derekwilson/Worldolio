@@ -76,17 +76,19 @@ Done
 1. Implement add city from tapping the map display nearby cities
 1. Add ability to manipulate the the cities (Delete and reorder) to settings page
 1. Move Done buttons (About and Settings) to toolbar helper and out of the page XAML
+1. get dark theme to work
+1. custom selection lists
 
 Todo
 
 1. align timer on the start of a minute
-1. get dark theme to work
+1. get render to work when switching between dark and light mode
 1. get edge to edge to work properly on Android - colour the top status bar text
 1. auto size font when window changes size
 1. get analytics to work
-1. custom selection lists
 1. show when an item is in daylight
 1. write details page for selected city
+1. write add city by country page
 1. keyboard support on Windows - select item from grid using enter
 1. keyboard support on Android
 1. revisit if we can do DI into the ContentPage from TabbedPage in XAML
