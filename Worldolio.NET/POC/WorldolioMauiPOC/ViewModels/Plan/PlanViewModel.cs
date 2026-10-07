@@ -158,7 +158,9 @@ namespace WorldolioMauiPOC.ViewModels.Plan
                 Cities.Clear();
                 foreach (City city in temp)
                 {
-                    Cities.Add(new CityViewModel(city, home, GetNow(), _currentInDayTimeFormat, _currentWithDayTimeFormat));
+                    var model = new CityViewModel(city, home);
+                    model.Update(GetNow(), _currentInDayTimeFormat, _currentWithDayTimeFormat);
+                    Cities.Add(model);
                 }
 
                 _lastRefreshTime = _systemTimeProvider.GetUtcNow();

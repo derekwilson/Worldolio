@@ -80,7 +80,8 @@ Done
 Todo
 
 1. resolve optimisation warnings in release builds
-1. stop reloading from the DB when the settings need to be refreshed, cache City model objects in settings, eliminate _citiesRepo.GetByIdsAsync
+1. In settings page the operations should act on the ObservableCollection and then it be saved to settings, not the other way around
+1. stop reloading from the DB when the usersettings need to be refreshed, cache City model objects in usersettings, eliminate _citiesRepo.GetByIdsAsync
 1. align timer on the start of a minute
 1. get dark theme to work
 1. get edge to edge to work properly on Android - colour the top status bar text

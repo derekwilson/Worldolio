@@ -90,8 +90,8 @@
                             Style="{StaticResource Border.DataTemplate}"
                             >
                             <Grid   
-                                Padding="5"  
-                                ColumnDefinitions="*, Auto"  
+                                Padding="5"
+                                ColumnDefinitions="*, Auto, Auto"  
                                 RowDefinitions="Auto"
                                 >
 
@@ -100,15 +100,27 @@
                                     >
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="{Binding DisplayName}" FontAttributes="Bold" />
+                                            <Span Text="{Binding CityName}" FontAttributes="Bold" />
                                             <Span Text=", "/>
-                                            <Span Text="{Binding Country.DisplayName}" />
+                                            <Span Text="{Binding CountryName}" />
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
 
                                 <partial:FontIconButton
                                     Grid.Column="1"
+                                    IsVisible="{Binding Source={x:Reference itemContainer}, Path=BindingContext.IsHome, Converter={toolkit:InvertedBoolConverter}}"
+                                    FontName="{x:Static utility:MaterialSymbolsIconFont.FontName}"
+                                    IconGlyph="{x:Static utility:MaterialSymbolsIconFont.IconArrowUp}"
+                                    IconGlyphSize="20"
+                                    BorderSize="25"
+                                    ClickCommand="{Binding Source={x:Reference citiesCollection}, Path=BindingContext.MoveItemTopCommand}"
+                                    ClickCommandParameter="{Binding Source={x:Reference itemContainer}, Path=BindingContext}"
+                                />
+
+                                <partial:FontIconButton
+                                    Grid.Column="2"
+                                    Padding="15,0,0,0"
                                     FontName="{x:Static utility:MaterialSymbolsIconFont.FontName}"
                                     IconGlyph="{x:Static utility:MaterialSymbolsIconFont.IconDelete}"
                                     IconGlyphSize="20"

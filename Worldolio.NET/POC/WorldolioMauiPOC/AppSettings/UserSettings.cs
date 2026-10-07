@@ -14,6 +14,7 @@ namespace WorldolioMauiPOC.AppSettings
         bool CityIdsHaveBeenUpdatedSince(DateTime time);
         void AddCityId(long id);
         void RemoveCityId(long id);
+        void MoveCityIdToTop(long id);
 
         double WindowWidth { get; set; }
         double WindowHeight { get; set;  }
@@ -162,6 +163,23 @@ namespace WorldolioMauiPOC.AppSettings
             else
             {
                 _logger.Debug(() => $"UserSettings RemoveCityId: {id}, not present - ignored");
+            }
+        }
+
+        public void MoveCityIdToTop(long id)
+        {
+            _logger.Debug(() => $"UserSettings MoveCityIdToTop: {id}");
+            if (_cities.Contains(id))
+            {
+                var _citiesWithoutId = _cities.Where(val => val != id).ToArray();
+                _cities = [id, .._citiesWithoutId];
+                _lastUpdateTime = _timeProvider.GetUtcNow();
+                _logger.Debug(() => $"UserSettings MoveCityIdToTop: last update {_lastUpdateTime}");
+                Preferences.Default.Set(CITY_IDS_KEY, String.Join(',', _cities));
+            }
+            else
+            {
+                _logger.Debug(() => $"UserSettings MoveCityIdToTop: {id}, not present - ignored");
             }
         }
     }

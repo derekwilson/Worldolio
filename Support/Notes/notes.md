@@ -321,6 +321,11 @@ Command data binding using the community toolkit
         }
 
 
+Draggable collection
+
+https://learnmobiledevelopment.com/index.php/2023/01/14/drag-and-drop-gesture-to-collectionview/
+
+
 
 release build warnings
 

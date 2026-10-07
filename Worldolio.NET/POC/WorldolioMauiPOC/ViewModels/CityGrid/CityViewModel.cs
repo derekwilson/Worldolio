@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using Worldolio.Data.Exceptions;
 using Worldolio.Data.Model;
 using WorldolioMauiPOC.Utility;
 
@@ -11,24 +10,34 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
             ?? Colors.Red
             ;
 
-        public Color ItemBackgroundColor
+        public bool IsHome
         {
             get
             {
                 if (_homeCity == null || _homeCity.Id != _city.Id)
                 {
-                    // most rows
-                    if (Application.Current?.RequestedTheme == AppTheme.Dark)
-                    {
-                        return Colors.Black;
-                    }
-                    return Colors.White;
+                    return false;
                 }
-                else
+                return true;
+            }
+        }
+
+        public Color ItemBackgroundColor
+        {
+            get
+            {
+                if (IsHome)
                 {
                     // the home city row
                     return _homeColour;
                 }
+
+                // most rows will not be home
+                if (Application.Current?.RequestedTheme == AppTheme.Dark)
+                {
+                    return Colors.Black;
+                }
+                return Colors.White;
             }
         }
 
@@ -67,6 +76,14 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
             }
         }
 
+        public City City
+        {
+            get
+            {
+                return _city;
+            }
+        }
+
         public string DSTDates => _city?.TimeZone?.GetDSTDatesForDisplay(_now) ?? "UNKNOWN";
 
         public string Sunrise => _city.GetSunrise(_now, _inDayTimeFormat);
@@ -75,9 +92,9 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
         public string Moonrise => _city.GetMoonrise(_now, _withDayTimeFormat);
         public string Moonset => _city.GetMoonset(_now, _withDayTimeFormat);
 
-        private DateTime _now;
-        private ITimeZone.TimeFormat _inDayTimeFormat;
-        private ITimeZone.TimeFormat _withDayTimeFormat;
+        private DateTime _now = DateTime.MinValue;
+        private ITimeZone.TimeFormat _inDayTimeFormat = ITimeZone.TimeFormat.TIME_SHORT_AMPM;
+        private ITimeZone.TimeFormat _withDayTimeFormat = ITimeZone.TimeFormat.DAY_TIME_SHORT_AMPM;
         private City _city;
         private City? _homeCity;
 
@@ -85,13 +102,10 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
         protected void OnPropertyChanged(string name) =>
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-        public CityViewModel(City city, City? homeCity, DateTime now, ITimeZone.TimeFormat inDayTimeFormat, ITimeZone.TimeFormat withDayTimeFormat)
+        public CityViewModel(City city, City? homeCity)
         {
             _city = city;
             _homeCity = homeCity;
-            _now = now;
-            _inDayTimeFormat = inDayTimeFormat;
-            _withDayTimeFormat = withDayTimeFormat;
         }
 
         public void Update(DateTime now, ITimeZone.TimeFormat inDayTimeFormat, ITimeZone.TimeFormat withDayTimeFormat)

@@ -87,7 +87,9 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
                 Cities.Clear();
                 foreach (City city in temp)
                 {
-                    Cities.Add(new CityViewModel(city, home, _currentNow, _currentInDayTimeFormat, _currentWithDayTimeFormat));
+                    var model = new CityViewModel(city, home);
+                    model.Update(_currentNow, _currentInDayTimeFormat, _currentWithDayTimeFormat);
+                    Cities.Add(model);
                 }
 
                 NumberOfCities = Cities.Count.ToString();
