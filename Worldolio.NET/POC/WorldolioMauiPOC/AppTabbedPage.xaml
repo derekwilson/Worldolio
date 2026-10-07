@@ -5,13 +5,12 @@
             xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
             android:TabbedPage.IsSwipePagingEnabled="True"
             android:TabbedPage.ToolbarPlacement="Top"
-            BarBackgroundColor="{StaticResource White}"   
-            SelectedTabColor="{StaticResource Primary}"
-            UnselectedTabColor="{AppThemeBinding Light={StaticResource OffBlack},
-                                                     Dark={StaticResource White}}"
+            BarBackgroundColor="{AppThemeBinding Light={StaticResource White},Dark={StaticResource OffBlack}}"
+            SelectedTabColor="{AppThemeBinding Light={StaticResource Primary},Dark={StaticResource PrimaryDark}}"
+            UnselectedTabColor="{AppThemeBinding Light={StaticResource OffBlack},Dark={StaticResource White}}"
             x:Class="WorldolioMauiPOC.AppTabbedPage">
 
-<!-- we would like to do the following, but I cannot work out how to do DI for the page views
+<!-- we would like to do the following, but I cannot work out how to do DI for the page views instantiated in XAML, so its done in the code behind
     <NavigationPage Title="Home">
         <NavigationPage.IconImageSource>
             <FontImageSource 

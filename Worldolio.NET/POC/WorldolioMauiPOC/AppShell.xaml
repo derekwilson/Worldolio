@@ -7,9 +7,12 @@
     xmlns:utility="clr-namespace:WorldolioMauiPOC.Utility"
     Shell.FlyoutBehavior="Disabled"
     
-    Shell.TabBarBackgroundColor="{StaticResource White}"   
-    Shell.TabBarForegroundColor="{StaticResource Primary}"
-    Shell.TabBarTitleColor="{StaticResource Primary}"
+    Shell.TabBarBackgroundColor="{AppThemeBinding Light={StaticResource White},
+                                        Dark={StaticResource OffBlack}}"
+    Shell.TabBarForegroundColor="{AppThemeBinding Light={StaticResource Primary},
+                                        Dark={StaticResource PrimaryDark}}"
+    Shell.TabBarTitleColor="{AppThemeBinding Light={StaticResource Primary},
+                                        Dark={StaticResource PrimaryDark}}"
     Shell.TabBarUnselectedColor="{AppThemeBinding Light={StaticResource OffBlack},
                                         Dark={StaticResource White}}"
     

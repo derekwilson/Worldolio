@@ -16,10 +16,11 @@
         VerticalOptions="Center">
 
         <Border.Behaviors>
+            <!-- we set the background dynamically here so do not set it statically on the Border or the Label -->
             <toolkit:TouchBehavior
-                DefaultBackgroundColor="{StaticResource White}"
+                DefaultBackgroundColor="{AppThemeBinding Light={StaticResource White},Dark={StaticResource OffBlack}}"
                 PressedBackgroundColor="{StaticResource PrimaryLight}"
-                HoveredBackgroundColor="{StaticResource Gray100}"
+                HoveredBackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray500}}"
                 Command="{Binding Source={x:Reference thisPartial}, Path= ClickCommand}"
                 CommandParameter="{Binding Source={x:Reference thisPartial}, Path= ClickCommandParameter}"
             />

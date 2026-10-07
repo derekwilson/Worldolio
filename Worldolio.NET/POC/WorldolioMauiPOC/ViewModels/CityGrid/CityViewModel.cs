@@ -6,7 +6,10 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
 {
     public class CityViewModel : INotifyPropertyChanged
     {
-        private Color _homeColour = Application.Current?.Resources.GetResource<Color>("PrimaryExtraLight", Colors.Red)
+        private Color _homeColourLightMode = Application.Current?.Resources.GetResource<Color>("PrimaryExtraLight", Colors.Red)
+            ?? Colors.Red
+            ;
+        private Color _homeColourDarkMode = Application.Current?.Resources.GetResource<Color>("Primary", Colors.Red)
             ?? Colors.Red
             ;
 
@@ -29,7 +32,11 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
                 if (IsHome)
                 {
                     // the home city row
-                    return _homeColour;
+                    if (Application.Current?.RequestedTheme == AppTheme.Dark)
+                    {
+                        return _homeColourDarkMode;
+                    }
+                    return _homeColourLightMode;
                 }
 
                 // most rows will not be home
