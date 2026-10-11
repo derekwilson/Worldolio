@@ -147,7 +147,9 @@
 	</ItemGroup>
 
 	<!-- get the current git hash for use in code -->
-	<Target Name="GetGitHash" BeforeTargets="BeforeBuild">
+	<!-- get the timestamp of the db for use in code -->
+	<Target Name="GetBuildInfo" BeforeTargets="BeforeBuild">
+		<!-- git hash -->
 		<Exec Command="git rev-parse --short HEAD" ConsoleToMSBuild="true" StandardOutputImportance="Low">
 			<Output TaskParameter="ConsoleOutput" PropertyName="GitCommitHash" />
 		</Exec>
@@ -157,11 +159,18 @@
 			<GitCommitHash Condition="'$(GitCommitHash)' == ''">UNKNOWN</GitCommitHash>
 		</PropertyGroup>
 
+		<!-- timestamp of db and build -->
+		<PropertyGroup>
+			<ResourceFilePath>Resources/Raw/worldolio.sqlite</ResourceFilePath>
+			<ResourceTimestamp>$([System.IO.File]::GetLastWriteTime('$(ResourceFilePath)').ToString('yyyy-MM-ddTHH:mm:ssK'))</ResourceTimestamp>
+			<BuildTimestamp>$([System.DateTime]::UtcNow.ToString('yyyy-MM-ddTHH:mm:ssK'))</BuildTimestamp>
+		</PropertyGroup>
+
 		<!-- Write the hash into a temporary C# file compiled with the app -->
-		<WriteLinesToFile File="$(IntermediateOutputPath)GitInfo.g.cs" Lines="namespace WorldolioMauiPOC { public static class GitInfo { public const string Hash = &quot;$(GitCommitHash)&quot; %3b}}" Overwrite="true" Encoding="UTF-8" />
+		<WriteLinesToFile File="$(IntermediateOutputPath)BuildInfo.g.cs" Lines="namespace WorldolioMauiPOC { public static class BuildInfo { public const string GitHash = &quot;$(GitCommitHash)&quot; %3b public const string DbTimestamp = &quot;$(ResourceTimestamp)&quot; %3b public const string BuildTimestamp = &quot;$(BuildTimestamp)&quot; %3b }}" Overwrite="true" Encoding="UTF-8" />
 
 		<ItemGroup>
-			<Compile Include="$(IntermediateOutputPath)GitInfo.g.cs" />
+			<Compile Include="$(IntermediateOutputPath)BuildInfo.g.cs" />
 		</ItemGroup>
 	</Target>
 </Project>

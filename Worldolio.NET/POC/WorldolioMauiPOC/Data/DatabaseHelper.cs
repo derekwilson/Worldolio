@@ -6,6 +6,13 @@ namespace WorldolioMauiPOC.Data
     {
         const string RESOURCE_DB_NAME = "worldolio.sqlite";
 
+        // this is the timestamp of the sqlite file in the resource bundle
+        // we get it as a build task when the app is compiled
+        static public string GetDbResourceTimestamp()
+        {
+            return BuildInfo.DbTimestamp;
+        }
+
         static public string GetDatabaseFilePath()
         {
 #if WINDOWS

@@ -16,6 +16,8 @@ namespace WorldolioMauiPOC.Utility
         string GetPackageName();
         string GetLogfileLocation();
         string GetIanaTzDatabaseVersion();
+        string GetDatabaseResourceTimestamp();
+        string GetBuildTimestamp();
     }
 
     public class EnvironmentInformationProvider : IEnvironmentInformationProvider
@@ -51,15 +53,24 @@ namespace WorldolioMauiPOC.Utility
 #endif
         }
 
+        public string GetBuildTimestamp()
+        {
+            return BuildInfo.BuildTimestamp;
+        }
+
         private string GetGitHash()
         {
-            //return "UNKNOWN";
-            return GitInfo.Hash;
+            return BuildInfo.GitHash;
         }
 
         public string GetDatabasePath()
         {
             return Data.DatabaseHelper.GetDatabaseFilePath();
+        }
+
+        public string GetDatabaseResourceTimestamp()
+        {
+            return Data.DatabaseHelper.GetDbResourceTimestamp();
         }
 
         public string GetIanaTzDatabaseVersion()

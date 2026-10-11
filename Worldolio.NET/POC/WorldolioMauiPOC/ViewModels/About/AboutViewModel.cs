@@ -13,9 +13,11 @@ namespace WorldolioMauiPOC.ViewModels.About
         public bool Loading { get; set; } = false;
 
         public string AppVersion { get; set; } = "";
+        public string BuildTimestamp { get; set; } = "";
         public string DotNetVersion { get; set; } = "";
         public string MauiVersion { get; set; } = "";
         public string Package { get; set; } = "";
+        public string DBTimestamp { get; set; } = "";
         public string DBVersion { get; set; } = "";
         public string DBPath { get; set; } = "";
         public string LoggingPath { get; set; } = "";
@@ -56,6 +58,9 @@ namespace WorldolioMauiPOC.ViewModels.About
                 AppVersion = _environmentInformationProvider.GetAppVersion();
                 OnPropertyChanged(nameof(AppVersion));
 
+                BuildTimestamp = _environmentInformationProvider.GetBuildTimestamp();
+                OnPropertyChanged(nameof(BuildTimestamp));
+
                 DotNetVersion = _environmentInformationProvider.GetDotNetVersion();
                 OnPropertyChanged(nameof(DotNetVersion));
 
@@ -70,6 +75,9 @@ namespace WorldolioMauiPOC.ViewModels.About
                 var dbDate = sra.FirstOrDefault()?.Timestamp.ToString();
                 DBVersion = $"Schema: {versions.Item2}, {dbDate}";
                 OnPropertyChanged(nameof(DBVersion));
+
+                DBTimestamp = _environmentInformationProvider.GetDatabaseResourceTimestamp();
+                OnPropertyChanged(nameof(DBTimestamp));
 
                 DBPath = _environmentInformationProvider.GetDatabasePath();
                 OnPropertyChanged(nameof(DBPath));

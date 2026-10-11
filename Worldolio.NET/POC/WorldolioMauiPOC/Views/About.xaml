@@ -43,6 +43,15 @@
             <Label>
                 <Label.FormattedText>
                     <FormattedString>
+                        <Span Text="Build Timestamp: " TextColor="Gray" />
+                        <Span Text="{Binding BuildTimestamp}" FontAttributes="Bold" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
                         <Span Text=".NET Version: " TextColor="Gray" />
                         <Span Text="{Binding DotNetVersion}" FontAttributes="Bold" />
                     </FormattedString>
@@ -63,6 +72,15 @@
                     <FormattedString>
                         <Span Text="Package: " TextColor="Gray" />
                         <Span Text="{Binding Package}" FontAttributes="Bold" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="DB Resource Timestamp: " TextColor="Gray" />
+                        <Span Text="{Binding DBTimestamp}" FontAttributes="Bold" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
