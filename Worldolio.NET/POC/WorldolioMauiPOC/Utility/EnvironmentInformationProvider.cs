@@ -17,6 +17,7 @@ namespace WorldolioMauiPOC.Utility
         string GetLogfileLocation();
         string GetIanaTzDatabaseVersion();
         string GetDatabaseResourceTimestamp();
+        string GetDatabaseFileTimestamp();
         string GetBuildTimestamp();
     }
 
@@ -70,7 +71,12 @@ namespace WorldolioMauiPOC.Utility
 
         public string GetDatabaseResourceTimestamp()
         {
-            return Data.DatabaseHelper.GetDbResourceTimestamp();
+            return Data.DatabaseHelper.GetDbResourceTimestampUtcAsString();
+        }
+
+        public string GetDatabaseFileTimestamp()
+        {
+            return Data.DatabaseHelper.GetDbFileCreatedDateTimeUtcAsString();
         }
 
         public string GetIanaTzDatabaseVersion()

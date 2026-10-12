@@ -162,7 +162,7 @@
 		<!-- timestamp of db and build -->
 		<PropertyGroup>
 			<ResourceFilePath>Resources/Raw/worldolio.sqlite</ResourceFilePath>
-			<ResourceTimestamp>$([System.IO.File]::GetLastWriteTime('$(ResourceFilePath)').ToString('yyyy-MM-ddTHH:mm:ssK'))</ResourceTimestamp>
+			<ResourceTimestamp>$([System.IO.File]::GetLastWriteTimeUtc('$(ResourceFilePath)').ToString('yyyy-MM-ddTHH:mm:ssK'))</ResourceTimestamp>
 			<BuildTimestamp>$([System.DateTime]::UtcNow.ToString('yyyy-MM-ddTHH:mm:ssK'))</BuildTimestamp>
 		</PropertyGroup>
 

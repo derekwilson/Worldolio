@@ -18,6 +18,7 @@ namespace WorldolioMauiPOC.ViewModels.About
         public string MauiVersion { get; set; } = "";
         public string Package { get; set; } = "";
         public string DBTimestamp { get; set; } = "";
+        public string DBFileTimestamp { get; set; } = "";
         public string DBVersion { get; set; } = "";
         public string DBPath { get; set; } = "";
         public string LoggingPath { get; set; } = "";
@@ -78,6 +79,9 @@ namespace WorldolioMauiPOC.ViewModels.About
 
                 DBTimestamp = _environmentInformationProvider.GetDatabaseResourceTimestamp();
                 OnPropertyChanged(nameof(DBTimestamp));
+
+                DBFileTimestamp = _environmentInformationProvider.GetDatabaseFileTimestamp();
+                OnPropertyChanged(nameof(DBFileTimestamp));
 
                 DBPath = _environmentInformationProvider.GetDatabasePath();
                 OnPropertyChanged(nameof(DBPath));

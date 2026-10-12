@@ -79,6 +79,15 @@
             <Label>
                 <Label.FormattedText>
                     <FormattedString>
+                        <Span Text="Timezone Data Version: " TextColor="Gray" />
+                        <Span Text="{Binding TzDbVersion}" FontAttributes="Bold" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
                         <Span Text="DB Resource Timestamp: " TextColor="Gray" />
                         <Span Text="{Binding DBTimestamp}" FontAttributes="Bold" />
                     </FormattedString>
@@ -88,8 +97,8 @@
             <Label>
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="DB Version: " TextColor="Gray" />
-                        <Span Text="{Binding DBVersion}" FontAttributes="Bold" />
+                        <Span Text="DB File Timestamp: " TextColor="Gray" />
+                        <Span Text="{Binding DBFileTimestamp}" FontAttributes="Bold" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
@@ -97,8 +106,8 @@
             <Label>
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="Timezone Data Version: " TextColor="Gray" />
-                        <Span Text="{Binding TzDbVersion}" FontAttributes="Bold" />
+                        <Span Text="DB Version: " TextColor="Gray" />
+                        <Span Text="{Binding DBVersion}" FontAttributes="Bold" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
