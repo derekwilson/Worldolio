@@ -18,6 +18,8 @@ namespace WorldolioMauiPOC.AppSettings
 
         double WindowWidth { get; set; }
         double WindowHeight { get; set;  }
+
+        string LastDbCopiedTimestamp { get; set;  }
     }
 
     public class UserSettings : IUserSettings
@@ -28,9 +30,11 @@ namespace WorldolioMauiPOC.AppSettings
         private const string CITY_IDS_KEY = "city_ids";
         private const string WINDOW_WIDTH_KEY = "window_width";
         private const string WINDOW_HEIGHT_KEY = "window_height";
+        private const string LAST_DB_COPIED_TIMESTAMP_KEY = "db_timestamp";
 
         private const double DEFAULT_WINDOW_WIDTH = 700;
         private const double DEFAULT_WINDOW_HEIGHT = 700;
+        private const string DEFAULT_DB_TIMESTAMP = "NOT SET";
 
         public UserSettings(ILogger logger, ISystemTimeProvider timeProvider)
         {
@@ -38,7 +42,7 @@ namespace WorldolioMauiPOC.AppSettings
             _timeProvider = timeProvider;
 
             logger.Debug(() => $"UserSettings init:");
-            LoadWindowDimentions();
+            LoadOtherSettings();
             string cityIdsFromPrefs = Preferences.Default.Get(CITY_IDS_KEY, String.Join(',', _defaultcities));
             SetCityIdsFromString(cityIdsFromPrefs, false);
             logger.Debug(() => $"UserSettings init: Window w {_windowWidth}, h {_windowHeight}");
@@ -49,8 +53,6 @@ namespace WorldolioMauiPOC.AppSettings
         private long[] _defaultcities = [458, 252, 477, 324, 79, 320, 279];
         private long[] _cities = [];
         private DateTime _lastUpdateTime = DateTime.MinValue;
-        private double _windowWidth = DEFAULT_WINDOW_WIDTH;
-        private double _windowHeight = DEFAULT_WINDOW_HEIGHT;
 
         public long[] DefaultCities
         {
@@ -68,6 +70,22 @@ namespace WorldolioMauiPOC.AppSettings
             }
         }
 
+        private string _lastDbCopiedTimestamp = DEFAULT_DB_TIMESTAMP;
+        public string LastDbCopiedTimestamp
+        {
+            get
+            {
+                return _lastDbCopiedTimestamp;
+            }
+            set
+            {
+                _lastDbCopiedTimestamp = value;
+                Preferences.Default.Set(LAST_DB_COPIED_TIMESTAMP_KEY, _lastDbCopiedTimestamp);
+            }
+        }
+
+        private double _windowWidth = DEFAULT_WINDOW_WIDTH;
+        private double _windowHeight = DEFAULT_WINDOW_HEIGHT;
         public double WindowWidth
         {
             get
@@ -94,10 +112,11 @@ namespace WorldolioMauiPOC.AppSettings
             }
         }
 
-        private void LoadWindowDimentions()
+        private void LoadOtherSettings()
         {
             _windowWidth = Preferences.Default.Get(WINDOW_WIDTH_KEY, DEFAULT_WINDOW_WIDTH);
             _windowHeight = Preferences.Default.Get(WINDOW_HEIGHT_KEY, DEFAULT_WINDOW_HEIGHT);
+            _lastDbCopiedTimestamp = Preferences.Default.Get(LAST_DB_COPIED_TIMESTAMP_KEY, DEFAULT_DB_TIMESTAMP);
         }
 
         public void SetCityIdsFromString(string ids, bool store)

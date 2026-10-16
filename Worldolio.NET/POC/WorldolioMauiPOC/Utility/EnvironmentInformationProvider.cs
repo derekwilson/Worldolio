@@ -12,12 +12,9 @@ namespace WorldolioMauiPOC.Utility
         string GetAppVersion();
         string GetDotNetVersion();
         string GetMauiVersion();
-        string GetDatabasePath();
         string GetPackageName();
         string GetLogfileLocation();
         string GetIanaTzDatabaseVersion();
-        string GetDatabaseResourceTimestamp();
-        string GetDatabaseFileTimestamp();
         string GetBuildTimestamp();
     }
 
@@ -62,21 +59,6 @@ namespace WorldolioMauiPOC.Utility
         private string GetGitHash()
         {
             return BuildInfo.GitHash;
-        }
-
-        public string GetDatabasePath()
-        {
-            return Data.DatabaseHelper.GetDatabaseFilePath();
-        }
-
-        public string GetDatabaseResourceTimestamp()
-        {
-            return Data.DatabaseHelper.GetDbResourceTimestampUtcAsString();
-        }
-
-        public string GetDatabaseFileTimestamp()
-        {
-            return Data.DatabaseHelper.GetDbFileCreatedDateTimeUtcAsString();
         }
 
         public string GetIanaTzDatabaseVersion()

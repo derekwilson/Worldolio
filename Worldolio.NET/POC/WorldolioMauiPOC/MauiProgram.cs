@@ -110,6 +110,7 @@ namespace WorldolioMauiPOC
             builder.Services.AddSingleton<ICrashReporter, SentryCrashReporter>();
             builder.Services.AddSingleton<IResourceProvider, ResourceProvider>();
             builder.Services.AddSingleton<IEnvironmentInformationProvider, EnvironmentInformationProvider>();
+            builder.Services.AddSingleton<IDatabaseHelper, DatabaseHelper>();
             builder.Services.AddSingleton<INavigationHelper, NavigationHelper>();
             builder.Services.AddSingleton<IDialogHelper, DialogHelper>();
             builder.Services.AddSingleton<IToolbarHelper, ToolbarHelper>();
@@ -134,10 +135,6 @@ namespace WorldolioMauiPOC
             builder.Services.AddTransient<Settings>();
             builder.Services.AddTransient<AddCityViewModel>();
             builder.Services.AddTransient<AddCity>();
-
-            // database init
-            DapperExtensions.AttachMappers();
-            DatabaseHelper.CopyDatabaseToFileSystem(_logger, DatabaseHelper.GetDatabaseFilePath());
 
             var app = builder.Build();
             MauiProgram.Services = app.Services;

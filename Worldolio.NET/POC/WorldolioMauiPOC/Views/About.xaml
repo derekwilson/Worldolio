@@ -89,7 +89,16 @@
                 <Label.FormattedText>
                     <FormattedString>
                         <Span Text="DB Resource Timestamp: " TextColor="Gray" />
-                        <Span Text="{Binding DBTimestamp}" FontAttributes="Bold" />
+                        <Span Text="{Binding DBResourceTimestamp}" FontAttributes="Bold" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="DB Last Copied Timestamp: " TextColor="Gray" />
+                        <Span Text="{Binding DBLastCopiedTimestamp}" FontAttributes="Bold" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>

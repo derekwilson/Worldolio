@@ -3,6 +3,8 @@ using System.ComponentModel;
 using System.Windows.Input;
 using Worldolio.Data.Logging;
 using Worldolio.Data.Repository;
+using WorldolioMauiPOC.AppSettings;
+using WorldolioMauiPOC.Data;
 using WorldolioMauiPOC.Utility;
 
 namespace WorldolioMauiPOC.ViewModels.About
@@ -17,8 +19,10 @@ namespace WorldolioMauiPOC.ViewModels.About
         public string DotNetVersion { get; set; } = "";
         public string MauiVersion { get; set; } = "";
         public string Package { get; set; } = "";
-        public string DBTimestamp { get; set; } = "";
+        public string DBResourceTimestamp { get; set; } = "";
+        public string DBLastCopiedTimestamp { get; set; } = "";
         public string DBFileTimestamp { get; set; } = "";
+        public string DBCopiedTimestamp { get; set; } = "";
         public string DBVersion { get; set; } = "";
         public string DBPath { get; set; } = "";
         public string LoggingPath { get; set; } = "";
@@ -31,12 +35,21 @@ namespace WorldolioMauiPOC.ViewModels.About
         private IEnvironmentInformationProvider _environmentInformationProvider;
         private INavigationHelper _navigationHelper;
         private ICrashReporter _crashReporter;
+        private IDatabaseHelper _databaseHelper;
+        private IUserSettings _userSettings;
 
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged(string name) =>
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-        public AboutViewModel(ILogger logger, IEnvironmentInformationProvider environmentInformationProvider, ISchemaRevisionAuditRepository sraRepository, INavigationHelper navigationHelper, ICrashReporter crashReporter)
+        public AboutViewModel(
+            ILogger logger,
+            IEnvironmentInformationProvider environmentInformationProvider,
+            ISchemaRevisionAuditRepository sraRepository,
+            INavigationHelper navigationHelper,
+            ICrashReporter crashReporter,
+            IDatabaseHelper databaseHelper,
+            IUserSettings userSettings)
         {
             logger.Debug(() => $"AboutViewModel init");
 
@@ -45,8 +58,10 @@ namespace WorldolioMauiPOC.ViewModels.About
             _sraRepository = sraRepository;
             _navigationHelper = navigationHelper;
             _crashReporter = crashReporter;
+            _databaseHelper = databaseHelper;
 
             NavigateBack = new Command(async () => await _navigationHelper.ExecuteModalNavigationBackWithDebounceAsync());
+            _userSettings = userSettings;
         }
 
         [RelayCommand]
@@ -77,13 +92,16 @@ namespace WorldolioMauiPOC.ViewModels.About
                 DBVersion = $"Schema: {versions.Item2}, {dbDate}";
                 OnPropertyChanged(nameof(DBVersion));
 
-                DBTimestamp = _environmentInformationProvider.GetDatabaseResourceTimestamp();
-                OnPropertyChanged(nameof(DBTimestamp));
+                DBResourceTimestamp = _databaseHelper.GetDbResourceTimestampUtcAsString();
+                OnPropertyChanged(nameof(DBResourceTimestamp));
 
-                DBFileTimestamp = _environmentInformationProvider.GetDatabaseFileTimestamp();
+                DBFileTimestamp = _databaseHelper.GetDbFileCreatedDateTimeUtcAsString();
                 OnPropertyChanged(nameof(DBFileTimestamp));
 
-                DBPath = _environmentInformationProvider.GetDatabasePath();
+                DBLastCopiedTimestamp = _userSettings.LastDbCopiedTimestamp;
+                OnPropertyChanged(nameof(DBLastCopiedTimestamp));
+
+                DBPath = DatabaseHelper.GetDatabaseFilePath();
                 OnPropertyChanged(nameof(DBPath));
 
                 LoggingPath = _environmentInformationProvider.GetLogfileLocation();

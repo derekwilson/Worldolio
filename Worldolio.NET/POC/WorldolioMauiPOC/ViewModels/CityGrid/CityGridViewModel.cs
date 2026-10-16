@@ -6,6 +6,7 @@ using Worldolio.Data.Model;
 using Worldolio.Data.Repository;
 using Worldolio.Data.Utility;
 using WorldolioMauiPOC.AppSettings;
+using WorldolioMauiPOC.Data;
 using WorldolioMauiPOC.Utility;
 
 namespace WorldolioMauiPOC.ViewModels.CityGrid
@@ -30,18 +31,20 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
         private ISystemTimeProvider _systemTimeProvider;
         private IUserSettings _userSettings;
         private INavigationHelper _navigationHelper;
+        private IDatabaseHelper _databaseHelper;
 
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged(string name) =>
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
         public CityGridViewModel(
-            ICityRepository citiesRepository, 
-            ILogger logger, 
-            INavigationHelper navigationHelper, 
-            ISystemTimeProvider systemTimeProvider, 
-            IUserSettings userSettings, 
-            IDialogHelper dialogHelper)
+            ICityRepository citiesRepository,
+            ILogger logger,
+            INavigationHelper navigationHelper,
+            ISystemTimeProvider systemTimeProvider,
+            IUserSettings userSettings,
+            IDialogHelper dialogHelper,
+            IDatabaseHelper databaseHelper)
         {
             logger.Debug(() => $"CityGridViewModel init");
 
@@ -51,6 +54,7 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
             _navigationHelper = navigationHelper;
             _systemTimeProvider = systemTimeProvider;
             _userSettings = userSettings;
+            _databaseHelper = databaseHelper;
         }
 
         public void UpdateCityGrid()
@@ -80,6 +84,10 @@ namespace WorldolioMauiPOC.ViewModels.CityGrid
             if (_userSettings.CityIdsHaveBeenUpdatedSince(_lastRefreshTime))
             {
                 _logger.Debug(() => $"CityGridViewModel InitAsync - refresh needed");
+
+                // database init
+                // we can do this as often as we want, but it must be done before the first DB access, this is the home page so we do it here
+                await _databaseHelper.InitAsync();
 
                 var temp = await _citiesRepository.GetByIdsAsync(_userSettings.Cities);
                 var home = temp.FirstOrDefault();
