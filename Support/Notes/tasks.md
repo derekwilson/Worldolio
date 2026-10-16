@@ -78,6 +78,7 @@ Done
 1. Move Done buttons (About and Settings) to toolbar helper and out of the page XAML
 1. get dark theme to work
 1. custom selection lists
+1. implement mechanism to update the DB - or read from an in memory db
 
 Todo
 
@@ -92,7 +93,6 @@ Todo
 1. keyboard support on Windows - select item from grid using enter
 1. keyboard support on Android
 1. revisit if we can do DI into the ContentPage from TabbedPage in XAML
-1. implement mechanism to update the DB - or read from an in memory db
 
 Optimise
 
