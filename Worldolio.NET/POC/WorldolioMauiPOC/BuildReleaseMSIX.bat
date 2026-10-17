@@ -1,3 +1,5 @@
+rem needed for build task to get timestamps
+set MSBUILDENABLEALLPROPERTYFUNCTIONS=1
 dotnet clean --configuration Release
 dotnet publish -c Release -f net10.0-windows10.0.19041.0 /p:GenerateAppxPackageOnBuild=true
 rem copy bin\Release\net10.0-windows10.0.19041.0\win10-x64\AppPackages\WorldolioMauiPOC_0.0.26.3_Test\Worldolio*.MSIX ..\..\..\Support\CurrentBuild\Windows
@@ -9,4 +11,5 @@ rem but this is better
 FOR /d %%d in (bin\Release\net10.0-windows10.0.19041.0\win-x64\AppPackages\Worldolio*) DO (
     copy %%d\Worldolio*.MSIX ..\..\..\Support\CurrentBuild\Windows
 )
+set MSBUILDENABLEALLPROPERTYFUNCTIONS=0
 pause
